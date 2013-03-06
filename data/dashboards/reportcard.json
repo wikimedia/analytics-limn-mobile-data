@@ -1,0 +1,17 @@
+{
+    "id"       : "reportcard",
+    "headline" : "Mobile Wikipedia",
+    "subhead"  : "Status Graphs",
+    "tabs": [
+        {
+            "name": "Core",
+            "graph_ids": [
+                "cancelled-uploads",
+                "error-uploads",
+                "successful-logins",
+                "successful-uploads",
+                "unique-uploaders"
+            ]
+        }
+    ]
+}
