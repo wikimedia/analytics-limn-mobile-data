@@ -1,9 +1,12 @@
 import os
+import os.path
 import MySQLdb as mysql
 from jinja2 import Template
 import unicodecsv as csv
+import limnpy
 
-conn = mysql.connect("s1-analytics-slave.eqiad.wmnet", "research", os.environ["RESEARCH_PASSWORD"], "log")
+#conn = mysql.connect("s1-analytics-slave.eqiad.wmnet", "research", os.environ["RESEARCH_PASSWORD"], "log")
+conn = mysql.connect("s1-analytics-slave.eqiad.wmnet", read_default_file=os.path.expanduser('~/.my.cnf.research'), db="log")
 
 def execute(sql):
     cur = conn.cursor()
@@ -153,7 +156,10 @@ for key, value in graphs.items():
     title = value['title']
     sql = render(value['sql'], sql_env)
     rows = execute(sql)
-    writer = csv.writer(open(key + ".csv", "w"))
-    writer.writerow(value['headers'])
-    for row in rows:
-        writer.writerow(row)
+    ds = limnpy.DataSource(limn_id=key, limn_name=key, data=list(rows), labels=value['headers'], date_key='Date')
+    ds.write(basedir='data')
+    ds.write_graph(basedir='data')
+    #writer = csv.writer(open(key + ".csv", "w"))
+    #writer.writerow(value['headers'])
+    #for row in rows:
+        #writer.writerow(row)
