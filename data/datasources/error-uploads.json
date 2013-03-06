@@ -1,0 +1,48 @@
+{
+    "name": "error-uploads", 
+    "timespan": {
+        "start": "2013/02/21", 
+        "step": "1d", 
+        "end": "2013/03/02"
+    }, 
+    "url": "/data/datafiles/error-uploads.csv", 
+    "notes": "", 
+    "format": "csv", 
+    "slug": null, 
+    "shortName": "error-uploads", 
+    "type": "timeseries", 
+    "id": "error-uploads", 
+    "columns": {
+        "labels": [
+            "date", 
+            "Total Uploads", 
+            "Android Uploads", 
+            "iOS Uploads", 
+            "Camera", 
+            "Gallery", 
+            "External", 
+            "Camera (iOS)", 
+            "Gallery (iOS)", 
+            "External (iOS)", 
+            "Camera (iOS)", 
+            "Gallery (iOS)", 
+            "External (iOS)"
+        ], 
+        "types": [
+            "date", 
+            "int", 
+            "int", 
+            "int", 
+            "int", 
+            "int", 
+            "int", 
+            "int", 
+            "int", 
+            "int", 
+            "int", 
+            "int", 
+            "int"
+        ]
+    }, 
+    "desc": ""
+}

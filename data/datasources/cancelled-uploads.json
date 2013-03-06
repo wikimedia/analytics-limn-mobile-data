@@ -1,0 +1,48 @@
+{
+    "name": "cancelled-uploads", 
+    "timespan": {
+        "start": "2013/02/22", 
+        "step": "1d", 
+        "end": "2013/03/06"
+    }, 
+    "url": "/data/datafiles/cancelled-uploads.csv", 
+    "notes": "", 
+    "format": "csv", 
+    "slug": null, 
+    "shortName": "cancelled-uploads", 
+    "type": "timeseries", 
+    "id": "cancelled-uploads", 
+    "columns": {
+        "labels": [
+            "date", 
+            "Total Uploads", 
+            "Android Uploads", 
+            "iOS Uploads", 
+            "Camera", 
+            "Gallery", 
+            "External", 
+            "Camera (iOS)", 
+            "Gallery (iOS)", 
+            "External (iOS)", 
+            "Camera (iOS)", 
+            "Gallery (iOS)", 
+            "External (iOS)"
+        ], 
+        "types": [
+            "date", 
+            "int", 
+            "int", 
+            "int", 
+            "int", 
+            "int", 
+            "int", 
+            "int", 
+            "int", 
+            "int", 
+            "int", 
+            "int", 
+            "int"
+        ]
+    }, 
+    "desc": ""
+}

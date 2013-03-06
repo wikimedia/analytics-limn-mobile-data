@@ -1,0 +1,30 @@
+{
+    "name": "successful-logins", 
+    "timespan": {
+        "start": "2013/02/21", 
+        "step": "1d", 
+        "end": "2013/03/06"
+    }, 
+    "url": "/data/datafiles/successful-logins.csv", 
+    "notes": "", 
+    "format": "csv", 
+    "slug": null, 
+    "shortName": "successful-logins", 
+    "type": "timeseries", 
+    "id": "successful-logins", 
+    "columns": {
+        "labels": [
+            "date", 
+            "Total Logins", 
+            "iOS Logins", 
+            "Android Logins"
+        ], 
+        "types": [
+            "date", 
+            "int", 
+            "int", 
+            "int"
+        ]
+    }, 
+    "desc": ""
+}
