@@ -3,11 +3,8 @@ import sys
 import glob
 import MySQLdb as mysql
 from jinja2 import Template
-import unicodecsv as csv
 import yaml
-
-#TODO: Have a subcommand that generates limnpy based data sources.
-#import limnpy
+import limnpy
 
 conn = mysql.connect("s1-analytics-slave.eqiad.wmnet", "research", os.environ["RESEARCH_PASSWORD"], "log")
 #conn = mysql.connect("s1-analytics-slave.eqiad.wmnet", read_default_file=os.path.expanduser('~/.my.cnf.research'), db="log")
@@ -37,10 +34,7 @@ if __name__ == "__main__":
         print "Generating %s" % key
         rows = execute(sql)
         headers = [field[0] for field in rows.description]
-        #ds = limnpy.DataSource(limn_id=key, limn_name=key, data=list(rows), labels=value['headers'], date_key='Date')
-        #ds.write(basedir='.')
-        #ds.write_graph(basedir='.')
-        writer = csv.writer(open("datafiles/" + key + ".csv", "w"))
-        writer.writerow(headers)
-        for row in rows:
-            writer.writerow(row)
+        ds = limnpy.DataSource(limn_id=key, limn_name=key, data=list(rows), labels=headers, date_key='Date')
+        ds.__source__['url'] = ds.__source__['url'].replace("/data/datafiles", "/data/datafiles/mobile") # EEEK UGLY HACK!
+        ds.write(basedir='.')
+        ds.write_graph(basedir='.')
