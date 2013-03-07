@@ -13,9 +13,9 @@
     "id": "unique-uploaders",
     "columns": [
         {"label": "date", "type": "Date"},
-        {"label": "Total Unique Uploaders", "type": "int"},
-        {"label": "Android Unique Uploaders", "type": "int"},
-        {"label": "iOS Unique Uploaders", "type": "int"}
+        {"label": "Total", "type": "int"},
+        {"label": "Android", "type": "int"},
+        {"label": "iOS", "type": "int"}
     ],
     "desc": ""
 }

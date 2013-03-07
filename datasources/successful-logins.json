@@ -13,9 +13,9 @@
     "id": "successful-logins",
     "columns": [
         {"label": "date", "type": "Date"},
-        {"label": "Total Logins", "type": "int"},
-        {"label": "iOS Logins", "type": "int"},
-        {"label": "Android Logins", "type": "int"}
+        {"label": "Total", "type": "int"},
+        {"label": "iOS", "type": "int"},
+        {"label": "Android", "type": "int"}
     ],
     "desc": ""
 }

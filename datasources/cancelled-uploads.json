@@ -13,9 +13,9 @@
     "id": "cancelled-uploads",
     "columns": [
         {"label": "date", "type": "Date"},
-        {"label": "Total Uploads", "type": "int"},
-        {"label": "Android Uploads", "type": "int"},
-        {"label": "iOS Uploads", "type": "int"}
+        {"label": "Total", "type": "int"},
+        {"label": "Android", "type": "int"},
+        {"label": "iOS", "type": "int"}
     ],
     "desc": ""
 }
