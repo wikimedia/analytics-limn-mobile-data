@@ -22,9 +22,9 @@ def render(template, env):
     return t.render(**env)
 
 if __name__ == "__main__":
-    if len(sys.argv) != 1: #FIXME: argparse please
+    if len(sys.argv) != 2: #FIXME: argparse please
         print "Usage: generate.py <folder with config.yaml and *.sql files>"
-        return
+        sys.exit(-1)
 
     folder = sys.argv[1]
     config = yaml.load(open(os.path.join(folder, "config.yaml")))
