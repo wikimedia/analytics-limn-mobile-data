@@ -31,7 +31,7 @@ sql_env = {
 graphs = {
         "error-uploads": {
             "title": "Error Uploads",
-            "headers": [ "Date", "Total Uploads", "Android Uploads", "iOS Uploads", "Camera", "Gallery", "External", "Camera (iOS)", "Gallery (iOS)", "External (iOS)", "Camera (iOS)", "Gallery (iOS)", "External (iOS)"],
+            "headers": [ "Date", "Total Uploads", "Android Uploads", "iOS Uploads"],
             "sql": """SELECT    DATE(timestamp),
                                 COUNT( * ),
 
@@ -47,7 +47,7 @@ graphs = {
                       },
         "cancelled-uploads": {
             "title": "Cancelled Logins",
-            "headers": [ "Date", "Total Uploads", "Android Uploads", "iOS Uploads", "Camera", "Gallery", "External", "Camera (iOS)", "Gallery (iOS)", "External (iOS)", "Camera (iOS)", "Gallery (iOS)", "External (iOS)"],
+            "headers": [ "Date", "Total Uploads", "Android Uploads", "iOS Uploads"],
             "sql": """SELECT    DATE(timestamp),
                                 COUNT( * ),
 
@@ -61,7 +61,7 @@ graphs = {
                       },
         "successful-uploads": {
             "title": "Successful Logins",
-            "headers": [ "Date", "Total Uploads", "Android Uploads", "iOS Uploads", "Camera", "Gallery", "External", "Camera (iOS)", "Gallery (iOS)", "External (iOS)", "Camera (iOS)", "Gallery (iOS)", "External (iOS)"],
+            "headers": [ "Date", "Total Uploads", "Android Uploads", "iOS Uploads"],
             "sql": """SELECT    DATE(timestamp),
                                 COUNT( * ),
 
