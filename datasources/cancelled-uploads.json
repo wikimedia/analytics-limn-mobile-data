@@ -2,8 +2,7 @@
     "name": "cancelled-uploads",
     "timespan": {
         "start": "2013/02/22",
-        "step": "1d",
-        "end": "2013/03/06"
+        "step": "1d"
     },
     "url": "/data/datafiles/mobile/cancelled-uploads.csv",
     "notes": "",

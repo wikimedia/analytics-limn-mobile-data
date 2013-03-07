@@ -2,8 +2,7 @@
     "name": "error-uploads",
     "timespan": {
         "start": "2013/02/21",
-        "step": "1d",
-        "end": "2013/03/02"
+        "step": "1d"
     },
     "url": "/data/datafiles/mobile/error-uploads.csv",
     "notes": "",
