@@ -1,0 +1,7 @@
+tables:
+        upload_attempts: MobileAppUploadAttempts_5257716
+        login_attempts: MobileAppLoginAttempts_5257721
+        upload_web: MobileWebUploads_5281063
+intervals:
+        running_average: 7 DAY
+

@@ -3,6 +3,7 @@ import MySQLdb as mysql
 from jinja2 import Template
 #import limnpy
 import unicodecsv as csv
+import yaml
 
 conn = mysql.connect("s1-analytics-slave.eqiad.wmnet", "research", os.environ["RESEARCH_PASSWORD"], "log")
 #conn = mysql.connect("s1-analytics-slave.eqiad.wmnet", read_default_file=os.path.expanduser('~/.my.cnf.research'), db="log")
@@ -15,17 +16,6 @@ def execute(sql):
 def render(template, env):
     t = Template(template)
     return t.render(**env)
-
-sql_env = {
-        "tables": {
-            "upload_attempts": "MobileAppUploadAttempts_5257716",
-            "login_attempts": "MobileAppLoginAttempts_5257721",
-            "upload_web": "MobileWebUploads_5281063"
-            },
-        "intervals": {
-            "running_average": "7 DAY"
-            }
-        }
 
 graphs = {
         "error-uploads": {
@@ -104,8 +94,8 @@ graphs = {
 
 
 if __name__ == "__main__":
+    sql_env = yaml.load(open("generator/mobile-app-stats.yaml"))
     for key, value in graphs.items():
-        title = value['title']
         sql = render(value['sql'], sql_env)
         rows = execute(sql)
         headers = [field[0] for field in rows.description]
