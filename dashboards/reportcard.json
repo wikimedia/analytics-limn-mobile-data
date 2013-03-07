@@ -1,7 +1,7 @@
 {
     "id"       : "reportcard",
     "headline" : "Mobile Wikipedia",
-    "subhead"  : "Status Graphs",
+    "subhead"  : "Contributions",
     "tabs": [
         {
             "name": "Core",

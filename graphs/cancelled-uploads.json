@@ -1,6 +1,6 @@
 {
   "graph_version": "0.6.0", 
-  "name": "cancelled-uploads", 
+  "name": "Uploads that were cancelled", 
   "notes": "", 
   "slug": "cancelled-uploads", 
   "shortName": "", 
@@ -313,5 +313,5 @@
     ]
   }, 
   "id": "cancelled-uploads", 
-  "desc": ""
+  "desc": "(iOS does not log these yet)"
 }
