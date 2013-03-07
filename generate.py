@@ -3,9 +3,11 @@ import sys
 import glob
 import MySQLdb as mysql
 from jinja2 import Template
-#import limnpy
 import unicodecsv as csv
 import yaml
+
+#TODO: Have a subcommand that generates limnpy based data sources.
+#import limnpy
 
 conn = mysql.connect("s1-analytics-slave.eqiad.wmnet", "research", os.environ["RESEARCH_PASSWORD"], "log")
 #conn = mysql.connect("s1-analytics-slave.eqiad.wmnet", read_default_file=os.path.expanduser('~/.my.cnf.research'), db="log")
