@@ -1,6 +1,6 @@
 {
   "graph_version": "0.6.0", 
-  "name": "Successful Logins", 
+  "name": "successful-logins", 
   "notes": "", 
   "slug": "successful-logins", 
   "shortName": "", 
@@ -151,5 +151,5 @@
     ]
   }, 
   "id": "successful-logins", 
-  "desc": "Indicates new users just installing the app"
+  "desc": ""
 }

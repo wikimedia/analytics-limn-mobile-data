@@ -1,6 +1,6 @@
 {
   "graph_version": "0.6.0", 
-  "name": "Uploads that returned an API error", 
+  "name": "error-uploads", 
   "notes": "", 
   "slug": "error-uploads", 
   "shortName": "", 

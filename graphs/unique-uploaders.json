@@ -1,6 +1,6 @@
 {
   "graph_version": "0.6.0", 
-  "name": "Unique Uploaders (7 day window)", 
+  "name": "unique-uploaders", 
   "notes": "", 
   "slug": "unique-uploaders", 
   "shortName": "", 

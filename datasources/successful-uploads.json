@@ -1,21 +1,30 @@
 {
-    "name": "successful-uploads",
+    "name": "successful-uploads", 
     "timespan": {
-        "start": "2013/02/20",
-        "step": "1d"
-    },
-    "url": "/data/datafiles/mobile/successful-uploads.csv",
-    "notes": "",
-    "format": "csv",
-    "slug": null,
-    "shortName": "successful-uploads",
-    "type": "timeseries",
-    "id": "successful-uploads",
-    "columns": [
-        {"label": "date", "type": "Date"},
-        {"label": "Total", "type": "int"},
-        {"label": "Android", "type": "int"},
-        {"label": "iOS", "type": "int"}
-    ],
+        "start": "2013/02/20", 
+        "step": "1d", 
+        "end": "2013/03/07"
+    }, 
+    "url": "/data/datafiles/mobile/successful-uploads.csv", 
+    "notes": "", 
+    "format": "csv", 
+    "slug": null, 
+    "shortName": "successful-uploads", 
+    "type": "timeseries", 
+    "id": "successful-uploads", 
+    "columns": {
+        "labels": [
+            "date", 
+            "Total", 
+            "Android", 
+            "iOS"
+        ], 
+        "types": [
+            "date", 
+            "int", 
+            "int", 
+            "int"
+        ]
+    }, 
     "desc": ""
 }
