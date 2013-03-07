@@ -20,7 +20,11 @@ def render(template, env):
     return t.render(**env)
 
 if __name__ == "__main__":
-    folder = sys.argv[1] # FIXME: argparse please
+    if len(sys.argv) != 1: #FIXME: argparse please
+        print "Usage: generate.py <folder with config.yaml and *.sql files>"
+        return
+
+    folder = sys.argv[1]
     config = yaml.load(open(os.path.join(folder, "config.yaml")))
     graphs = dict([
         (   os.path.basename(filename).split(".")[0], 
