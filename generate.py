@@ -12,7 +12,6 @@ def execute(sql):
     cur.execute(sql)
     return cur
 
-
 def render(template, env):
     t = Template(template)
     return t.render(**env)
@@ -30,13 +29,11 @@ sql_env = {
 
 graphs = {
         "error-uploads": {
-            "title": "Error Uploads",
-            "headers": [ "Date", "Total Uploads", "Android Uploads", "iOS Uploads"],
-            "sql": """SELECT    DATE(timestamp),
-                                COUNT( * ),
+            "sql": """SELECT    DATE(timestamp) as Date,
+                                COUNT( * ) as Total,
 
-                                SUM( IF( event_platform LIKE 'Android%', 1, 0) ) AS "Android",
-                                SUM( IF( event_platform LIKE 'iOS%', 1, 0) ) AS "iOS"
+                                SUM( IF( event_platform LIKE 'Android%', 1, 0) ) AS Android,
+                                SUM( IF( event_platform LIKE 'iOS%', 1, 0) ) AS iOS
 
                       FROM      {{ tables.upload_attempts }}
                       WHERE     event_result != 'cancelled' AND
@@ -46,13 +43,11 @@ graphs = {
                       """
                       },
         "cancelled-uploads": {
-            "title": "Cancelled Logins",
-            "headers": [ "Date", "Total Uploads", "Android Uploads", "iOS Uploads"],
-            "sql": """SELECT    DATE(timestamp),
-                                COUNT( * ),
+            "sql": """SELECT    DATE(timestamp) as Date,
+                                COUNT( * ) as Total,
 
-                                SUM( IF( event_platform LIKE 'Android%', 1, 0) ) AS "Android",
-                                SUM( IF( event_platform LIKE 'iOS%', 1, 0) ) AS "iOS"
+                                SUM( IF( event_platform LIKE 'Android%', 1, 0) ) AS Android,
+                                SUM( IF( event_platform LIKE 'iOS%', 1, 0) ) AS iOS
                       FROM      {{ tables.upload_attempts }}
                       WHERE     event_result = 'cancelled' AND
                                 wiki = 'commonswiki'
@@ -60,13 +55,11 @@ graphs = {
                       """
                       },
         "successful-uploads": {
-            "title": "Successful Logins",
-            "headers": [ "Date", "Total Uploads", "Android Uploads", "iOS Uploads"],
-            "sql": """SELECT    DATE(timestamp),
-                                COUNT( * ),
+            "sql": """SELECT    DATE(timestamp) as Date,
+                                COUNT( * ) as Total,
 
-                                SUM( IF( event_platform LIKE 'Android%', 1, 0) ) AS "Android",
-                                SUM( IF( event_platform LIKE 'iOS%', 1, 0) ) AS "iOS"
+                                SUM( IF( event_platform LIKE 'Android%', 1, 0) ) AS Android,
+                                SUM( IF( event_platform LIKE 'iOS%', 1, 0) ) AS iOS
 
                       FROM      {{ tables.upload_attempts }}
                       WHERE     event_result = 'success' AND
@@ -75,18 +68,16 @@ graphs = {
                       """
                       },
         "unique-uploaders": {
-            "title": "Unique uploaders",
-            "headers": [ "Date", "Total Unique Uploaders", "Android Unique Uploaders", "iOS Unique Uploaders"],
             "sql": """SELECT    DATE(T1.timestamp),
                                 (SELECT COUNT( DISTINCT T2.event_username ) 
                                     FROM {{ tables.upload_attempts }} AS T2
                                     WHERE   T2.timestamp < T1.timestamp AND
-                                            (T2.timestamp + INTERVAL 0 DAY) > (T1.timestamp - INTERVAL {{ intervals.running_average }} )) AS total,
+                                            (T2.timestamp + INTERVAL 0 DAY) > (T1.timestamp - INTERVAL {{ intervals.running_average }} )) AS Total,
                                 (SELECT COUNT( DISTINCT T2.event_username ) 
                                     FROM {{ tables.upload_attempts }} AS T2
                                     WHERE   T2.event_platform LIKE 'Android%' AND
                                             T2.timestamp < T1.timestamp AND
-                                            (T2.timestamp + INTERVAL 0 DAY) > (T1.timestamp - INTERVAL {{ intervals.running_average }} )) AS android,
+                                            (T2.timestamp + INTERVAL 0 DAY) > (T1.timestamp - INTERVAL {{ intervals.running_average }} )) AS Android,
                                 (SELECT COUNT( DISTINCT T2.event_username ) 
                                     FROM {{ tables.upload_attempts }} AS T2
                                     WHERE   T2.event_platform LIKE 'iOS%' AND
@@ -99,12 +90,10 @@ graphs = {
                       """
                       },
         "successful-logins": {
-            "title": "Successful Logins",
-            "headers": [ "Date", "Total Logins", "iOS Logins", "Android Logins"],
-            "sql": """SELECT    DATE(timestamp),
-                                COUNT( * ), 
-                                SUM( IF( event_platform LIKE 'Android%', 1, 0) ) AS "Android",
-                                SUM( IF( event_platform LIKE 'iOS%', 1, 0) ) AS "iOS"
+            "sql": """SELECT    DATE(timestamp) as Date,
+                                COUNT( * ) as Total, 
+                                SUM( IF( event_platform LIKE 'Android%', 1, 0) ) AS Android,
+                                SUM( IF( event_platform LIKE 'iOS%', 1, 0) ) AS iOS
                       FROM      {{ tables.login_attempts }}
                       WHERE     event_result = 'success' AND
                                 wiki = 'commonswiki'
@@ -114,15 +103,16 @@ graphs = {
         }
 
 
-
-for key, value in graphs.items():
-    title = value['title']
-    sql = render(value['sql'], sql_env)
-    rows = execute(sql)
-    #ds = limnpy.DataSource(limn_id=key, limn_name=key, data=list(rows), labels=value['headers'], date_key='Date')
-    #ds.write(basedir='.')
-    #ds.write_graph(basedir='.')
-    writer = csv.writer(open("datafiles/" + key + ".csv", "w"))
-    writer.writerow(value['headers'])
-    for row in rows:
-        writer.writerow(row)
+if __name__ == "__main__":
+    for key, value in graphs.items():
+        title = value['title']
+        sql = render(value['sql'], sql_env)
+        rows = execute(sql)
+        headers = [field[0] for field in rows.description]
+        #ds = limnpy.DataSource(limn_id=key, limn_name=key, data=list(rows), labels=value['headers'], date_key='Date')
+        #ds.write(basedir='.')
+        #ds.write_graph(basedir='.')
+        writer = csv.writer(open("datafiles/" + key + ".csv", "w"))
+        writer.writerow(headers)
+        for row in rows:
+            writer.writerow(row)
