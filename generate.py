@@ -7,7 +7,7 @@ import unicodecsv as csv
 import yaml
 
 #TODO: Have a subcommand that generates limnpy based data sources.
-#import limnpy
+import limnpy
 
 conn = mysql.connect("s1-analytics-slave.eqiad.wmnet", "research", os.environ["RESEARCH_PASSWORD"], "log")
 #conn = mysql.connect("s1-analytics-slave.eqiad.wmnet", read_default_file=os.path.expanduser('~/.my.cnf.research'), db="log")
@@ -33,14 +33,17 @@ if __name__ == "__main__":
             render(open(filename).read(), config)
         ) for filename in glob.glob(os.path.join(folder, "*.sql"))
     ])
+    #url_fmt = 'http://stat1001.wikimedia.org/mobile-dashbaord/%s'
     for key, sql in graphs.items():
         print "Generating %s" % key
         rows = execute(sql)
         headers = [field[0] for field in rows.description]
-        #ds = limnpy.DataSource(limn_id=key, limn_name=key, data=list(rows), labels=value['headers'], date_key='Date')
-        #ds.write(basedir='.')
-        #ds.write_graph(basedir='.')
-        writer = csv.writer(open("datafiles/" + key + ".csv", "w"))
-        writer.writerow(headers)
-        for row in rows:
-            writer.writerow(row)
+        ds = limnpy.DataSource(limn_id=key, limn_name=key, limn_group='mobile', data=list(rows), labels=headers, date_key='Date')
+        #url = url_fmt % key
+        #ds = limnpy.DataSource(limn_id=key, limn_name=key, limn_group='mobile', data=list(rows), labels=headers, url=url, date_key='Date')
+        ds.write(basedir='.')
+        ds.write_graph(basedir='.')
+        #writer = csv.writer(open("datafiles/" + key + ".csv", "w"))
+        #writer.writerow(headers)
+        #for row in rows:
+            #writer.writerow(row)
