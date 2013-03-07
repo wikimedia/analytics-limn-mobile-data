@@ -6,11 +6,10 @@
         {
             "name": "Core",
             "graph_ids": [
-                "cancelled-uploads",
-                "error-uploads",
-                "successful-logins",
+                "unique-uploaders",
                 "successful-uploads",
-                "unique-uploaders"
+                "successful-logins",
+                "error-uploads"
             ]
         }
     ]

@@ -16,16 +16,7 @@
         {"label": "date", "type": "Date"},
         {"label": "Total Uploads", "type": "int"},
         {"label": "Android Uploads", "type": "int"},
-        {"label": "iOS Uploads", "type": "int"},
-        {"label": "Camera", "type": "int"},
-        {"label": "Gallery", "type": "int"},
-        {"label": "External", "type": "int"},
-        {"label": "Camera (iOS)", "type": "int"},
-        {"label": "Gallery (iOS)", "type": "int"},
-        {"label": "External (iOS)", "type": "int"},
-        {"label": "Camera (iOS)", "type": "int"},
-        {"label": "Gallery (iOS)", "type": "int"},
-        {"label": "External (iOS)", "type": "int"}
+        {"label": "iOS Uploads", "type": "int"}
     ],
     "desc": ""
 }

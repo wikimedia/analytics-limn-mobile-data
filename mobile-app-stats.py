@@ -2,7 +2,6 @@ import os
 import os.path
 import MySQLdb as mysql
 from jinja2 import Template
-import unicodecsv as csv
 import limnpy
 
 #conn = mysql.connect("s1-analytics-slave.eqiad.wmnet", "research", os.environ["RESEARCH_PASSWORD"], "log")
@@ -37,19 +36,7 @@ graphs = {
                                 COUNT( * ),
 
                                 SUM( IF( event_platform LIKE 'Android%', 1, 0) ) AS "Android",
-                                SUM( IF( event_platform LIKE 'iOS%', 1, 0) ) AS "iOS",
-
-                                SUM( IF( event_source = 'camera', 1, 0 ) ) as 'Camera',
-                                SUM( IF( event_source = 'gallery', 1, 0 ) ) as 'Gallery',
-                                SUM( IF( event_source = 'external', 1, 0 ) ) as 'External',
-
-                                SUM( IF( event_source = 'camera' AND event_platform LIKE 'Android%', 1, 0 ) ) as 'Camera (Android)',
-                                SUM( IF( event_source = 'gallery' AND event_platform LIKE 'Android%', 1, 0 ) ) as 'Gallery (Android)',
-                                SUM( IF( event_source = 'external' AND event_platform LIKE 'Android%', 1, 0 ) ) as 'External (Android)',
-
-                                SUM( IF( event_source = 'camera' AND event_platform LIKE 'iOS%', 1, 0 ) ) as 'Camera (iOS)',
-                                SUM( IF( event_source = 'gallery' AND event_platform LIKE 'iOS%', 1, 0 ) ) as 'Gallery (iOS)',
-                                SUM( IF( event_source = 'external' AND event_platform LIKE 'iOS%', 1, 0 ) ) as 'External (iOS)'
+                                SUM( IF( event_platform LIKE 'iOS%', 1, 0) ) AS "iOS"
 
                       FROM      {{ tables.upload_attempts }}
                       WHERE     event_result != 'cancelled' AND
@@ -65,20 +52,7 @@ graphs = {
                                 COUNT( * ),
 
                                 SUM( IF( event_platform LIKE 'Android%', 1, 0) ) AS "Android",
-                                SUM( IF( event_platform LIKE 'iOS%', 1, 0) ) AS "iOS",
-
-                                SUM( IF( event_source = 'camera', 1, 0 ) ) as 'Camera',
-                                SUM( IF( event_source = 'gallery', 1, 0 ) ) as 'Gallery',
-                                SUM( IF( event_source = 'external', 1, 0 ) ) as 'External',
-
-                                SUM( IF( event_source = 'camera' AND event_platform LIKE 'Android%', 1, 0 ) ) as 'Camera (Android)',
-                                SUM( IF( event_source = 'gallery' AND event_platform LIKE 'Android%', 1, 0 ) ) as 'Gallery (Android)',
-                                SUM( IF( event_source = 'external' AND event_platform LIKE 'Android%', 1, 0 ) ) as 'External (Android)',
-
-                                SUM( IF( event_source = 'camera' AND event_platform LIKE 'iOS%', 1, 0 ) ) as 'Camera (iOS)',
-                                SUM( IF( event_source = 'gallery' AND event_platform LIKE 'iOS%', 1, 0 ) ) as 'Gallery (iOS)',
-                                SUM( IF( event_source = 'external' AND event_platform LIKE 'iOS%', 1, 0 ) ) as 'External (iOS)'
-
+                                SUM( IF( event_platform LIKE 'iOS%', 1, 0) ) AS "iOS"
                       FROM      {{ tables.upload_attempts }}
                       WHERE     event_result = 'cancelled' AND
                                 wiki = 'commonswiki'
@@ -92,19 +66,7 @@ graphs = {
                                 COUNT( * ),
 
                                 SUM( IF( event_platform LIKE 'Android%', 1, 0) ) AS "Android",
-                                SUM( IF( event_platform LIKE 'iOS%', 1, 0) ) AS "iOS",
-
-                                SUM( IF( event_source = 'camera', 1, 0 ) ) as 'Camera',
-                                SUM( IF( event_source = 'gallery', 1, 0 ) ) as 'Gallery',
-                                SUM( IF( event_source = 'external', 1, 0 ) ) as 'External',
-
-                                SUM( IF( event_source = 'camera' AND event_platform LIKE 'Android%', 1, 0 ) ) as 'Camera (Android)',
-                                SUM( IF( event_source = 'gallery' AND event_platform LIKE 'Android%', 1, 0 ) ) as 'Gallery (Android)',
-                                SUM( IF( event_source = 'external' AND event_platform LIKE 'Android%', 1, 0 ) ) as 'External (Android)',
-
-                                SUM( IF( event_source = 'camera' AND event_platform LIKE 'iOS%', 1, 0 ) ) as 'Camera (iOS)',
-                                SUM( IF( event_source = 'gallery' AND event_platform LIKE 'iOS%', 1, 0 ) ) as 'Gallery (iOS)',
-                                SUM( IF( event_source = 'external' AND event_platform LIKE 'iOS%', 1, 0 ) ) as 'External (iOS)'
+                                SUM( IF( event_platform LIKE 'iOS%', 1, 0) ) AS "iOS"
 
                       FROM      {{ tables.upload_attempts }}
                       WHERE     event_result = 'success' AND
@@ -157,8 +119,8 @@ for key, value in graphs.items():
     sql = render(value['sql'], sql_env)
     rows = execute(sql)
     ds = limnpy.DataSource(limn_id=key, limn_name=key, data=list(rows), labels=value['headers'], date_key='Date')
-    ds.write(basedir='data')
-    ds.write_graph(basedir='data')
+    ds.write(basedir='.')
+    ds.write_graph(basedir='.')
     #writer = csv.writer(open(key + ".csv", "w"))
     #writer.writerow(value['headers'])
     #for row in rows:
