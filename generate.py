@@ -3,7 +3,6 @@ import sys
 import glob
 import MySQLdb as mysql
 from jinja2 import Template
-import unicodecsv as csv
 import yaml
 
 #TODO: Have a subcommand that generates limnpy based data sources.
