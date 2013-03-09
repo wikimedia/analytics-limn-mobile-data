@@ -98,12 +98,7 @@
             "metric": {
               "source_id": "successful-uploads", 
               "type": "int", 
-              "source_col": [
-                {
-                  "type": "int", 
-                  "label": "Total"
-                }
-              ]
+              "source_col": 1
             }, 
             "nodeType": "line", 
             "options": {
@@ -121,12 +116,7 @@
             "metric": {
               "source_id": "successful-uploads", 
               "type": "int", 
-              "source_col": [
-                {
-                  "type": "int", 
-                  "label": "Android"
-                }
-              ]
+              "source_col": 2
             }, 
             "nodeType": "line", 
             "options": {
@@ -144,12 +134,7 @@
             "metric": {
               "source_id": "successful-uploads", 
               "type": "int", 
-              "source_col": [
-                {
-                  "type": "int", 
-                  "label": "iOS"
-                }
-              ]
+              "source_col": 3
             }, 
             "nodeType": "line", 
             "options": {
