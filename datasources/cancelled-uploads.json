@@ -3,7 +3,7 @@
     "timespan": {
         "start": "2013/02/22", 
         "step": "1d", 
-        "end": "2013/03/07"
+        "end": "2013/03/11"
     }, 
     "url": "/data/datafiles/mobile/cancelled-uploads.csv", 
     "notes": "", 
@@ -12,19 +12,23 @@
     "shortName": "cancelled-uploads", 
     "type": "timeseries", 
     "id": "cancelled-uploads", 
-    "columns": {
-        "labels": [
-            "date", 
-            "Total", 
-            "Android", 
-            "iOS"
-        ], 
-        "types": [
-            "date", 
-            "int", 
-            "int", 
-            "int"
-        ]
-    }, 
+    "columns": [
+        {
+            "type": "date", 
+            "label": "date"
+        }, 
+        {
+            "type": "int", 
+            "label": "Total"
+        }, 
+        {
+            "type": "int", 
+            "label": "Android"
+        }, 
+        {
+            "type": "int", 
+            "label": "iOS"
+        }
+    ], 
     "desc": ""
 }

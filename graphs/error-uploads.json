@@ -98,7 +98,12 @@
             "metric": {
               "source_id": "error-uploads", 
               "type": "int", 
-              "source_col": 1
+              "source_col": [
+                {
+                  "type": "int", 
+                  "label": "Total"
+                }
+              ]
             }, 
             "nodeType": "line", 
             "options": {
@@ -116,7 +121,12 @@
             "metric": {
               "source_id": "error-uploads", 
               "type": "int", 
-              "source_col": 2
+              "source_col": [
+                {
+                  "type": "int", 
+                  "label": "Android"
+                }
+              ]
             }, 
             "nodeType": "line", 
             "options": {
@@ -134,7 +144,12 @@
             "metric": {
               "source_id": "error-uploads", 
               "type": "int", 
-              "source_col": 3
+              "source_col": [
+                {
+                  "type": "int", 
+                  "label": "iOS"
+                }
+              ]
             }, 
             "nodeType": "line", 
             "options": {
