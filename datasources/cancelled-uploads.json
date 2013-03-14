@@ -3,7 +3,7 @@
     "timespan": {
         "start": "2013/02/22", 
         "step": "1d", 
-        "end": "2013/03/13"
+        "end": "2013/03/14"
     }, 
     "url": "/data/datafiles/mobile/cancelled-uploads.csv", 
     "notes": "", 
