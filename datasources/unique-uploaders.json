@@ -1,9 +1,9 @@
 {
     "name": "unique-uploaders", 
     "timespan": {
-        "start": "2013/02/20", 
+        "start": "2013/02/13", 
         "step": "1d", 
-        "end": "2013/03/13"
+        "end": "2013/03/14"
     }, 
     "url": "/data/datafiles/mobile/unique-uploaders.csv", 
     "notes": "", 
@@ -28,6 +28,10 @@
         {
             "type": "int", 
             "label": "iOS"
+        }, 
+        {
+            "type": "int", 
+            "label": "Web"
         }
     ], 
     "desc": ""
