@@ -43,12 +43,10 @@ if __name__ == "__main__":
         print "Generating %s" % key
         rows = execute(sql)
         headers = [field[0] for field in rows.description]
-        ds = limnpy.DataSource(limn_id=key, limn_name=key, limn_group='mobile', data=list(rows), labels=headers, date_key='Date')
+	name = config['graphs'][key]['title']
+        ds = limnpy.DataSource(limn_id=key, limn_name=name, limn_group='mobile', data=list(rows), labels=headers, date_key='Date')
+	ds.source['shortName'] = key # FIXME: Hack, since limn_name also sets shortName
         #url = url_fmt % key
         #ds = limnpy.DataSource(limn_id=key, limn_name=key, limn_group='mobile', data=list(rows), labels=headers, url=url, date_key='Date')
         ds.write(basedir='.')
         ds.write_graph(basedir='.')
-        #writer = csv.writer(open("datafiles/" + key + ".csv", "w"))
-        #writer.writerow(headers)
-        #for row in rows:
-            #writer.writerow(row)

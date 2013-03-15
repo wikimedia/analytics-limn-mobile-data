@@ -1,6 +1,6 @@
 {
   "graph_version": "0.6.0", 
-  "name": "error-uploads", 
+  "name": "Uploads failed because of an upload error (per day)", 
   "notes": "", 
   "slug": "error-uploads", 
   "shortName": "", 

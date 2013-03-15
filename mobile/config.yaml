@@ -4,4 +4,16 @@ tables:
         upload_web: MobileWebUploads_5281063
 intervals:
         running_average: 30
-
+graphs:
+        unique-uploaders:
+                title: Unique uploaders (over last 30 days)
+        30-day-uploads:
+                title: Total uploads (over last 30 days)
+        cancelled-uploads:
+                title: Uploads cancelled by user (per day)
+        error-uploads:
+                title: Uploads failed because of an upload error (per day)
+        successful-logins:
+                title: Successful logins (per day)
+        successful-uploads:
+                title: Successful Uploads (per day)

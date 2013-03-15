@@ -1,6 +1,6 @@
 {
   "graph_version": "0.6.0", 
-  "name": "unique-uploaders", 
+  "name": "Unique uploaders (over last 30 days)", 
   "notes": "", 
   "slug": "unique-uploaders", 
   "shortName": "", 

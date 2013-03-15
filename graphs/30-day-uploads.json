@@ -1,6 +1,6 @@
 {
   "graph_version": "0.6.0", 
-  "name": "30-day-uploads", 
+  "name": "Total uploads (over last 30 days)", 
   "notes": "", 
   "slug": "30-day-uploads", 
   "shortName": "", 

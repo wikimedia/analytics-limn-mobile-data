@@ -1,5 +1,5 @@
 {
-    "name": "error-uploads", 
+    "name": "Uploads failed because of an upload error (per day)", 
     "timespan": {
         "start": "2013/02/14", 
         "step": "1d", 
