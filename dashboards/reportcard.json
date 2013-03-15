@@ -7,6 +7,7 @@
             "name": "Core",
             "graph_ids": [
                 "unique-uploaders",
+                "30-day-uploads",
                 "successful-uploads",
                 "successful-logins",
                 "error-uploads"
