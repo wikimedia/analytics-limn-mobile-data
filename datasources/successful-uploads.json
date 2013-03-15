@@ -1,9 +1,9 @@
 {
     "name": "successful-uploads", 
     "timespan": {
-        "start": "2013/02/20", 
+        "start": "2013/02/14", 
         "step": "1d", 
-        "end": "2013/03/14"
+        "end": "2013/03/15"
     }, 
     "url": "/data/datafiles/mobile/successful-uploads.csv", 
     "notes": "", 
@@ -28,6 +28,10 @@
         {
             "type": "int", 
             "label": "iOS"
+        }, 
+        {
+            "type": "int", 
+            "label": "Web"
         }
     ], 
     "desc": ""

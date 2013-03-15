@@ -145,6 +145,24 @@
               "noLegend": false, 
               "dateFormat": "MMM YYYY"
             }
+          }, 
+          {
+            "disabled": false, 
+            "index": 3, 
+            "metric": {
+              "source_id": "error-uploads", 
+              "type": "int", 
+              "source_col": 4
+            }, 
+            "nodeType": "line", 
+            "options": {
+              "stroke": {
+                "width": 2
+              }, 
+              "label": null, 
+              "noLegend": false, 
+              "dateFormat": "MMM YYYY"
+            }
           }
         ]
       }
