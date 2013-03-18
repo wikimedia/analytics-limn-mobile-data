@@ -1,9 +1,9 @@
 {
     "name": "Unique uploaders (over last 30 days)", 
     "timespan": {
-        "start": "2013/02/16", 
+        "start": "2013/02/17", 
         "step": "1d", 
-        "end": "2013/03/17"
+        "end": "2013/03/18"
     }, 
     "url": "/data/datafiles/mobile/unique-uploaders.csv", 
     "notes": "", 
