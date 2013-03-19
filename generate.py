@@ -11,8 +11,7 @@ import limnpy
 conn = mysql.connect(
     host=os.environ.get("STAT_HOST", "s1-analytics-slave.eqiad.wmnet"),
     port=int(os.environ.get("STAT_PORT", 3306)),
-    user="research",
-    passwd=os.environ["RESEARCH_PASSWORD"],
+    read_default_file=os.path.expanduser('~/.my.cnf.research'),
     db="log"
 )
 #conn = mysql.connect("s1-analytics-slave.eqiad.wmnet", read_default_file=os.path.expanduser('~/.my.cnf.research'), db="log")
