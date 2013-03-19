@@ -3,7 +3,7 @@
     "timespan": {
         "start": "2013/02/21", 
         "step": "1d", 
-        "end": "2013/03/18"
+        "end": "2013/03/19"
     }, 
     "url": "/data/datafiles/mobile/successful-logins.csv", 
     "notes": "", 

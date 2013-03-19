@@ -1,9 +1,9 @@
 {
     "name": "Total uploads (over last 30 days)", 
     "timespan": {
-        "start": "2013/02/17", 
+        "start": "2013/02/18", 
         "step": "1d", 
-        "end": "2013/03/18"
+        "end": "2013/03/19"
     }, 
     "url": "/data/datafiles/mobile/30-day-uploads.csv", 
     "notes": "", 
