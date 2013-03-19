@@ -4,9 +4,7 @@ import glob
 import MySQLdb as mysql
 from jinja2 import Template
 import yaml
-
-#TODO: Have a subcommand that generates limnpy based data sources.
-import limnpy
+import csv
 
 conn = mysql.connect(
     host=os.environ.get("STAT_HOST", "s1-analytics-slave.eqiad.wmnet"),
@@ -37,15 +35,17 @@ if __name__ == "__main__":
             render(open(filename).read(), config)
         ) for filename in glob.glob(os.path.join(folder, "*.sql"))
     ])
-    #url_fmt = 'http://stat1001.wikimedia.org/mobile-dashbaord/%s'
+    #url_fmt = 'http://stat1001.wikimedia.org/mobile-dashboard/%s'
     for key, sql in graphs.items():
         print "Generating %s" % key
-        rows = execute(sql)
-        headers = [field[0] for field in rows.description]
-	name = config['graphs'][key]['title']
-        ds = limnpy.DataSource(limn_id=key, limn_name=name, limn_group='mobile', data=list(rows), labels=headers, date_key='Date')
-	ds.source['shortName'] = key # FIXME: Hack, since limn_name also sets shortName
-        #url = url_fmt % key
-        #ds = limnpy.DataSource(limn_id=key, limn_name=key, limn_group='mobile', data=list(rows), labels=headers, url=url, date_key='Date')
-        ds.write(basedir='.')
-        ds.write_graph(basedir='.')
+        cursor = execute(sql)
+        rows = cursor.fetchall()
+        
+        csvOutput = open(os.path.join('output', key + '.csv'), 'w')
+        csvOutputWriter = csv.writer(csvOutput)
+
+        headers = [field[0] for field in cursor.description]
+        csvOutputWriter.writerow(headers)
+        csvOutputWriter.writerows(rows)
+
+        csvOutput.close()
