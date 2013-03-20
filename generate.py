@@ -41,7 +41,7 @@ if __name__ == "__main__":
         cursor = execute(sql)
         rows = cursor.fetchall()
         
-        csvOutput = open(os.path.join('/a/limn-public-data/mobile-apps', key + '.csv'), 'w')
+        csvOutput = open(os.path.join('/a/limn-public-data/mobile/datafiles', key + '.csv'), 'w')
         csvOutputWriter = csv.writer(csvOutput)
 
         headers = [field[0] for field in cursor.description]
