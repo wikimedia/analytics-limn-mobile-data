@@ -1,5 +1,5 @@
 tables:
-        upload_attempts: MobileAppUploadAttempts_5257716
+        upload_attempts: (SELECT id, uuid, clientIp, isTruncated, clientValidated, timestamp, webHost, wiki, event_appversion, event_device, event_filename, 0 as event_multiple, event_platform, event_result, event_source, event_username FROM MobileAppUploadAttempts_5257716 UNION SELECT * FROM MobileAppUploadAttempts_5334329) as MobileAppUploadAttempts
         login_attempts: MobileAppLoginAttempts_5257721
         upload_web: MobileWebUploads_5281063
 intervals:
