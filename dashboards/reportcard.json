@@ -1,7 +1,7 @@
 {
     "id"       : "reportcard",
-    "headline" : "Mobile Wikipedia",
-    "subhead"  : "Contributions",
+    "headline" : "Commons Mobile Contributions",
+    "subhead"  : "Apps & Web",
     "tabs": [
         {
             "name": "Core",
