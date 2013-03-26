@@ -1,10 +1,10 @@
 {
     "id"       : "reportcard",
-    "headline" : "Commons Mobile Contributions",
+    "headline" : "Mobile Contributions",
     "subhead"  : "Apps & Web",
     "tabs": [
         {
-            "name": "Core",
+            "name": "Uploads",
             "graph_ids": [
                 "unique-uploaders",
                 "30-day-uploads",

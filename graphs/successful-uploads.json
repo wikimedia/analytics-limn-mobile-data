@@ -105,7 +105,7 @@
               "stroke": {
                 "width": 2
               }, 
-              "label": null, 
+              "label": "Total",
               "noLegend": false, 
               "dateFormat": "MMM YYYY"
             }
@@ -123,7 +123,7 @@
               "stroke": {
                 "width": 2
               }, 
-              "label": null, 
+              "label": "Android",
               "noLegend": false, 
               "dateFormat": "MMM YYYY"
             }
@@ -141,7 +141,7 @@
               "stroke": {
                 "width": 2
               }, 
-              "label": null, 
+              "label": "iOS",
               "noLegend": false, 
               "dateFormat": "MMM YYYY"
             }
@@ -159,7 +159,7 @@
               "stroke": {
                 "width": 2
               }, 
-              "label": null, 
+              "label": "Web",
               "noLegend": false, 
               "dateFormat": "MMM YYYY"
             }
