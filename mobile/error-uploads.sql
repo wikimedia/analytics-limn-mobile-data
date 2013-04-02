@@ -31,7 +31,7 @@ LEFT JOIN (
         SUM(1) AS Web
 
     FROM {{ tables.upload_web }} WHERE
-        event_action = 'success' AND
+        event_action = 'error' AND
         wiki != 'testwiki'
     GROUP BY Date
 ) AS Web ON Month.Date = Web.Date;
