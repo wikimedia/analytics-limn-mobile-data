@@ -1,3 +1,14 @@
+databases:
+    el:
+        host: "s1-analytics-slave.eqiad.wmnet"
+        port: 3306
+        creds_file: /a/.my.cnf.research
+        db: log
+    commons:
+        host: "s4-analytics-slave.eqiad.wmnet"
+        port: 3306
+        creds_file: /a/.my.cnf.research
+        db: commonswiki
 tables:
         upload_attempts: (SELECT id, uuid, clientIp, isTruncated, clientValidated, timestamp, webHost, wiki, event_appversion, event_device, event_filename, 0 as event_multiple, event_platform, event_result, event_source, event_username FROM MobileAppUploadAttempts_5257716 UNION SELECT * FROM MobileAppUploadAttempts_5334329) as MobileAppUploadAttempts
         login_attempts: MobileAppLoginAttempts_5257721
@@ -5,6 +16,10 @@ tables:
         upload_web: MobileWebUploads_5281063
 intervals:
         running_average: 30
+output:
+    path: /a/limn-public-data/mobile/datafiles
+defaults:
+    db: el
 graphs:
         unique-uploaders:
                 title: Unique uploaders (over last 30 days)
@@ -20,3 +35,5 @@ graphs:
                 title: Successful Uploads (per day)
         share-attempts:
                 title: Share Attempts (per day)
+        uploaders-experience:
+                title: Mobile Uploads vs Commons Edit count
