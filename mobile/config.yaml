@@ -37,3 +37,5 @@ graphs:
                 title: Share Attempts (per day)
         uploaders-experience:
                 title: Mobile Uploads vs Commons Edit count
+        alltime-numbers:
+                title: All time numbers
