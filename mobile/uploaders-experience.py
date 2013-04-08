@@ -31,8 +31,8 @@ headers = ["source", "uploads", "edits"]
 def results_for(dg, sql, source):
     uploads = {}
 
-    commons = dg.conn_for('commons')
-    el = dg.conn_for('el')
+    commons = dg.get_connection('commons')
+    el = dg.get_connection('el')
 
     uploads_cursor = el.cursor()
     uploads_cursor.execute(dg.render(sql))

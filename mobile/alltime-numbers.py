@@ -31,8 +31,8 @@ headers = ["source", "total", "undeleted", "deletion percentage"]
 
 
 def results_for(dg, sql, source, category):
-    commons = dg.conn_for('commons')
-    el = dg.conn_for('el')
+    commons = dg.get_connection('commons')
+    el = dg.get_connection('el')
 
     all_cursor = el.cursor()
     all_cursor.execute(dg.render(sql))
