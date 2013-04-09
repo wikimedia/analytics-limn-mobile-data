@@ -14,6 +14,7 @@ tables:
         login_attempts: MobileAppLoginAttempts_5257721
         share_attempts: MobileAppShareAttempts_5346170
         upload_web: MobileWebUploads_5281063
+        navigation_timing: NavigationTiming_5336845
 intervals:
         running_average: 30
 output:
@@ -39,3 +40,6 @@ graphs:
                 title: Mobile Uploads vs Commons Edit count
         alltime-numbers:
                 title: All time numbers
+
+        performance-rendering:
+                title: Rendering time (ms)

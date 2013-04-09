@@ -13,6 +13,12 @@
                 "successful-logins",
                 "error-uploads"
             ]
+        },
+        {
+            "name": "Performance",
+            "graph_ids": [
+                "performance-rendering"
+            ]
         }
     ]
 }
