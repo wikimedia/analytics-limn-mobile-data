@@ -5,6 +5,7 @@ import imp
 import io
 import os
 import sys
+import argparse
 
 import MySQLdb
 import jinja2
@@ -14,13 +15,19 @@ import yaml
 class DataGenerator(object):
     """Executes queries and generates CSV reports based on YAML configs."""
 
-    def __init__(self, folder_path):
+    def __init__(self, folder, config_override=None):
         """Reads configuration 'config.yaml' in `folder_path`."""
-        self.folder_path = folder_path
-        config_file_path = os.path.join(folder_path, 'config.yaml')
-        with io.open(config_file_path, encoding='utf-8') as config_file:
-            self.config = yaml.load(config_file)
+        self.folder = folder
+        self.config = {}
         self.connections = {}
+        config_main = os.path.join(folder, 'config.yaml')
+        self.load_config(config_main)
+        if config_override:
+            self.load_config(config_override)
+
+    def load_config(self, config_path):
+        with io.open(config_path, encoding='utf-8') as config_file:
+            self.config.update(yaml.load(config_file))
 
     def make_connection(self, name):
         """Opens a connection to a database using parameters specified in YAML
@@ -77,17 +84,15 @@ class DataGenerator(object):
 
     def execute(self):
         """Generates a CSV report by executing Python code and SQL queries."""
-        global folder
-
         for key, value in self.config['graphs'].iteritems():
             # Look for the sql first, then python
             db_name = value.get('db', self.config['defaults']['db'])
 
-            if os.path.exists(os.path.join(folder, key + '.sql')):
-                file_path = os.path.join(folder, key + '.sql')
+            if os.path.exists(os.path.join(self.folder, key + '.sql')):
+                file_path = os.path.join(self.folder, key + '.sql')
                 headers, rows = self.execute_sql(file_path, db_name)
-            elif os.path.exists(os.path.join(folder, key + '.py')):
-                file_path = os.path.join(folder, key + '.py')
+            elif os.path.exists(os.path.join(self.folder, key + '.py')):
+                file_path = os.path.join(self.folder, key + '.py')
                 headers, rows = self.execute_python(key, file_path)
             else:
                 raise ValueError("Can not find SQL or Python for %s" % key)
@@ -104,10 +109,10 @@ class DataGenerator(object):
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:  # FIXME: argparse please
-        print "Usage: generate.py <folder with config.yaml and *.sql files>"
-        sys.exit(1)
+    parser = argparse.ArgumentParser(description='Generate data for the mobile dashboard.')
+    parser.add_argument('folder', help='folder with config.yaml and *.sql files')
+    parser.add_argument('-c', '--config-override', help='config.yaml override')
+    args = parser.parse_args()
 
-    folder = sys.argv[1]
-    dg = DataGenerator(folder)
+    dg = DataGenerator(**vars(args))
     dg.execute()
