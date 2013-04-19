@@ -15,6 +15,7 @@ tables:
         share_attempts: MobileAppShareAttempts_5346170
         upload_web: MobileWebUploads_5281063
         navigation_timing: NavigationTiming_5336845
+        cat_attempts: MobileAppCategorizationAttempts_5359208 # meow!
 intervals:
         running_average: 30
 output:
@@ -40,6 +41,8 @@ graphs:
                 title: Mobile Uploads vs Commons Edit count
         alltime-numbers:
                 title: All time numbers
+        no-cats: # Only puppies
+                title: Percentage of files with a category added
 
         performance-rendering:
                 title: Rendering time (ms)

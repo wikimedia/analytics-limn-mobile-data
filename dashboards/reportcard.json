@@ -9,9 +9,10 @@
                 "unique-uploaders",
                 "30-day-uploads",
                 "successful-uploads",
-                "share-attempts",
                 "successful-logins",
-                "error-uploads"
+                "error-uploads",
+                "no-cats",
+                "share-attempts"
             ]
         },
         {
