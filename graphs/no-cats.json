@@ -98,7 +98,7 @@
             "metric": {
               "source_id": "no-cats", 
               "type": "int", 
-              "source_col": 2
+              "source_col": 1
             }, 
             "nodeType": "line", 
             "options": {
