@@ -1,3 +1,5 @@
 env/
+datafiles/
 .output
 *.swp
+*.pyc
