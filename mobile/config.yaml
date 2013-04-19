@@ -43,6 +43,8 @@ graphs:
                 title: All time numbers
         no-cats: # Only puppies
                 title: Percentage of files with a category added
+        deleted-uploads:
+                title: Mobile uploads deleted per day
 
         performance-rendering:
                 title: Rendering time (ms)
