@@ -29,6 +29,14 @@ WHERE   cl_to = %s
 
 headers = ["source", "total", "undeleted", "deletion percentage"]
 
+# Picked up from result of error-correction.py
+# These are recorded in EL as belonging on commons while they actually are in testwiki
+modifiers = {
+        "Android": 105,
+        "iOS": 47,
+        "Web": 0
+        }
+
 
 def results_for(dg, sql, source, category):
     commons = dg.get_connection('commons')
@@ -44,7 +52,7 @@ def results_for(dg, sql, source, category):
 
     existing_uploads = existing_cursor.fetchone()
 
-    total_uploads = all_uploads[0]
+    total_uploads = all_uploads[0] - modifiers[source]
     undeleted_uploads = existing_uploads[0]
     deleted_uploads = total_uploads - undeleted_uploads
     deletion_percentage = float(deleted_uploads) / float(total_uploads)

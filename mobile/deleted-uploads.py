@@ -63,7 +63,12 @@ def titles_for(dg, sql, src_db="el"):
     cur.execute(dg.render(sql))
 
     for row in cur:
-        titles.append(row[0].replace("File:", "").replace(" ", "_"))
+        if isinstance(row[0], str):
+            title = row[0].decode('utf-8')
+        else:
+            title = row[0]
+        title = title[0].upper() + title[1:]
+        titles.append(title.replace("File:", "").replace(" ", "_"))
 
     return titles
 
