@@ -1,17 +1,17 @@
 {
-    "name": "Uploads cancelled by user (per day)",
+    "name": "Total uploads (over last 30 days)",
     "timespan": {
-        "start": "2013/02/22",
+        "start": "2013/02/18",
         "step": "1d",
         "end": "2013/03/19"
     },
-    "url": "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/cancelled-uploads.csv",
+    "url": "{{ output.url }}/30-day-uploads.csv",
     "notes": "",
     "format": "csv",
     "slug": null,
-    "shortName": "cancelled-uploads",
+    "shortName": "30-day-uploads",
     "type": "timeseries",
-    "id": "cancelled-uploads",
+    "id": "30-day-uploads",
     "columns": [
         {
             "type": "date",
@@ -28,6 +28,10 @@
         {
             "type": "int",
             "label": "iOS"
+        },
+        {
+            "type": "int",
+            "label": "Web"
         }
     ],
     "desc": ""

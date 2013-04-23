@@ -1,17 +1,17 @@
 {
-    "name": "Successful logins (per day)",
+    "name": "Successful Uploads (per day)",
     "timespan": {
-        "start": "2013/02/21",
+        "start": "2013/02/18",
         "step": "1d",
         "end": "2013/03/19"
     },
-    "url": "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/successful-logins.csv",
+    "url": "{{ output.url }}/successful-uploads.csv",
     "notes": "",
     "format": "csv",
     "slug": null,
-    "shortName": "successful-logins",
+    "shortName": "successful-uploads",
     "type": "timeseries",
-    "id": "successful-logins",
+    "id": "successful-uploads",
     "columns": [
         {
             "type": "date",
@@ -28,6 +28,10 @@
         {
             "type": "int",
             "label": "iOS"
+        },
+        {
+            "type": "int",
+            "label": "Web"
         }
     ],
     "desc": ""

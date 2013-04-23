@@ -1,17 +1,17 @@
 {
-    "name": "Deleted Uploads per day",
+    "name": "Rendering time (ms)",
     "timespan": {
         "start": "2013/02/18",
         "step": "1d",
         "end": "2013/03/19"
     },
-    "url": "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/deleted-uploads.csv",
+    "url": "{{ output.url }}/performance-rendering.csv",
     "notes": "",
     "format": "csv",
     "slug": null,
-    "shortName": "deleted-uploads",
+    "shortName": "performance-rendering",
     "type": "timeseries",
-    "id": "deleted-uploads",
+    "id": "performance-rendering",
     "columns": [
         {
             "type": "date",
@@ -19,15 +19,11 @@
         },
         {
             "type": "int",
-            "label": "Android"
+            "label": "Rendering (over last 30 days)"
         },
         {
             "type": "int",
-            "label": "iOS"
-        },
-        {
-            "type": "int",
-            "label": "Web"
+            "label": "Rendering"
         }
     ],
     "desc": ""

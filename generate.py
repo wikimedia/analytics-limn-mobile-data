@@ -82,30 +82,57 @@ class DataGenerator(object):
         module = imp.load_source(name, file_path)
         return module.execute(self)
 
-    def execute(self):
+    def generate_datasources(self):
+        """Generates JSON files in datasources."""
+        output_path = 'datasources'
+        if not os.path.exists(output_path):
+            os.makedirs(output_path)
+
+        for key in self.config['graphs'].iterkeys():
+            filename = key + '.json'
+            print "Generating %s" % (filename)
+            template_filename = os.path.join(self.folder, 'datasources', filename)
+
+            if os.path.exists(template_filename):
+                output_filename = os.path.join(output_path, filename)
+
+                with io.open(template_filename, encoding='utf-8') as template_file:
+                    content = self.render(template_file.read())
+
+                with open(output_filename, 'wb') as output_file:
+                    output_file.write(content)
+
+    def generate_datafiles(self):
         """Generates a CSV report by executing Python code and SQL queries."""
+        output_path = self.config['output']['path']
+        if not os.path.exists(output_path):
+            os.makedirs(output_path)
+
         for key, value in self.config['graphs'].iteritems():
-            # Look for the sql first, then python
             db_name = value.get('db', self.config['defaults']['db'])
 
-            if os.path.exists(os.path.join(self.folder, key + '.sql')):
-                file_path = os.path.join(self.folder, key + '.sql')
+            print "Generating %s (%s)" % (value['title'], key)
+
+            # Look for the sql first, then python
+            if os.path.exists(os.path.join(self.folder, 'datagenerators', key + '.sql')):
+                file_path = os.path.join(self.folder, 'datagenerators', key + '.sql')
                 headers, rows = self.execute_sql(file_path, db_name)
-            elif os.path.exists(os.path.join(self.folder, key + '.py')):
-                file_path = os.path.join(self.folder, key + '.py')
+            elif os.path.exists(os.path.join(self.folder, 'datagenerators', key + '.py')):
+                file_path = os.path.join(self.folder, 'datagenerators', key + '.py')
                 headers, rows = self.execute_python(key, file_path)
             else:
                 raise ValueError("Can not find SQL or Python for %s" % key)
 
-            print "Generating %s (%s)" % (value['title'], file_path)
-
-            output_path = self.config['output']['path']
             csv_filename = os.path.join(output_path, key + '.csv')
 
             with open(csv_filename, 'wb') as csv_file:
                 writer = csv.writer(csv_file)
                 writer.writerow(headers)
                 writer.writerows(rows)
+
+    def generate(self):
+        self.generate_datasources()
+        self.generate_datafiles()
 
 
 if __name__ == "__main__":
@@ -115,4 +142,4 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     dg = DataGenerator(**vars(args))
-    dg.execute()
+    dg.generate()

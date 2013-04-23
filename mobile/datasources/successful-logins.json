@@ -1,17 +1,17 @@
 {
-    "name": "Uploads failed because of an upload error (per day)",
+    "name": "Successful logins (per day)",
     "timespan": {
-        "start": "2013/02/18",
+        "start": "2013/02/21",
         "step": "1d",
         "end": "2013/03/19"
     },
-    "url": "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/error-uploads.csv",
+    "url": "{{ output.url }}/successful-logins.csv",
     "notes": "",
     "format": "csv",
     "slug": null,
-    "shortName": "error-uploads",
+    "shortName": "successful-logins",
     "type": "timeseries",
-    "id": "error-uploads",
+    "id": "successful-logins",
     "columns": [
         {
             "type": "date",
@@ -28,10 +28,6 @@
         {
             "type": "int",
             "label": "iOS"
-        },
-        {
-            "type": "int",
-            "label": "Web"
         }
     ],
     "desc": ""

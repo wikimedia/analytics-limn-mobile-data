@@ -1,17 +1,17 @@
 {
-    "name": "Successful Uploads (per day)",
+    "name": "Unique uploaders (over last 30 days)",
     "timespan": {
         "start": "2013/02/18",
         "step": "1d",
         "end": "2013/03/19"
     },
-    "url": "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/successful-uploads.csv",
+    "url": "{{ output.url }}/unique-uploaders.csv",
     "notes": "",
     "format": "csv",
     "slug": null,
-    "shortName": "successful-uploads",
+    "shortName": "unique-uploaders",
     "type": "timeseries",
-    "id": "successful-uploads",
+    "id": "unique-uploaders",
     "columns": [
         {
             "type": "date",

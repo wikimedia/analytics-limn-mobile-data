@@ -1,17 +1,17 @@
 {
-    "name": "Rendering time (ms)",
+    "name": "Uploads failed because of an upload error (per day)",
     "timespan": {
         "start": "2013/02/18",
         "step": "1d",
         "end": "2013/03/19"
     },
-    "url": "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/performance-rendering.csv",
+    "url": "{{ output.url }}/error-uploads.csv",
     "notes": "",
     "format": "csv",
     "slug": null,
-    "shortName": "performance-rendering",
+    "shortName": "error-uploads",
     "type": "timeseries",
-    "id": "performance-rendering",
+    "id": "error-uploads",
     "columns": [
         {
             "type": "date",
@@ -19,11 +19,19 @@
         },
         {
             "type": "int",
-            "label": "Rendering (over last 30 days)"
+            "label": "Total"
         },
         {
             "type": "int",
-            "label": "Rendering"
+            "label": "Android"
+        },
+        {
+            "type": "int",
+            "label": "iOS"
+        },
+        {
+            "type": "int",
+            "label": "Web"
         }
     ],
     "desc": ""

@@ -5,7 +5,7 @@
         "step": "1d",
         "end": "2013/03/19"
     },
-    "url": "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/no-cats.csv",
+    "url": "{{ output.url }}/no-cats.csv",
     "notes": "",
     "format": "csv",
     "slug": null,
