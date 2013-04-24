@@ -19,6 +19,10 @@
         },
         {
             "type": "int",
+            "label": "Rendering (over last 30 days)"
+        },
+        {
+            "type": "int",
             "label": "Rendering"
         }
     ],

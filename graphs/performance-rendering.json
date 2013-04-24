@@ -105,6 +105,24 @@
               "stroke": {
                 "width": 2
               }, 
+              "label": "Rendering (over last 30 days)",
+              "noLegend": false, 
+              "dateFormat": "MMM YYYY"
+            }
+          },
+          {
+            "disabled": false, 
+            "index": 1, 
+            "metric": {
+              "source_id": "performance-rendering", 
+              "type": "int", 
+              "source_col": 2
+            }, 
+            "nodeType": "line", 
+            "options": {
+              "stroke": {
+                "width": 2
+              }, 
               "label": "Rendering",
               "noLegend": false, 
               "dateFormat": "MMM YYYY"
