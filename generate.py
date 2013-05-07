@@ -15,9 +15,10 @@ import yaml
 class DataGenerator(object):
     """Executes queries and generates CSV reports based on YAML configs."""
 
-    def __init__(self, folder, config_override=None):
+    def __init__(self, folder, debug_folder=None, config_override=None):
         """Reads configuration 'config.yaml' in `folder_path`."""
         self.folder = folder
+        self.debug_folder = debug_folder
         self.config = {}
         self.connections = {}
         config_main = os.path.join(folder, 'config.yaml')
@@ -67,6 +68,12 @@ class DataGenerator(object):
         """
         with io.open(file_name, encoding='utf-8') as f:
             sql = self.render(f.read())
+
+        if self.debug_folder:
+            debug_filename = os.path.join(self.debug_folder, os.path.basename(file_name))
+            with open(debug_filename, 'wb') as debug_file:
+                debug_file.write(sql)
+
         conn = self.get_connection(db_name)
         cursor = conn.cursor()
         try:
@@ -139,6 +146,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Generate data for the mobile dashboard.')
     parser.add_argument('folder', help='folder with config.yaml and *.sql files')
     parser.add_argument('-c', '--config-override', help='config.yaml override')
+    parser.add_argument('-d', '--debug-folder', help='save generated SQL in a given folder')
     args = parser.parse_args()
 
     dg = DataGenerator(**vars(args))
