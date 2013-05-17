@@ -1,0 +1,38 @@
+{
+    "name": "Uploads failed because of an upload error (per day)",
+    "timespan": {
+        "start": "2013/02/18",
+        "step": "1d",
+        "end": "2013/03/19"
+    },
+    "url": "{{ output.url }}/error-uploads.csv",
+    "notes": "",
+    "format": "csv",
+    "slug": null,
+    "shortName": "error-uploads",
+    "type": "timeseries",
+    "id": "error-uploads",
+    "columns": [
+        {
+            "type": "date",
+            "label": "date"
+        },
+        {
+            "type": "int",
+            "label": "Total"
+        },
+        {
+            "type": "int",
+            "label": "Android"
+        },
+        {
+            "type": "int",
+            "label": "iOS"
+        },
+        {
+            "type": "int",
+            "label": "Web"
+        }
+    ],
+    "desc": ""
+}

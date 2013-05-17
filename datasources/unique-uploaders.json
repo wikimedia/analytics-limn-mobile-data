@@ -1,0 +1,38 @@
+{
+    "name": "Unique uploaders (over last 30 days)",
+    "timespan": {
+        "start": "2013/02/18",
+        "step": "1d",
+        "end": "2013/03/19"
+    },
+    "url": "{{ output.url }}/unique-uploaders.csv",
+    "notes": "",
+    "format": "csv",
+    "slug": null,
+    "shortName": "unique-uploaders",
+    "type": "timeseries",
+    "id": "unique-uploaders",
+    "columns": [
+        {
+            "type": "date",
+            "label": "date"
+        },
+        {
+            "type": "int",
+            "label": "Total"
+        },
+        {
+            "type": "int",
+            "label": "Android"
+        },
+        {
+            "type": "int",
+            "label": "iOS"
+        },
+        {
+            "type": "int",
+            "label": "Web"
+        }
+    ],
+    "desc": ""
+}

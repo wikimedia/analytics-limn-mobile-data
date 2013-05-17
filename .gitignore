@@ -1,6 +1,5 @@
 /env/
 /datafiles/
-/datasources/
 .output
 *.swp
 *.pyc
