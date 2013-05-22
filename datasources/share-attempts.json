@@ -5,7 +5,7 @@
         "step": "1d",
         "end": "2013/03/19"
     },
-    "url": "{{ output.url }}/share-attempts.csv",
+    "url": "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/share-attempts.csv",
     "notes": "",
     "format": "csv",
     "slug": null,

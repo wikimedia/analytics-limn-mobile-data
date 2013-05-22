@@ -5,7 +5,7 @@
         "step": "1d",
         "end": "2013/03/19"
     },
-    "url": "{{ output.url }}/unique-uploaders.csv",
+    "url": "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/unique-uploaders.csv",
     "notes": "",
     "format": "csv",
     "slug": null,

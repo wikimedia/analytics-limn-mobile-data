@@ -5,7 +5,7 @@
         "step": "1d",
         "end": "2013/03/19"
     },
-    "url": "{{ output.url }}/30-day-uploads.csv",
+    "url": "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/30-day-uploads.csv",
     "notes": "",
     "format": "csv",
     "slug": null,

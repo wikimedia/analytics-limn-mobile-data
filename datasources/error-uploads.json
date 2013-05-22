@@ -5,7 +5,7 @@
         "step": "1d",
         "end": "2013/03/19"
     },
-    "url": "{{ output.url }}/error-uploads.csv",
+    "url": "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/error-uploads.csv",
     "notes": "",
     "format": "csv",
     "slug": null,

@@ -1,5 +1,5 @@
-/env/
-/datafiles/
+env/
+datafiles/
 .output
 *.swp
 *.pyc

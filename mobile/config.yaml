@@ -20,7 +20,6 @@ intervals:
         running_average: 30
 output:
     path: /a/limn-public-data/mobile/datafiles
-    url: http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles
 defaults:
     db: el
 graphs:

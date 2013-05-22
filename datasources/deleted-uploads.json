@@ -5,7 +5,7 @@
         "step": "1d",
         "end": "2013/03/19"
     },
-    "url": "{{ output.url }}/deleted-uploads.csv",
+    "url": "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/deleted-uploads.csv",
     "notes": "",
     "format": "csv",
     "slug": null,
