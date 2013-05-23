@@ -11,7 +11,7 @@ FROM (
 ) AS Month
 
 LEFT JOIN (
-    SELECT EXTRACT(YEAR_MONTH FROM timestamp) AS month, COUNT(DISTINCT event_username) AS count
+    SELECT EXTRACT(YEAR_MONTH FROM timestamp) AS month, COUNT(*) AS count
     FROM {{ tables.upload_attempts }}
     WHERE
         event_platform LIKE 'Android%' AND
@@ -21,7 +21,7 @@ LEFT JOIN (
 ) AS Android ON Month.month = Android.month
 
 LEFT JOIN (
-    SELECT EXTRACT(YEAR_MONTH FROM timestamp) AS month, COUNT(DISTINCT event_username) AS count
+    SELECT EXTRACT(YEAR_MONTH FROM timestamp) AS month, COUNT(*) AS count
     FROM {{ tables.upload_attempts }}
     WHERE
         event_platform LIKE 'iOS%' AND
@@ -31,7 +31,7 @@ LEFT JOIN (
 ) AS iOS ON Month.month = iOS.month
 
 LEFT JOIN (
-    SELECT EXTRACT(YEAR_MONTH FROM timestamp) AS month, COUNT(DISTINCT event_username) AS count
+    SELECT EXTRACT(YEAR_MONTH FROM timestamp) AS month, COUNT(*) AS count
     FROM {{ tables.upload_web }}
     WHERE
         event_action = 'success' AND

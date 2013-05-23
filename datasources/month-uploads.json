@@ -1,10 +1,10 @@
 {
-    "name": "Uploads deleted (per month)",
-    "url": "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/deleted-uploads.csv",
+    "name": "Uploads (per month)",
+    "url": "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/month-uploads.csv",
     "format": "csv",
-    "shortName": "deleted-uploads",
+    "shortName": "month-uploads",
     "type": "timeseries",
-    "id": "deleted-uploads",
+    "id": "month-uploads",
     "columns": [
         {
             "type": "date",

@@ -1,17 +1,22 @@
 {
   "graph_version": "0.6.0", 
-  "name": "Uploads deleted every day", 
-  "notes": "", 
+  "name": "Uploads deleted (per month)", 
   "slug": "deleted-uploads", 
-  "shortName": "", 
   "root": {
-    "scaling": "linear", 
     "nodeType": "canvas", 
     "minWidth": 750, 
     "minHeight": 500, 
     "height": 500, 
-    "disabled": false, 
     "width": "auto", 
+    "x": {
+      "padding": 0.001
+    },
+    "y": {
+      "domain": [
+        0,
+        5000
+      ]
+    },
     "children": [
       {
         "disabled": false, 
@@ -81,31 +86,42 @@
       }, 
       {
         "disabled": false, 
-        "nodeType": "line-group", 
+        "nodeType": "bar-group", 
         "options": {
           "palette": "wmf_projects", 
           "scale": "log", 
-          "stroke": {
-            "opacity": 1, 
-            "width": 2
-          }, 
+          "stack" : {
+            "enabled": true
+          },
           "dateFormat": "MMM YYYY"
         }, 
         "children": [
+          {
+            "disabled": false, 
+            "index": 0, 
+            "metric": {
+              "source_id": "deleted-uploads", 
+              "type": "int", 
+              "source_col": 1
+            }, 
+            "nodeType": "bar", 
+            "options": {
+              "label": "Android",
+              "noLegend": false, 
+              "dateFormat": "MMM YYYY"
+            }
+          }, 
           {
             "disabled": false, 
             "index": 1, 
             "metric": {
               "source_id": "deleted-uploads", 
               "type": "int", 
-              "source_col": 1
+              "source_col": 2
             }, 
-            "nodeType": "line", 
+            "nodeType": "bar", 
             "options": {
-              "stroke": {
-                "width": 2
-              }, 
-              "label": "Android",
+              "label": "iOS",
               "noLegend": false, 
               "dateFormat": "MMM YYYY"
             }
@@ -116,31 +132,10 @@
             "metric": {
               "source_id": "deleted-uploads", 
               "type": "int", 
-              "source_col": 2
-            }, 
-            "nodeType": "line", 
-            "options": {
-              "stroke": {
-                "width": 2
-              }, 
-              "label": "iOS",
-              "noLegend": false, 
-              "dateFormat": "MMM YYYY"
-            }
-          }, 
-          {
-            "disabled": false, 
-            "index": 3, 
-            "metric": {
-              "source_id": "deleted-uploads", 
-              "type": "int", 
               "source_col": 3
             }, 
-            "nodeType": "line", 
+            "nodeType": "bar", 
             "options": {
-              "stroke": {
-                "width": 2
-              }, 
               "label": "Web",
               "noLegend": false, 
               "dateFormat": "MMM YYYY"
@@ -150,6 +145,5 @@
       }
     ]
   }, 
-  "id": "deleted-uploads", 
-  "desc": ""
+  "id": "deleted-uploads"
 }

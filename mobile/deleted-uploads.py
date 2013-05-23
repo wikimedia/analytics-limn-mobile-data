@@ -22,36 +22,46 @@ WHERE   tag_summary.ts_tags = 'mobile edit'
 
 deleted_file_template = u"""
 SELECT
-    Date,
-    (SELECT COUNT(*) FROM logging WHERE
-        log_namespace = 6 AND
-        log_title IN (%s) AND
-        DATE(log_timestamp) = Date AND
-        log_action = 'delete'
-    ) AS Android,
+    DATE_FORMAT(CONCAT(Month.month, '01'), '%%%%Y-%%%%m-%%%%d') AS Month,
+    COALESCE(Android.count, 0) AS Android,
+    COALESCE(iOS.count, 0) AS iOS,
+    COALESCE(Web.count, 0) AS Web
 
-    (SELECT COUNT(*) FROM logging WHERE
-        log_namespace = 6 AND
-        log_title IN (%s) AND
-        DATE(log_timestamp) = Date AND
-        log_action = 'delete'
-    ) AS iOS,
-            
-    (SELECT COUNT(*) FROM logging WHERE
-        log_namespace = 6 AND
-        log_title IN (%s) AND
-        DATE(log_timestamp) = Date AND
-        log_action = 'delete'
-    ) AS Web
-        
 -- http://stackoverflow.com/a/6871220/365238
 FROM (
-    SELECT DATE_FORMAT(
-        ADDDATE(CURDATE() - INTERVAL {{ intervals.running_average }} - 1 DAY, @num:=@num+1),
-        '%%%%Y-%%%%m-%%%%d'
-    ) AS Date
-    FROM logging, (SELECT @num:=-1) num LIMIT {{ intervals.running_average }}
-) AS Month;
+    SELECT EXTRACT(YEAR_MONTH FROM SUBDATE(CURDATE(), INTERVAL @num:=@num+1 MONTH)) AS month
+    FROM information_schema.columns, (SELECT @num:=-1) num LIMIT 12
+) AS Month
+
+LEFT JOIN (
+    SELECT EXTRACT(YEAR_MONTH FROM log_timestamp) AS month, COUNT(*) AS count
+    FROM logging
+    WHERE
+        log_namespace = 6 AND
+        log_title IN (%s) AND
+        log_action = 'delete'
+    GROUP BY month
+) AS Android ON Month.month = Android.month
+
+LEFT JOIN (
+    SELECT EXTRACT(YEAR_MONTH FROM log_timestamp) AS month, COUNT(*) AS count
+    FROM logging
+    WHERE
+        log_namespace = 6 AND
+        log_title IN (%s) AND
+        log_action = 'delete'
+    GROUP BY month
+) AS iOS ON Month.month = iOS.month
+
+LEFT JOIN (
+    SELECT EXTRACT(YEAR_MONTH FROM log_timestamp) AS month, COUNT(*) AS count
+    FROM logging
+    WHERE
+        log_namespace = 6 AND
+        log_title IN (%s) AND
+        log_action = 'delete'
+    GROUP BY month
+) AS Web ON Month.month = Web.month;
 """
 
 headers = ["date", "Android", "iOS", "Web"]

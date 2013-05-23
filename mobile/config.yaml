@@ -24,9 +24,9 @@ defaults:
     db: el
 graphs:
         unique-uploaders:
-                title: Unique uploaders (over last 30 days)
-        30-day-uploads:
-                title: Total uploads (over last 30 days)
+                title: Unique uploaders (per month)
+        month-uploads:
+                title: Uploads (per month)
         cancelled-uploads:
                 title: Uploads cancelled by user (per day)
         error-uploads:
@@ -44,7 +44,7 @@ graphs:
         no-cats: # Only puppies
                 title: Percentage of files with a category added
         deleted-uploads:
-                title: Mobile uploads deleted per day
+                title: Uploads deleted (per month)
 
         performance-rendering:
                 title: Rendering time (ms)

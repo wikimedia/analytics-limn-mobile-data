@@ -1,17 +1,22 @@
 {
   "graph_version": "0.6.0", 
-  "name": "Unique uploaders (over last 30 days)", 
-  "notes": "", 
+  "name": "Unique uploaders (per month)", 
   "slug": "unique-uploaders", 
-  "shortName": "", 
   "root": {
-    "scaling": "linear", 
     "nodeType": "canvas", 
     "minWidth": 750, 
     "minHeight": 500, 
     "height": 500, 
-    "disabled": false, 
     "width": "auto", 
+    "x": {
+      "padding": 0.001
+    },
+    "y": {
+      "domain": [
+        0,
+        5000
+      ]
+    },
     "children": [
       {
         "disabled": false, 
@@ -81,14 +86,13 @@
       }, 
       {
         "disabled": false, 
-        "nodeType": "line-group", 
+        "nodeType": "bar-group", 
         "options": {
           "palette": "wmf_projects", 
           "scale": "log", 
-          "stroke": {
-            "opacity": 1, 
-            "width": 2
-          }, 
+          "stack" : {
+            "enabled": true
+          },
           "dateFormat": "MMM YYYY"
         }, 
         "children": [
@@ -100,12 +104,9 @@
               "type": "int", 
               "source_col": 1
             }, 
-            "nodeType": "line", 
+            "nodeType": "bar", 
             "options": {
-              "stroke": {
-                "width": 2
-              }, 
-              "label": "Total",
+              "label": "Android",
               "noLegend": false, 
               "dateFormat": "MMM YYYY"
             }
@@ -118,12 +119,9 @@
               "type": "int", 
               "source_col": 2
             }, 
-            "nodeType": "line", 
+            "nodeType": "bar", 
             "options": {
-              "stroke": {
-                "width": 2
-              }, 
-              "label": "Android",
+              "label": "iOS",
               "noLegend": false, 
               "dateFormat": "MMM YYYY"
             }
@@ -136,29 +134,8 @@
               "type": "int", 
               "source_col": 3
             }, 
-            "nodeType": "line", 
+            "nodeType": "bar", 
             "options": {
-              "stroke": {
-                "width": 2
-              }, 
-              "label": "iOS",
-              "noLegend": false, 
-              "dateFormat": "MMM YYYY"
-            }
-          }, 
-          {
-            "disabled": false, 
-            "index": 3, 
-            "metric": {
-              "source_id": "unique-uploaders", 
-              "type": "int", 
-              "source_col": 4
-            }, 
-            "nodeType": "line", 
-            "options": {
-              "stroke": {
-                "width": 2
-              }, 
               "label": "Web",
               "noLegend": false, 
               "dateFormat": "MMM YYYY"
@@ -168,6 +145,5 @@
       }
     ]
   }, 
-  "id": "unique-uploaders", 
-  "desc": ""
+  "id": "unique-uploaders"
 }

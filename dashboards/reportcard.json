@@ -4,15 +4,20 @@
     "subhead"  : "Apps & Web",
     "tabs": [
         {
-            "name": "Uploads",
+            "name": "Uploads monthly",
             "graph_ids": [
                 "unique-uploaders",
-                "30-day-uploads",
+                "month-uploads",
+                "deleted-uploads"
+            ]
+        },
+        {
+            "name": "Uploads daily",
+            "graph_ids": [
                 "successful-uploads",
-                "deleted-uploads",
+                "error-uploads",
                 "no-cats",
                 "successful-logins",
-                "error-uploads",
                 "share-attempts"
             ]
         },

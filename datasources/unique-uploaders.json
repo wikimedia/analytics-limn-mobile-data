@@ -1,25 +1,14 @@
 {
-    "name": "Unique uploaders (over last 30 days)",
-    "timespan": {
-        "start": "2013/02/18",
-        "step": "1d",
-        "end": "2013/03/19"
-    },
+    "name": "Unique uploaders (per month)",
     "url": "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/unique-uploaders.csv",
-    "notes": "",
     "format": "csv",
-    "slug": null,
     "shortName": "unique-uploaders",
     "type": "timeseries",
     "id": "unique-uploaders",
     "columns": [
         {
             "type": "date",
-            "label": "date"
-        },
-        {
-            "type": "int",
-            "label": "Total"
+            "label": "Month"
         },
         {
             "type": "int",
@@ -33,6 +22,5 @@
             "type": "int",
             "label": "Web"
         }
-    ],
-    "desc": ""
+    ]
 }
