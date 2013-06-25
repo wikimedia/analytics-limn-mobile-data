@@ -25,6 +25,8 @@ defaults:
 graphs:
         unique-uploaders:
                 title: Unique uploaders (per month)
+        unique-uploaders-day:
+                title: Unique uploaders (per day)
         month-uploads:
                 title: Uploads (per month)
         cancelled-uploads:

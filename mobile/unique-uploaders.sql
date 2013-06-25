@@ -18,6 +18,8 @@ LEFT JOIN (
         event_result = 'success' AND
         wiki = 'commonswiki'
     GROUP BY month
+    ORDER BY month DESC
+    LIMIT 12
 ) AS Android ON Month.month = Android.month
 
 LEFT JOIN (
@@ -28,6 +30,8 @@ LEFT JOIN (
         event_result = 'success' AND
         wiki = 'commonswiki'
     GROUP BY month
+    ORDER BY month DESC
+    LIMIT 12
 ) AS iOS ON Month.month = iOS.month
 
 LEFT JOIN (
@@ -37,4 +41,6 @@ LEFT JOIN (
         event_action = 'success' AND
         wiki != 'testwiki'
     GROUP BY month
+    ORDER BY month DESC
+    LIMIT 12
 ) AS Web ON Month.month = Web.month;
