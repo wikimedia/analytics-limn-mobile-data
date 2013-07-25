@@ -1,0 +1,15 @@
+# config overrides for local testing
+databases:
+    el:
+        host: "127.0.0.1"
+        port: 3307
+        creds_file: scripts/my.cnf.research
+        db: log
+    commons:
+        host: "127.0.0.1"
+        port: 3308
+        creds_file: scripts/my.cnf.research
+        db: commonswiki
+output:
+    path: datafiles
+    url: /data/datafiles/mobile

@@ -3,3 +3,5 @@ datafiles/
 .output
 *.swp
 *.pyc
+my.cnf.research
+

@@ -28,14 +28,6 @@ you will need to run the following command (only once):
 Then you should be able to start Limn by running `npm start` and see it in
 action at `http://localhost:8081`.
 
-
-## Testing using local data
-
-By default the instance you run will show graphs using production data.
-
-TODO: ssh tunnel, sed scripts
-
-
 ### Mac OS X
 
 You will need to install some header files for some of the Python dependencies
@@ -62,4 +54,44 @@ On Ubuntu the following does the trick:
 - Run `generate.py mobile` to generate required metadata *and* data (run
   `generate.py -h` for details)
 - Deploy to limn! (Ask analytics to get you access)
+
+
+## Testing using local data
+
+By default the instance you run will show graphs using production data.
+To generate the data for your local instance you need to make the analytics
+databases available to your local machine. If you have access to stat1, you
+can do that by running:
+
+    $ scripts/ssh
+
+in a separate terminal window and leaving it open.
+
+Then, you should create a file called `scripts/my.cnf.research` with the
+following content:
+
+    [client]
+    user=[analytics DB user]
+    password=[analytics DB password]
+
+Now, you should be able to run `generate.py` with config overrides:
+
+    $ python generate.py -c scripts/config.yaml mobile
+
+When all the data is generated you still need to do one more thing to let
+Limn know that it should use the local data. The hacky solution is to replace
+all the data URLs temporarily. You can do it by running:
+
+    $ scripts/localurl
+
+Now, you should be able to do:
+
+    $ cd ~/limn
+    $ npm start
+
+and see your local instance data at `http://localhost:8081`. You have to
+remember to replace all the local URLs to remote URLs before pushing your
+changes though by running:
+
+    $ scripts/remoteurl
 
