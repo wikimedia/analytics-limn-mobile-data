@@ -51,6 +51,9 @@ On Ubuntu the following does the trick:
 - Write an SQL Query that returns data in the appropriate format, and place it
   in `mobile/<name>.sql`
 - Add `<name>` to appropriate position in `dashboards/reportcard.json`
+- Add the graph to `mobile/config.yaml`
+- Create a corresponding file in `graphs`
+- Create a corresponding file in `datasources`
 - Run `generate.py mobile` to generate required metadata *and* data (run
   `generate.py -h` for details)
 - Deploy to limn! (Ask analytics to get you access)
