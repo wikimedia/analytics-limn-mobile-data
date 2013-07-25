@@ -99,6 +99,7 @@ class DataGenerator(object):
           graphs = self.config['graphs']
 
         for key, value in graphs.iteritems():
+            print "Generating %s" % value['title']
             # Look for the sql first, then python
             db_name = value.get('db', self.config['defaults']['db'])
 
@@ -110,8 +111,6 @@ class DataGenerator(object):
                 headers, rows = self.execute_python(key, file_path)
             else:
                 raise ValueError("Can not find SQL or Python for %s" % key)
-
-            print "Generating %s (%s)" % (value['title'], file_path)
 
             output_path = self.config['output']['path']
             csv_filename = os.path.join(output_path, key + '.csv')
