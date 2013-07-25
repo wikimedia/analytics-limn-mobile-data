@@ -15,10 +15,11 @@ import yaml
 class DataGenerator(object):
     """Executes queries and generates CSV reports based on YAML configs."""
 
-    def __init__(self, folder, debug_folder=None, config_override=None):
+    def __init__(self, folder, debug_folder=None, config_override=None, graph=None):
         """Reads configuration 'config.yaml' in `folder_path`."""
         self.folder = folder
         self.debug_folder = debug_folder
+        self.graph = graph
         self.config = {}
         self.connections = {}
         config_main = os.path.join(folder, 'config.yaml')
@@ -91,7 +92,13 @@ class DataGenerator(object):
 
     def execute(self):
         """Generates a CSV report by executing Python code and SQL queries."""
-        for key, value in self.config['graphs'].iteritems():
+        if self.graph:
+          name = self.graph
+          graphs = { name: self.config['graphs'][name] }
+        else:
+          graphs = self.config['graphs']
+
+        for key, value in graphs.iteritems():
             # Look for the sql first, then python
             db_name = value.get('db', self.config['defaults']['db'])
 
@@ -120,6 +127,7 @@ if __name__ == "__main__":
     parser.add_argument('folder', help='folder with config.yaml and *.sql files')
     parser.add_argument('-c', '--config-override', help='config.yaml override')
     parser.add_argument('-d', '--debug-folder', help='save generated SQL in a given folder')
+    parser.add_argument('-g', '--graph', help='the name of a single graph you want to generate for')
     args = parser.parse_args()
 
     dg = DataGenerator(**vars(args))
