@@ -4,6 +4,12 @@
     "subhead"  : "Apps & Web",
     "tabs": [
         {
+            "name": "Edits daily",
+            "graph_ids": [
+                "successful-edits"
+            ]
+        },
+        {
             "name": "Uploads monthly",
             "graph_ids": [
                 "unique-uploaders",

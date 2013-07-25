@@ -11,6 +11,7 @@ databases:
         db: commonswiki
 tables:
         upload_attempts: (SELECT id, uuid, clientIp, isTruncated, clientValidated, timestamp, webHost, wiki, event_appversion, event_device, event_filename, 0 as event_multiple, event_platform, event_result, event_source, event_username FROM MobileAppUploadAttempts_5257716 UNION SELECT * FROM MobileAppUploadAttempts_5334329) as MobileAppUploadAttempts
+        edits_web: MobileWebEditing_5644223
         login_attempts: MobileAppLoginAttempts_5257721
         share_attempts: MobileAppShareAttempts_5346170
         upload_web: (SELECT * FROM MobileWebUploads_5281063 UNION SELECT * FROM MobileWebUploads_5383883) AS MobileWebUploads
@@ -33,6 +34,8 @@ graphs:
                 title: Uploads cancelled by user (per day)
         error-uploads:
                 title: Uploads failed because of an upload error (per day)
+        successful-edits:
+                title: Successful edits (per day)
         successful-logins:
                 title: Successful logins (per day)
         successful-uploads:
