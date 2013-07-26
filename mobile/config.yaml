@@ -36,6 +36,12 @@ graphs:
                 title: Uploads failed because of an upload error (per day)
         successful-edits:
                 title: Successful edits (per day)
+        successful-edits-main:
+                title: Successful Main namespace edits (per day)
+        successful-edits-other:
+                title: Successful other namespace edits (per day)
+        successful-edits-unique:
+                title: Successful unique user edits (per day)
         successful-logins:
                 title: Successful logins (per day)
         successful-uploads:

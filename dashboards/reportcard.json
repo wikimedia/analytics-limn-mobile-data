@@ -6,7 +6,10 @@
         {
             "name": "Edits daily",
             "graph_ids": [
-                "successful-edits"
+                "successful-edits-main",
+                "successful-edits",
+                "successful-edits-other",
+                "successful-edits-unique"
             ]
         },
         {
