@@ -4,10 +4,10 @@
         "step": "1d",
         "end": "2013/03/19"
     },
-    "url": "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/successful-edits.csv",
+    "url": "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/successful-edits-newbie.csv",
     "format": "csv",
     "type": "timeseries",
-    "id": "successful-edits",
+    "id": "successful-edits-newbie",
     "columns": [
         {
             "type": "date",

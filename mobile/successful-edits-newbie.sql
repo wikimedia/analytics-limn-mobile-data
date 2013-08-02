@@ -17,6 +17,7 @@ LEFT JOIN (
 
     FROM {{ tables.edits_web }} WHERE
         event_action = 'success' AND
+        event_userEditCount = 0 AND
         wiki != 'testwiki'
     GROUP BY Date
 ) AS Web ON Month.Date = Web.Date;

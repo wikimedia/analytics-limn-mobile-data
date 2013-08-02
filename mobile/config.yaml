@@ -34,8 +34,8 @@ graphs:
                 title: Uploads cancelled by user (per day)
         error-uploads:
                 title: Uploads failed because of an upload error (per day)
-        successful-edits:
-                title: Successful edits (per day)
+        successful-edits-newbie:
+                title: Successful edits by first time users (per day)
         successful-edits-main:
                 title: Successful Main namespace edits (per day)
         successful-edits-other:

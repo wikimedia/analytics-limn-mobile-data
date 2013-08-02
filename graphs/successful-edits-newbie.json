@@ -1,6 +1,6 @@
 {
   "graph_version": "0.6.0", 
-  "name": "Successful Edits (All)",
+  "name": "Successful first edits on mobile",
   "root": {
     "scaling": "linear", 
     "nodeType": "canvas", 
@@ -93,7 +93,7 @@
             "disabled": false, 
             "index": 0, 
             "metric": {
-              "source_id": "successful-edits", 
+              "source_id": "successful-edits-newbie", 
               "type": "int", 
               "source_col": 1
             }, 
@@ -111,6 +111,6 @@
       }
     ]
   }, 
-  "id": "successful-edits", 
+  "id": "successful-edits-newbie", 
   "desc": ""
 }

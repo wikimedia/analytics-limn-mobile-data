@@ -7,7 +7,7 @@
             "name": "Edits daily",
             "graph_ids": [
                 "successful-edits-main",
-                "successful-edits",
+                "successful-edits-newbie",
                 "successful-edits-other",
                 "successful-edits-unique"
             ]
