@@ -42,6 +42,8 @@ graphs:
                 title: Successful other namespace edits (per day)
         successful-edits-unique:
                 title: Successful unique user edits (per day)
+        error-edits:
+                title: Edits failed because of an error (per day)
         successful-logins:
                 title: Successful logins (per day)
         successful-uploads:
