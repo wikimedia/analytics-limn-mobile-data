@@ -58,6 +58,10 @@ graphs:
                 title: Percentage of files with a category added
         deleted-uploads:
                 title: Uploads deleted (per month)
+        edits-monthly-unique-editors:
+                title: Unique editors (per month)
+        edits-monthly-successful:
+                title: Successful edits (per month)
 
         performance-rendering:
                 title: Rendering time (ms)
