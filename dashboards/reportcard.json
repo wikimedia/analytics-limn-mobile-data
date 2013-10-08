@@ -7,7 +7,8 @@
             "name": "Edits monthly",
             "graph_ids": [
                 "edits-monthly-unique-editors",
-                "edits-monthly-successful"
+                "edits-monthly-successful",
+                "edits-monthly-5plus-editors"
             ]
         },
         {

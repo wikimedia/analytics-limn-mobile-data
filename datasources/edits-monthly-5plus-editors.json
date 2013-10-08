@@ -1,0 +1,18 @@
+{
+    "name": "Editors registered on mobile who made 5+ edits on enwiki (mobile+desktop)",
+    "url": "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/edits-monthly-5plus-editors.csv",
+    "format": "csv",
+    "shortName": "edits-monthly-5plus-editors",
+    "type": "timeseries",
+    "id": "edits-monthly-5plus-editors",
+    "columns": [
+        {
+            "type": "date",
+            "label": "Month"
+        },
+        {
+            "type": "int",
+            "label": "Main namespace"
+        }
+    ]
+}

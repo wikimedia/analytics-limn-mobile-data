@@ -17,6 +17,7 @@ tables:
         upload_web: (SELECT * FROM MobileWebUploads_5281063 UNION SELECT * FROM MobileWebUploads_5383883) AS MobileWebUploads
         navigation_timing: NavigationTiming_5336845
         cat_attempts: MobileAppCategorizationAttempts_5359208 # meow!
+        account_creation: log.ServerSideAccountCreation_5487345
 intervals:
         running_average: 30
 output:
@@ -62,6 +63,8 @@ graphs:
                 title: Unique editors (per month)
         edits-monthly-successful:
                 title: Successful edits (per month)
+        edits-monthly-5plus-editors:
+                title: Editors registered on mobile who made 5+ edits on enwiki (mobile+desktop)
 
         performance-rendering:
                 title: Rendering time (ms)
