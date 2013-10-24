@@ -9,7 +9,6 @@ FROM (
     SELECT EXTRACT(YEAR_MONTH FROM SUBDATE(CURDATE(), INTERVAL @num:=@num+1 MONTH)) AS month
     FROM information_schema.columns, (SELECT @num:=-1) num LIMIT 12
 ) AS Month
-
 LEFT JOIN (
     SELECT EXTRACT(YEAR_MONTH FROM timestamp) AS month, COUNT(*) AS count
     FROM {{ tables.upload_attempts }}

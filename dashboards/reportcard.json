@@ -4,12 +4,16 @@
     "subhead"  : "Apps & Web",
     "tabs": [
         {
-            "name": "Edits monthly",
+            "name": "Monthly reports",
             "graph_ids": [
                 "edits-monthly-unique-editors",
+                "monthly-contributions",
                 "edits-monthly-successful",
                 "edits-monthly-5plus-editors",
-                "edits-monthly-active-editors"
+                "edits-monthly-active-editors",
+                "unique-uploaders",
+                "month-uploads",
+                "deleted-uploads"
             ]
         },
         {
@@ -20,14 +24,6 @@
                 "successful-edits-other",
                 "successful-edits-unique",
                 "error-edits"
-            ]
-        },
-        {
-            "name": "Uploads monthly",
-            "graph_ids": [
-                "unique-uploaders",
-                "month-uploads",
-                "deleted-uploads"
             ]
         },
         {

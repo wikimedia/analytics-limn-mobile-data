@@ -1,0 +1,173 @@
+{
+  "graph_version": "0.6.0", 
+  "name": "Successful contributions (per month)", 
+  "slug": "monthly-contributions", 
+  "root": {
+    "nodeType": "canvas", 
+    "minWidth": 750, 
+    "minHeight": 500, 
+    "height": 500, 
+    "width": "auto", 
+    "x": {
+      "padding": 0.001
+    },
+    "children": [
+      {
+        "disabled": false, 
+        "nodeType": "axis", 
+        "options": {
+          "tickFormat": "MMM YY", 
+          "dimension": "x", 
+          "orient": "bottom"
+        }
+      }, 
+      {
+        "disabled": false, 
+        "nodeType": "axis", 
+        "options": {
+          "tickFormat": "MMM YY", 
+          "dimension": "y", 
+          "orient": "left"
+        }
+      }, 
+      {
+        "disabled": false, 
+        "nodeType": "grid", 
+        "options": {
+          "ticks": 10, 
+          "dimension": "x"
+        }
+      }, 
+      {
+        "disabled": false, 
+        "nodeType": "grid", 
+        "options": {
+          "ticks": 10, 
+          "dimension": "y"
+        }
+      }, 
+      {
+        "disabled": false, 
+        "nodeType": "zoom-brush", 
+        "options": {
+          "allowY": true, 
+          "allowX": true
+        }
+      }, 
+      {
+        "nodeType": "callout", 
+        "target": "latest", 
+        "disabled": false, 
+        "steps": [
+          "1y", 
+          "1M"
+        ], 
+        "metricRef": 0, 
+        "options": {
+          "deltaPercent": true, 
+          "dateFormat": "MMM YYYY", 
+          "colorDelta": true
+        }
+      }, 
+      {
+        "disabled": false, 
+        "nodeType": "legend", 
+        "options": {
+          "valueFormat": ",.2s", 
+          "dateFormat": "MMM YYYY"
+        }, 
+        "label": "Aug 2012"
+      }, 
+      {
+        "disabled": false, 
+        "nodeType": "bar-group", 
+        "options": {
+          "palette": "wmf_projects", 
+          "scale": "log", 
+          "stack" : {
+            "enabled": true
+          },
+          "dateFormat": "MMM YYYY"
+        }, 
+        "children": [
+          {
+            "disabled": false, 
+            "index": 0, 
+            "metric": {
+              "source_id": "monthly-contributions", 
+              "type": "int", 
+              "source_col": 1
+            }, 
+            "nodeType": "bar", 
+            "options": {
+              "label": "Edits (Main namespace)",
+              "noLegend": false, 
+              "dateFormat": "MMM YYYY"
+            }
+          }, 
+          {
+            "disabled": false, 
+            "index": 1, 
+            "metric": {
+              "source_id": "monthly-contributions", 
+              "type": "int", 
+              "source_col": 2
+            }, 
+            "nodeType": "bar", 
+            "options": {
+              "label": "Edit (Other namespaces)",
+              "noLegend": false, 
+              "dateFormat": "MMM YYYY"
+            }
+          },
+          {
+            "disabled": false, 
+            "index": 2, 
+            "metric": {
+              "source_id": "monthly-contributions",
+              "type": "int", 
+              "source_col": 3
+            }, 
+            "nodeType": "bar", 
+            "options": {
+              "label": "Android uploads",
+              "noLegend": false, 
+              "dateFormat": "MMM YYYY"
+            }
+          },
+          {
+            "disabled": false, 
+            "index": 3, 
+            "metric": {
+              "source_id": "monthly-contributions",
+              "type": "int", 
+              "source_col": 4
+            }, 
+            "nodeType": "bar", 
+            "options": {
+              "label": "iOS uploads",
+              "noLegend": false, 
+              "dateFormat": "MMM YYYY"
+            }
+          },
+          {
+            "disabled": false, 
+            "index": 4, 
+            "metric": {
+              "source_id": "monthly-contributions",
+              "type": "int", 
+              "source_col": 5
+            }, 
+            "nodeType": "bar", 
+            "options": {
+              "label": "Mobile web uploads",
+              "noLegend": false, 
+              "dateFormat": "MMM YYYY"
+            }
+          }
+        ]
+      }
+    ]
+  }, 
+  "id": "monthly-contributions"
+}
