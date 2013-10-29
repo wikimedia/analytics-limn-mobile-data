@@ -59,6 +59,8 @@ graphs:
                 title: Percentage of files with a category added
         deleted-uploads:
                 title: Uploads deleted (per month)
+        edits-monthly-active-editors:
+                title: Unique editors who made 5+ edits during this month on their mobile phone
         edits-monthly-unique-editors:
                 title: Unique editors (per month)
         edits-monthly-successful:

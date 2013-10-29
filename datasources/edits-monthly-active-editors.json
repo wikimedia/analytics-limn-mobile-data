@@ -1,0 +1,18 @@
+{
+    "name": "Active editors (per month)",
+    "url": "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/edits-monthly-active-editors.csv",
+    "format": "csv",
+    "shortName": "edits-monthly-active-editors",
+    "type": "timeseries",
+    "id": "edits-monthly-active-editors",
+    "columns": [
+        {
+            "type": "date",
+            "label": "Month"
+        },
+        {
+            "type": "int",
+            "label": "Active editors"
+        }
+    ]
+}
