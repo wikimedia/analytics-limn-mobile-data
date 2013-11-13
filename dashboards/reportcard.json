@@ -36,12 +36,6 @@
                 "successful-logins",
                 "share-attempts"
             ]
-        },
-        {
-            "name": "Performance",
-            "graph_ids": [
-                "performance-rendering"
-            ]
         }
     ]
 }
