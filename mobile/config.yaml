@@ -26,45 +26,67 @@ defaults:
 graphs:
         unique-uploaders:
                 title: Unique uploaders (per month)
+                frequency: hourly
         unique-uploaders-day:
                 title: Unique uploaders (per day)
+                frequency: hourly
         month-uploads:
                 title: Uploads (per month)
+                frequency: daily
         cancelled-uploads:
                 title: Uploads cancelled by user (per day)
+                frequency: hourly
         error-uploads:
                 title: Uploads failed because of an upload error (per day)
+                frequency: hourly
         successful-edits-newbie:
                 title: Successful edits by first time users (per day)
+                frequency: hourly
         successful-edits-main:
                 title: Successful Main namespace edits (per day)
+                frequency: hourly
         successful-edits-other:
                 title: Successful other namespace edits (per day)
+                frequency: hourly
         successful-edits-unique:
                 title: Successful unique user edits (per day)
+                frequency: hourly
         error-edits:
                 title: Edits failed because of an error (per day)
+                frequency: hourly
         successful-logins:
                 title: Successful logins (per day)
+                frequency: hourly
         successful-uploads:
                 title: Successful Uploads (per day)
+                frequency: hourly
         share-attempts:
                 title: Share Attempts (per day)
+                frequency: hourly
         uploaders-experience:
                 title: Mobile Uploads vs Commons Edit count
+                frequency: hourly
         alltime-numbers:
                 title: All time numbers
+                frequency: hourly
         no-cats: # Only puppies
                 title: Percentage of files with a category added
+                frequency: hourly
         deleted-uploads:
                 title: Uploads deleted (per month)
+                frequency: hourly
         edits-monthly-active-editors:
                 title: Unique editors who made 5+ edits during this month on their mobile phone
+                frequency: daily
         edits-monthly-unique-editors:
                 title: Unique editors (per month)
+                frequency: daily
         edits-monthly-successful:
                 title: Successful edits (per month)
+                frequency: daily
         #edits-monthly-5plus-editors:
                 #title: Editors registered on mobile who made 5+ edits on enwiki (mobile+desktop)
+                #frequency: daily
         monthly-contributions:
                 title: All monthly contributions on mobile
+                frequency: daily

@@ -11,17 +11,23 @@ import MySQLdb
 import jinja2
 import yaml
 
+import time
+import json
+
+LOG_FILE = 'history.json'
+
 
 class DataGenerator(object):
     """Executes queries and generates CSV reports based on YAML configs."""
 
-    def __init__(self, folder, debug_folder=None, config_override=None, graph=None):
+    def __init__(self, folder, debug_folder=None, config_override=None, graph=None, force=None):
         """Reads configuration 'config.yaml' in `folder_path`."""
         self.folder = folder
         self.debug_folder = debug_folder
         self.graph = graph
         self.config = {}
         self.connections = {}
+        self.force = force
         config_main = os.path.join(folder, 'config.yaml')
         self.load_config(config_main)
         if config_override:
@@ -37,7 +43,7 @@ class DataGenerator(object):
         try:
             db = self.config['databases'][name]
         except KeyError:
-            raise ValueError('No such database: "%s"' % name)
+            raise ValueError('No such database: "{0}"'.format(name))
 
         self.connections[name] = MySQLdb.connect(
             host=db['host'],
@@ -90,16 +96,65 @@ class DataGenerator(object):
         module = imp.load_source(name, file_path)
         return module.execute(self)
 
+    def save_history(self, data):
+        dump = json.dumps(data)
+        f = open(LOG_FILE, 'w')
+        f.writelines(dump)
+        f.close()
+
+    def get_history(self):
+        try:
+            f = open(LOG_FILE, 'r')
+            data = '\n'.join(f.readlines())
+            f.close()
+            try:
+                return json.loads(data)
+            except ValueError:
+                print('invalid JSON - someone tweaked the history file!')
+                return {}
+        except IOError:
+            return {}
+
     def execute(self):
+        history = self.get_history()
         """Generates a CSV report by executing Python code and SQL queries."""
         if self.graph:
-          name = self.graph
-          graphs = { name: self.config['graphs'][name] }
+            name = self.graph
+            graphs = {name: self.config['graphs'][name]}
         else:
-          graphs = self.config['graphs']
+            graphs = self.config['graphs']
 
         for key, value in graphs.iteritems():
-            print "Generating %s" % value['title']
+            # title = value['title']
+            freq = value['frequency']
+            try:
+                last_run_time = history[key]
+            except KeyError:
+                last_run_time = 0
+
+            now = time.time()
+            if freq == 'daily':
+                increment = 60 * 60 * 24
+            elif freq == 'hourly':
+                increment = 60 * 60
+            else:
+                increment = 0
+            due_at = last_run_time + increment
+
+            if due_at < now or self.force:
+                try:
+                    self.generate_graph(key, value)
+                    history[key] = now
+                except:
+                    continue
+                finally:
+                    if history[key] == now:
+                        self.save_history(history)
+            else:
+                print('Skipping generation of {0}: not enough time has passed'.format(value['title']))
+
+    def generate_graph(self, key, value):
+            print('Generating {0}'.format(value['title']))
             # Look for the sql first, then python
             db_name = value.get('db', self.config['defaults']['db'])
 
@@ -110,7 +165,7 @@ class DataGenerator(object):
                 file_path = os.path.join(self.folder, key + '.py')
                 headers, rows = self.execute_python(key, file_path)
             else:
-                raise ValueError("Can not find SQL or Python for %s" % key)
+                raise ValueError('Can not find SQL or Python for {0}'.format(key))
 
             output_path = self.config['output']['path']
             csv_filename = os.path.join(output_path, key + '.csv')
@@ -121,12 +176,13 @@ class DataGenerator(object):
                 writer.writerows(rows)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Generate data for the mobile dashboard.')
     parser.add_argument('folder', help='folder with config.yaml and *.sql files')
     parser.add_argument('-c', '--config-override', help='config.yaml override')
     parser.add_argument('-d', '--debug-folder', help='save generated SQL in a given folder')
     parser.add_argument('-g', '--graph', help='the name of a single graph you want to generate for')
+    parser.add_argument('-f', '--force', help='Force generation of graph regardless of when last generated')
     args = parser.parse_args()
 
     dg = DataGenerator(**vars(args))
