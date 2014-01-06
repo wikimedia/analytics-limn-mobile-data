@@ -84,9 +84,9 @@ graphs:
         edits-monthly-successful:
                 title: Successful edits (per month)
                 frequency: daily
-        #edits-monthly-5plus-editors:
-                #title: Editors registered on mobile who made 5+ edits on enwiki (mobile+desktop)
-                #frequency: daily
+        edits-monthly-5plus-editors:
+                title: Editors registered on mobile who made 5+ edits on enwiki (mobile+desktop)
+                frequency: daily
         monthly-contributions:
                 title: All monthly contributions on mobile
                 frequency: daily
