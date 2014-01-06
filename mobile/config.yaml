@@ -87,6 +87,8 @@ graphs:
         edits-monthly-5plus-editors:
                 title: Editors registered on mobile who made 5+ edits on enwiki (mobile+desktop)
                 frequency: daily
+                timeboxed: true
+                starts: 2013-05-01
         monthly-contributions:
                 title: All monthly contributions on mobile
                 frequency: daily
