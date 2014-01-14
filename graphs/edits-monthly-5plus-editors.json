@@ -1,6 +1,6 @@
 {
   "graph_version": "0.6.0", 
-  "name": "Editors registered on mobile who made 5+ edits on enwiki (mobile+desktop)", 
+  "name": "Editors registered on mobile who made 5+ edits on enwiki (mobile+desktop) for 2013",
   "slug": "edits-monthly-5plus-editors", 
   "root": {
     "nodeType": "canvas", 

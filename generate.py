@@ -46,7 +46,7 @@ class DataGenerator(object):
             db = self.config['databases'][name]
         except KeyError:
             raise ValueError('No such database: "{0}"'.format(name))
-
+        print db
         self.connections[name] = MySQLdb.connect(
             host=db['host'],
             port=db['port'],
@@ -148,7 +148,12 @@ class DataGenerator(object):
             if due_at < now or self.force:
                 if "timeboxed" in value and "starts" in value:
                     from_date = value["starts"]
-                    self.generate_graph_timeboxed(key, value, from_date)
+
+                    if "ends" in value:
+                        to_date = value["ends"]
+                    else:
+                        to_date = None
+                    self.generate_graph_timeboxed(key, value, from_date, to_date)
                 else:
                     self.generate_graph_full( key, value )
                 try:
@@ -161,7 +166,7 @@ class DataGenerator(object):
             else:
                 print('Skipping generation of {0}: not enough time has passed'.format(value['title']))
 
-    def generate_graph_timeboxed( self, graph_key, value, from_date ):
+    def generate_graph_timeboxed( self, graph_key, value, from_date, to_date=None ):
         csv_filename = self.get_csv_filename(graph_key)
         cache = {}
         # load existing values from csv
@@ -181,9 +186,14 @@ class DataGenerator(object):
 
         today = datetime.date.today()
         this_month = datetime.date(today.year, today.month, 1)
+        if to_date:
+            end_date = to_date
+        else:
+            end_date = this_month
+
         sql_path = self.get_sql_path(graph_key)
         if os.path.exists(sql_path):
-            while from_date < this_month:
+            while from_date < end_date:
                 graph_date_key = from_date.strftime('%Y-%m-%d')
                 from_timestamp = from_date.strftime('%Y%m%d%H%M%S')
                 from_date = from_date + relativedelta(months=1)

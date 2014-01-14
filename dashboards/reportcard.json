@@ -6,6 +6,7 @@
         {
             "name": "Monthly reports",
             "graph_ids": [
+                "edits-monthly-active-2014",
                 "edits-monthly-unique-editors",
                 "monthly-contributions",
                 "edits-monthly-successful",
