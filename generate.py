@@ -202,7 +202,7 @@ class DataGenerator(object):
 
         sql_path = self.get_sql_path(graph_key)
         if os.path.exists(sql_path):
-            while from_date < end_date:
+            while from_date <= end_date:
                 graph_date_key = from_date.strftime('%Y-%m-%d')
                 from_timestamp = from_date.strftime('%Y%m%d%H%M%S')
                 from_date = from_date + relativedelta(months=1)
