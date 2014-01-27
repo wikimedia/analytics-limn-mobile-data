@@ -154,7 +154,7 @@ class DataGenerator(object):
             due_at = last_run_time + increment
 
             if due_at < now or self.force:
-                print "Generating %s"%key
+                print('Generating {0}'.format(value['title']))
                 if "timeboxed" in value and "starts" in value:
                     from_date = value["starts"]
 
@@ -239,7 +239,6 @@ class DataGenerator(object):
             print 'Bad SQL given'
 
     def generate_graph_full( self, key, value ):
-            print('Generating {0}'.format(value['title']))
             # Look for the sql first, then python
             db_name = value.get('db', self.config['defaults']['db'])
 
