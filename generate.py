@@ -46,7 +46,6 @@ class DataGenerator(object):
             db = self.config['databases'][name]
         except KeyError:
             raise ValueError('No such database: "{0}"'.format(name))
-        print db
         self.connections[name] = MySQLdb.connect(
             host=db['host'],
             port=db['port'],
@@ -146,6 +145,7 @@ class DataGenerator(object):
             due_at = last_run_time + increment
 
             if due_at < now or self.force:
+                print "Generating %s"%key
                 if "timeboxed" in value and "starts" in value:
                     from_date = value["starts"]
 
