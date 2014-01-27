@@ -89,7 +89,8 @@ graphs:
                 frequency: daily
                 timeboxed: true
                 starts: 2013-05-01
-                ends: 2013-12-01
+                # this graph is deprecated
+                ends: 2013-05-01
         edits-monthly-active-2014:
                 title: Editors who reached 5 mobile edits on enwiki within 30 days of registering
                 frequency: daily
