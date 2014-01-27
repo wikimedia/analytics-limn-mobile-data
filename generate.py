@@ -72,7 +72,7 @@ class DataGenerator(object):
         with io.open(file_name, encoding='utf-8') as f:
             return self.render(f.read())
 
-    def execute_sql(self, sql, db_name):
+    def execute_sql(self, sql, db_name, graph_key):
         """Executes a query `sql` against
         a database `db_name`
 
@@ -90,14 +90,23 @@ class DataGenerator(object):
             cursor.execute(sql)
             rows = cursor.fetchall()
             headers = [field[0] for field in cursor.description]
+        except Exception, e:
+            print "Issue executing SQL for %s (%s)"%( graph_key, e )
+            headers = []
+            rows = []
         finally:
             cursor.close()
         return (headers, rows)
 
-    def execute_python(self, name, file_path):
+    def execute_python(self, name, file_path, graph_key):
         """Does unspeakable evil. Look away!"""
         module = imp.load_source(name, file_path)
-        return module.execute(self)
+        try:
+            res = module.execute(self)
+            return res
+        except Exception, e:
+            print "Issue executing Python script for %s (%s)"%( graph_key, e )
+            return ([],[])
 
     def save_history(self, data):
         dump = json.dumps(data)
@@ -208,7 +217,7 @@ class DataGenerator(object):
                         from_timestamp=from_timestamp,
                         to_timestamp=to_timestamp
                     )
-                    headers, rows = self.execute_sql(query, db_name)
+                    headers, rows = self.execute_sql(query, db_name, graph_key)
                     if not csv_header:
                         csv_header = headers
                         # FIXME: Support other time periods other than months?
@@ -237,10 +246,10 @@ class DataGenerator(object):
             sql_path = self.get_sql_path(key)
             if os.path.exists(sql_path):
                 query = self.get_sql_string(sql_path)
-                headers, rows = self.execute_sql(query, db_name)
+                headers, rows = self.execute_sql(query, db_name, key )
             elif os.path.exists(os.path.join(self.folder, key + '.py')):
                 file_path = os.path.join(self.folder, key + '.py')
-                headers, rows = self.execute_python(key, file_path)
+                headers, rows = self.execute_python(key, file_path, key)
             else:
                 raise ValueError('Can not find SQL or Python for {0}'.format(key))
             self.save_graph_as_csv( key, headers, rows )
