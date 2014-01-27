@@ -10,7 +10,7 @@ databases:
         creds_file: /a/.my.cnf.research
         db: commonswiki
 tables:
-        upload_attempts: (SELECT id, uuid, clientIp, isTruncated, clientValidated, timestamp, webHost, wiki, event_appversion, event_device, event_filename, 0 as event_multiple, event_platform, event_result, event_source, event_username FROM MobileAppUploadAttempts_5257716 UNION SELECT * FROM MobileAppUploadAttempts_5334329) as MobileAppUploadAttempts
+        upload_attempts: (SELECT id, uuid, clientIp, isTruncated, clientValidated, timestamp, webHost, wiki, event_appversion, event_device, event_filename, 0 as event_multiple, event_platform, event_result, event_source, event_username FROM MobileAppUploadAttempts_5257716 UNION SELECT id, uuid, clientIp, isTruncated, clientValidated, timestamp, webHost, wiki, event_appversion, event_device, event_filename, event_multiple, event_platform, event_result, event_source, event_username FROM MobileAppUploadAttempts_5334329) as MobileAppUploadAttempts
         edits_web: (SELECT timestamp, wiki, event_username, event_action, event_namespace, event_userEditCount FROM MobileWebEditing_5644223 UNION SELECT timestamp, wiki, event_username, event_action, event_namespace, event_userEditCount FROM MobileWebEditing_6077315 UNION SELECT  timestamp, wiki, event_username, event_action, event_namespace, event_userEditCount from MobileWebEditing_6637866) as MobileWebEditing
         login_attempts: MobileAppLoginAttempts_5257721
         share_attempts: MobileAppShareAttempts_5346170
