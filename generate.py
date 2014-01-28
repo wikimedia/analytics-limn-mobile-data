@@ -116,6 +116,10 @@ class DataGenerator(object):
 
     def get_history(self):
         try:
+            if not os.path.exists(LOG_FILE):
+                f = open(LOG_FILE, 'w')
+                f.write('{}')
+                f.close()
             f = open(LOG_FILE, 'r')
             data = '\n'.join(f.readlines())
             f.close()
@@ -162,16 +166,18 @@ class DataGenerator(object):
                         to_date = value["ends"]
                     else:
                         to_date = None
-                    self.generate_graph_timeboxed(key, value, from_date, to_date)
+                    ok = self.generate_graph_timeboxed(key, value, from_date, to_date)
                 else:
-                    self.generate_graph_full( key, value )
-                try:
-                    history[key] = now
-                except:
-                    continue
-                finally:
-                    if history[key] == now:
-                        self.save_history(history)
+                    ok = self.generate_graph_full( key, value )
+
+                if ok:
+                    try:
+                        history[key] = now
+                    except:
+                        continue
+                    finally:
+                        if history[key] == now:
+                            self.save_history(history)
             else:
                 print('Skipping generation of {0}: not enough time has passed'.format(value['title']))
 
@@ -239,25 +245,33 @@ class DataGenerator(object):
             print 'Bad SQL given'
 
     def generate_graph_full( self, key, value ):
-            # Look for the sql first, then python
-            db_name = value.get('db', self.config['defaults']['db'])
+        """
+        Runs python or sql to generate csv.  Returns:
+          True  - something was generated
+          False - nothing was generated
+        """
+        # Look for the sql first, then python
+        db_name = value.get('db', self.config['defaults']['db'])
 
-            sql_path = self.get_sql_path(key)
-            if os.path.exists(sql_path):
-                query = self.get_sql_string(sql_path)
-                headers, rows = self.execute_sql(query, db_name, key )
-            elif os.path.exists(os.path.join(self.folder, key + '.py')):
-                file_path = os.path.join(self.folder, key + '.py')
-                headers, rows = self.execute_python(key, file_path, key)
-            else:
-                raise ValueError('Can not find SQL or Python for {0}'.format(key))
-            self.save_graph_as_csv( key, headers, rows )
+        sql_path = self.get_sql_path(key)
+        if os.path.exists(sql_path):
+            query = self.get_sql_string(sql_path)
+            headers, rows = self.execute_sql(query, db_name, key )
+        elif os.path.exists(os.path.join(self.folder, key + '.py')):
+            file_path = os.path.join(self.folder, key + '.py')
+            headers, rows = self.execute_python(key, file_path, key)
+        else:
+            raise ValueError('Can not find SQL or Python for {0}'.format(key))
+        self.save_graph_as_csv( key, headers, rows )
+        return not(headers is None or rows is None or len(headers) == 0 or len(rows) == 0)
 
     def get_sql_path( self, key ):
         return os.path.join(self.folder, key + '.sql')
 
     def get_csv_filename( self, key ):
         output_path = self.config['output']['path']
+        if not os.path.exists(output_path):
+            os.makedirs(output_path)
         return os.path.join(output_path, key + '.csv')
 
     def save_graph_as_csv( self, key, headers, rows ):
