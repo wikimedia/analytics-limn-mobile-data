@@ -199,23 +199,37 @@ class DataGenerator(object):
         except IOError:
             pass
 
+        if value['frequency'] == 'hourly':
+            is_daily_graph = True
+            date_type = 'Day'
+        else:
+            is_daily_graph = False
+            date_type = 'Month'
+
         today = datetime.date.today()
         this_month = datetime.date(today.year, today.month, 1)
         if to_date:
             end_date = to_date
         else:
-            end_date = this_month
+            if is_daily_graph:
+                end_date = datetime.date(today.year, today.month, today.day)
+            else:
+                end_date = this_month
 
         sql_path = self.get_sql_path(graph_key)
+
         if os.path.exists(sql_path):
             while from_date <= end_date:
                 graph_date_key = from_date.strftime('%Y-%m-%d')
                 from_timestamp = from_date.strftime('%Y%m%d%H%M%S')
-                from_date = from_date + relativedelta(months=1)
+                if is_daily_graph:
+                    from_date = from_date + relativedelta(days=1)
+                else:
+                    from_date = from_date + relativedelta(months=1)
                 to_timestamp = from_date.strftime('%Y%m%d%H%M%S')
                 # Generate a graph if not in cache or the current month
                 if graph_date_key not in cache or from_date >= this_month:
-                    print 'Generating data for month %s' % graph_date_key
+                    print 'Generating data for timestamp %s to %s'%(from_timestamp, to_timestamp)
                     db_name = value.get('db', self.config['defaults']['db'])
                     query = self.get_sql_string(sql_path)
                     # apply timeboxing
@@ -227,14 +241,14 @@ class DataGenerator(object):
                     if not csv_header:
                         csv_header = headers
                         # FIXME: Support other time periods other than months?
-                        csv_header.insert(0, 'Month')
+                        csv_header.insert(0, date_type)
                     cache[graph_date_key] = list(rows[0])
                 else:
                     print 'Skip generation of %s' % graph_date_key
 
 
             rows = []
-            for month, row in cache.iteritems():
+            for month, row in iter(sorted(cache.iteritems())):
                 row.insert(0, month)
                 rows.append(row)
             if len(rows) > 0:

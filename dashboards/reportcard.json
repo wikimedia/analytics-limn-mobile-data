@@ -37,6 +37,12 @@
                 "successful-logins",
                 "share-attempts"
             ]
+        },
+        {
+            "name": "Other",
+            "graph_ids": [
+                "thanks-daily"
+            ]
         }
     ]
 }

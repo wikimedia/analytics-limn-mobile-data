@@ -99,3 +99,8 @@ graphs:
         monthly-contributions:
                 title: All monthly contributions on mobile
                 frequency: daily
+        thanks-daily:
+                title: Thanks
+                frequency: hourly
+                starts: 2013-11-01
+                timeboxed: true
