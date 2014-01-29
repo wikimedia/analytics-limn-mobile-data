@@ -41,7 +41,8 @@
         {
             "name": "Other",
             "graph_ids": [
-                "thanks-daily"
+                "thanks-daily",
+                "menu-daily"
             ]
         }
     ]
