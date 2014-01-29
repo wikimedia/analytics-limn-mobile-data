@@ -80,7 +80,7 @@ class DataGenerator(object):
         """
 
         if self.debug_folder:
-            debug_filename = os.path.join(self.debug_folder, os.path.basename(file_name))
+            debug_filename = os.path.join(self.debug_folder, graph_key + '.sql')
             with open(debug_filename, 'wb') as debug_file:
                 debug_file.write(sql)
 
@@ -91,7 +91,7 @@ class DataGenerator(object):
             rows = cursor.fetchall()
             headers = [field[0] for field in cursor.description]
         except Exception, e:
-            print "Issue executing SQL for %s (%s)"%( graph_key, e )
+            print "Issue executing SQL for %s (%s)" % (graph_key, e)
             headers = []
             rows = []
         finally:
@@ -105,8 +105,8 @@ class DataGenerator(object):
             res = module.execute(self)
             return res
         except Exception, e:
-            print "Issue executing Python script for %s (%s)"%( graph_key, e )
-            return ([],[])
+            print "Issue executing Python script for %s (%s)" % (graph_key, e)
+            return ([], [])
 
     def save_history(self, data):
         dump = json.dumps(data)
@@ -168,7 +168,7 @@ class DataGenerator(object):
                         to_date = None
                     ok = self.generate_graph_timeboxed(key, value, from_date, to_date)
                 else:
-                    ok = self.generate_graph_full( key, value )
+                    ok = self.generate_graph_full(key, value)
 
                 if ok:
                     try:
@@ -181,9 +181,8 @@ class DataGenerator(object):
             else:
                 print('Skipping generation of {0}: not enough time has passed'.format(value['title']))
 
-    def generate_graph_timeboxed( self, graph_key, value, from_date, to_date=None ):
+    def generate_graph_timeboxed(self, graph_key, value, from_date, to_date=None):
         csv_filename = self.get_csv_filename(graph_key)
-        headers_changed = False
         cache = {}
         # load existing values from csv
         csv_header = None
@@ -230,7 +229,7 @@ class DataGenerator(object):
                 to_timestamp = from_date.strftime('%Y%m%d%H%M%S')
                 # Generate a graph if not in cache or the current month
                 if graph_date_key not in cache or from_date >= this_month:
-                    print 'Generating data for timestamp %s to %s'%(from_timestamp, to_timestamp)
+                    print 'Generating data for timestamp %s to %s' % (from_timestamp, to_timestamp)
                     db_name = value.get('db', self.config['defaults']['db'])
                     query = self.get_sql_string(sql_path)
                     # apply timeboxing
@@ -240,11 +239,10 @@ class DataGenerator(object):
                     )
                     headers, rows = self.execute_sql(query, db_name, graph_key)
                     if headers and csv_header:
-                        if len( headers ) + 1 != len( csv_header ) and not self.force:
-                            headers_changed = True
+                        if len(headers) + 1 != len(csv_header) and not self.force:
                             print "Data format has changed. Aborting."
-                            self.clear_csv_data( graph_key )
-                            self.generate_graph_timeboxed( graph_key, value, from_date, to_date )
+                            self.clear_csv_data(graph_key)
+                            self.generate_graph_timeboxed(graph_key, value, from_date, to_date)
                             return
                     if not csv_header:
                         csv_header = headers
@@ -253,7 +251,6 @@ class DataGenerator(object):
                     cache[graph_date_key] = list(rows[0])
                 else:
                     print 'Skip generation of %s' % graph_date_key
-
 
             rows = []
             for month, row in iter(sorted(cache.iteritems())):
@@ -266,7 +263,7 @@ class DataGenerator(object):
         else:
             print 'Bad SQL given'
 
-    def generate_graph_full( self, key, value ):
+    def generate_graph_full(self, key, value):
         """
         Runs python or sql to generate csv.  Returns:
           True  - something was generated
@@ -278,30 +275,30 @@ class DataGenerator(object):
         sql_path = self.get_sql_path(key)
         if os.path.exists(sql_path):
             query = self.get_sql_string(sql_path)
-            headers, rows = self.execute_sql(query, db_name, key )
+            headers, rows = self.execute_sql(query, db_name, key)
         elif os.path.exists(os.path.join(self.folder, key + '.py')):
             file_path = os.path.join(self.folder, key + '.py')
             headers, rows = self.execute_python(key, file_path, key)
         else:
             raise ValueError('Can not find SQL or Python for {0}'.format(key))
-        self.save_graph_as_csv( key, headers, rows )
+        self.save_graph_as_csv(key, headers, rows)
         return not(headers is None or rows is None or len(headers) == 0 or len(rows) == 0)
 
-    def get_sql_path( self, key ):
+    def get_sql_path(self, key):
         return os.path.join(self.folder, key + '.sql')
 
-    def get_csv_filename( self, key ):
+    def get_csv_filename(self, key):
         output_path = self.config['output']['path']
         if not os.path.exists(output_path):
             os.makedirs(output_path)
         return os.path.join(output_path, key + '.csv')
 
-    def clear_csv_data( self, key ):
-        filename = self.get_csv_filename( key )
-        return os.remove( filename )
+    def clear_csv_data(self, key):
+        filename = self.get_csv_filename(key)
+        return os.remove(filename)
 
-    def save_graph_as_csv( self, key, headers, rows ):
-            csv_filename = self.get_csv_filename( key )
+    def save_graph_as_csv(self, key, headers, rows):
+            csv_filename = self.get_csv_filename(key)
             with open(csv_filename, 'wb') as csv_file:
                 writer = csv.writer(csv_file)
                 writer.writerow(headers)

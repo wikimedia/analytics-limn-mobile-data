@@ -65,6 +65,7 @@ WHERE cl_to = "Uploaded_with_Mobile/Android"
 
 headers = ["", "Android", "iOS"]
 
+
 def titles_for(dg, sql, src_db="el"):
     titles = []
     cur = dg.get_connection(src_db).cursor()
@@ -81,19 +82,20 @@ def titles_for(dg, sql, src_db="el"):
 
     return titles
 
+
 def execute(dg):
     android_titles = titles_for(dg, mobile_uploads_android_sql)
     iOS_titles = titles_for(dg, mobile_uploads_ios_sql)
 
     moves_sql = file_moved_sql % (
-            ('%s,' * len(android_titles))[:-1],
-            ('%s,' * len(iOS_titles))[:-1]
-            )
+        ('%s,' * len(android_titles))[:-1],
+        ('%s,' * len(iOS_titles))[:-1]
+    )
 
     deletes_sql = file_actually_uploaded_sql % (
-            ('%s,' * len(android_titles))[:-1],
-            ('%s,' * len(iOS_titles))[:-1]
-            )
+        ('%s,' * len(android_titles))[:-1],
+        ('%s,' * len(iOS_titles))[:-1]
+    )
 
     commons_cur = dg.get_connection('commons').cursor()
     commons_cur.execute(dg.render(deletes_sql), android_titles + iOS_titles)
@@ -103,11 +105,11 @@ def execute(dg):
     moves_cur = dg.get_connection('commons').cursor()
     moves_cur.execute(moves_sql, android_titles + iOS_titles)
 
-    android_moved, iOS_moved = moves_cur.fetchone() 
+    android_moved, iOS_moved = moves_cur.fetchone()
 
     data = [
-            ("Total on EL", len(android_titles), len(iOS_titles)),
-            ("Uploaded on Commons", android_actual, iOS_actual),
-            ("Difference", len(android_titles) - android_actual, len(iOS_titles) - iOS_actual)
-            ]
+        ("Total on EL", len(android_titles), len(iOS_titles)),
+        ("Uploaded on Commons", android_actual, iOS_actual),
+        ("Difference", len(android_titles) - android_actual, len(iOS_titles) - iOS_actual)
+    ]
     return (headers, data)

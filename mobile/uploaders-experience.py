@@ -28,6 +28,8 @@ WHERE   user_name in (%s)
 """
 
 headers = ["source", "uploads", "edits"]
+
+
 def results_for(dg, sql, source):
     uploads = {}
 
@@ -56,12 +58,13 @@ def results_for(dg, sql, source):
         uploads[username][-1] = row[1]
     return uploads.values()
 
+
 def execute(dg):
 
     results = []
     results.extend(results_for(dg, mobile_uploaders_ios_sql, "iOS"))
     results.extend(results_for(dg, mobile_uploaders_android_sql, "Android"))
     # Commenting out, because web doesn't track username. UGH
-    #results.extend(results_for(dg, mobile_uploaders_web_sql, "Web"))
+    # results.extend(results_for(dg, mobile_uploaders_web_sql, "Web"))
 
     return (headers, results)

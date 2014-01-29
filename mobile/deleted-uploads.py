@@ -66,6 +66,7 @@ LEFT JOIN (
 
 headers = ["date", "Android", "iOS", "Web"]
 
+
 def titles_for(dg, sql, src_db="el"):
     titles = []
     cur = dg.get_connection(src_db).cursor()
@@ -82,6 +83,7 @@ def titles_for(dg, sql, src_db="el"):
 
     return titles
 
+
 def execute(dg):
 
     results = []
@@ -91,10 +93,10 @@ def execute(dg):
     web_titles = titles_for(dg, mobile_uploads_web_sql, "commons")
 
     deletes_sql = deleted_file_template % (
-            ('%s,' * len(android_titles))[:-1],
-            ('%s,' * len(iOS_titles))[:-1],
-            ('%s,' * len(web_titles))[:-1]
-            )
+        ('%s,' * len(android_titles))[:-1],
+        ('%s,' * len(iOS_titles))[:-1],
+        ('%s,' * len(web_titles))[:-1]
+    )
 
     commons_cur = dg.get_connection('commons').cursor()
     commons_cur.execute(dg.render(deletes_sql), android_titles + iOS_titles + web_titles)

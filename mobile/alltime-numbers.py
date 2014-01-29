@@ -32,10 +32,10 @@ headers = ["source", "total", "undeleted", "deletion percentage"]
 # Picked up from result of error-correction.py
 # These are recorded in EL as belonging on commons while they actually are in testwiki
 modifiers = {
-        "Android": 105,
-        "iOS": 47,
-        "Web": 0
-        }
+    "Android": 105,
+    "iOS": 47,
+    "Web": 0
+}
 
 
 def results_for(dg, sql, source, category):
