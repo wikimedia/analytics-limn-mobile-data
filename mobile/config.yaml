@@ -114,3 +114,8 @@ graphs:
                 frequency: hourly
                 starts: 2014-01-01
                 timeboxed: true
+        diff-activity:
+                title: Special:MobileDiff page activity
+                frequency: hourly
+                starts: 2014-01-01
+                timeboxed: true

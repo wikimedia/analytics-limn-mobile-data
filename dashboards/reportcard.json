@@ -43,7 +43,8 @@
             "graph_ids": [
                 "thanks-daily",
                 "menu-daily",
-                "watchlist-activity"
+                "watchlist-activity",
+                "diff-activity"
             ]
         }
     ]
