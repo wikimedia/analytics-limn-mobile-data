@@ -42,7 +42,8 @@
             "name": "Other",
             "graph_ids": [
                 "thanks-daily",
-                "menu-daily"
+                "menu-daily",
+                "watchlist-activity"
             ]
         }
     ]

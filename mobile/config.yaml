@@ -109,3 +109,8 @@ graphs:
                 frequency: hourly
                 starts: 2014-01-01
                 timeboxed: true
+        watchlist-activity:
+                title: Watchlist activity
+                frequency: hourly
+                starts: 2014-01-01
+                timeboxed: true
