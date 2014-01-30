@@ -2,7 +2,6 @@
 be refactored out of here to be a generic thing that everyone doing EL -> Limn
 can use
 
-
 ## Installing dependencies
 
 You will need [Limn](https://github.com/wikimedia/limn) itself.
@@ -52,11 +51,8 @@ On Ubuntu the following does the trick:
   in `mobile/<name>.sql`
 - Add `<name>` to appropriate position in `dashboards/reportcard.json`
 - Add the graph to `mobile/config.yaml`
-- Create a corresponding file in `graphs`
-- Create a corresponding file in `datasources`
-- Run `generate.py mobile` to generate required metadata *and* data (run
-  `generate.py -h` for details)
-- Deploy to limn! (Ask analytics to get you access)
+- Generate data for the graph `python generate.py -c scripts/config.yaml mobile -g <graphname>`
+- Run `python generate-graph.py -g <graphname>`
 
 
 ## Testing using local data
