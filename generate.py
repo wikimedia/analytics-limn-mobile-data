@@ -183,6 +183,7 @@ class DataGenerator(object):
 
     def generate_graph_timeboxed( self, graph_key, value, from_date, to_date=None ):
         csv_filename = self.get_csv_filename(graph_key)
+        headers_changed = False
         cache = {}
         # load existing values from csv
         csv_header = None
@@ -238,6 +239,13 @@ class DataGenerator(object):
                         to_timestamp=to_timestamp
                     )
                     headers, rows = self.execute_sql(query, db_name, graph_key)
+                    if headers and csv_header:
+                        if len( headers ) + 1 != len( csv_header ) and not self.force:
+                            headers_changed = True
+                            print "Data format has changed. Aborting."
+                            self.clear_csv_data( graph_key )
+                            self.generate_graph_timeboxed( graph_key, value, from_date, to_date )
+                            return
                     if not csv_header:
                         csv_header = headers
                         # FIXME: Support other time periods other than months?
@@ -287,6 +295,10 @@ class DataGenerator(object):
         if not os.path.exists(output_path):
             os.makedirs(output_path)
         return os.path.join(output_path, key + '.csv')
+
+    def clear_csv_data( self, key ):
+        filename = self.get_csv_filename( key )
+        return os.remove( filename )
 
     def save_graph_as_csv( self, key, headers, rows ):
             csv_filename = self.get_csv_filename( key )
