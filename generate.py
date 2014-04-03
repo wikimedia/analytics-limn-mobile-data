@@ -311,7 +311,8 @@ if __name__ == '__main__':
     parser.add_argument('-c', '--config-override', help='config.yaml override')
     parser.add_argument('-d', '--debug-folder', help='save generated SQL in a given folder')
     parser.add_argument('-g', '--graph', help='the name of a single graph you want to generate for')
-    parser.add_argument('-f', '--force', dest='force', action='store_true', help='Force generation of graph regardless of when last generated')
+    parser.add_argument('-f', '--force', dest='force', action='store_true',
+                        help='Force generation of graph regardless of when last generated')
     parser.set_defaults(force=False)
     args = parser.parse_args()
 
