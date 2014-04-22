@@ -114,6 +114,11 @@ graphs:
                 frequency: hourly
                 starts: 2014-01-01
                 timeboxed: true
+        mobile-options:
+                title: Special:MobileOptions page activity
+                frequency: hourly
+                starts: 2014-04-16
+                timeboxed: true
         diff-activity:
                 title: Special:MobileDiff page activity
                 frequency: hourly
