@@ -1,11 +1,11 @@
 databases:
     el:
-        host: "s1-analytics-slave.eqiad.wmnet"
+        host: "analytics-store.eqiad.wmnet"
         port: 3306
         creds_file: /a/.my.cnf.research
         db: log
     commons:
-        host: "s4-analytics-slave.eqiad.wmnet"
+        host: "analytics-store.eqiad.wmnet"
         port: 3306
         creds_file: /a/.my.cnf.research
         db: commonswiki
