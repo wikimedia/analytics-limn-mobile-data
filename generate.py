@@ -192,8 +192,9 @@ class DataGenerator(object):
                 for row in reader:
                     # skip header
                     if csv_header:
-                        # store in cache
-                        cache[row[0]] = row[1:]
+                        # store in cache only if the row is full or something other than null values
+                        if not all([not a for a in row[1:]]):
+                            cache[row[0]] = row[1:]
                     else:
                         csv_header = row
         except IOError:
