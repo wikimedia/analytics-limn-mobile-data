@@ -7,7 +7,9 @@ select
     sum(if(event_name = 'hamburger-settings', 1, 0)) as Settings,
     sum(if(event_name = 'hamburger-login', 1, 0)) as Login,
     sum(if(event_name = 'hamburger-logout', 1, 0)) as Logout,
-    sum(if(event_name = 'hamburger-profile', 1, 0)) as 'Profile (Beta only)'
+    sum(if(event_name = 'hamburger-profile', 1, 0)) as 'Profile',
+    sum(if(event_name = 'lastmodified-history', 1, 0)) as 'Last modified history',
+    sum(if(event_name = 'lastmodified-profile', 1, 0)) as 'Last modified profile'
 from
     MobileWebClickTracking_5929948
 where

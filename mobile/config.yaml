@@ -104,8 +104,8 @@ graphs:
                 frequency: hourly
                 starts: 2013-11-01
                 timeboxed: true
-        menu-daily:
-                title: Main menu activity
+        ui-daily:
+                title: UI activity
                 frequency: hourly
                 starts: 2014-01-01
                 timeboxed: true

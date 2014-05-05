@@ -43,7 +43,7 @@
             "graph_ids": [
                 "mobile-options",
                 "thanks-daily",
-                "menu-daily",
+                "ui-daily",
                 "watchlist-activity",
                 "diff-activity"
             ]
