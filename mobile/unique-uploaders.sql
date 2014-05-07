@@ -5,9 +5,10 @@ SELECT
     COALESCE(Web.count, 0) AS Web
 
 -- http://stackoverflow.com/a/6871220/365238
+-- ... using MariaDB 10 SEQUENCE engine instead of information_schema.columns
 FROM (
     SELECT EXTRACT(YEAR_MONTH FROM SUBDATE(CURDATE(), INTERVAL @num:=@num+1 MONTH)) AS month
-    FROM information_schema.columns, (SELECT @num:=-1) num LIMIT 12
+    FROM seq_1_to_12, (SELECT @num:=-1) num LIMIT 12
 ) AS Month
 
 LEFT JOIN (
