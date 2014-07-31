@@ -17,8 +17,9 @@ WHERE   event_platform LIKE 'iOS%'
 mobile_uploads_web_sql = u"""
 SELECT  log_title
 FROM    logging INNER JOIN tag_summary ON log_id = ts_log_id
-WHERE   tag_summary.ts_tags = 'mobile edit'
-        AND log_action = 'upload'"""
+WHERE   tag_summary.ts_tags LIKE 'mobile edit%'
+        AND log_action = 'upload'
+"""
 
 deleted_file_template = u"""
 SELECT
