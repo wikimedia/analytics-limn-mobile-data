@@ -22,10 +22,10 @@ you have Limn cloned to `~/limn` and this project to `~/limn-mobile-data`,
 you will need to run the following command (only once):
 
     $ cd ~/limn
-    $ coke --vardir ./var --data ../limn-mobile-data --to mobile link_data
+    $ coke --vardir ./var --data ~/limn-mobile-data --to mobile link_data
 
 Then you should be able to start Limn by running `npm start` and see it in
-action at `http://localhost:8081`.
+action at `http://localhost:5000`.
 
 ### Mac OS X
 
@@ -88,7 +88,7 @@ Now, you should be able to do:
     $ cd ~/limn
     $ npm start
 
-and see your local instance data at `http://localhost:8081`. You have to
+and see your local instance data at `http://localhost:5000`. You have to
 remember to replace all the local URLs to remote URLs before pushing your
 changes though by running:
 
