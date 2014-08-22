@@ -56,11 +56,10 @@ graphs:
                 title: Edits failed because of an error (per day)
                 frequency: hourly
         app-edits-starts:
-                title:
-                Apps - Impressions on edit pencil (per day)
-                frequency: daily
+                title: Apps - Impressions on edit pencil (per day)
+                frequency: hourly
                 timeboxed: true
-                starts: 2014-07-01
+                starts: 2014-06-25
         successful-logins:
                 title: Successful logins (per day)
                 frequency: hourly

@@ -1,25 +1,13 @@
--- shamelessly copied from successful-edits-main.sql
+-- derived from cancelled-uploads.sql
+SELECT      COUNT( * ) AS Total,
+            SUM( IF( userAgent LIKE '%Android%', 1, 0) ) AS Android,
+            SUM( IF( userAgent LIKE '%Darwin%' OR userAgent LIKE '%iPhone OS%', 1, 0) ) AS iOS
 
-SELECT
-    Month.Date,
-    COALESCE(Web.Web, 0) AS Web
+FROM        {{ tables.edits_app }} as Edits
 
--- http://stackoverflow.com/a/6871220/365238
--- ... using MariaDB 10 SEQUENCE engine instead of information_schema.columns
-FROM (
-    SELECT DATE_FORMAT(
-        ADDDATE(CURDATE() - INTERVAL {{ intervals.running_average }} - 1 DAY, @num:=@num+1),
-        '%Y-%m-%d'
-    ) AS Date
-    FROM seq_1_to_100, (SELECT @num:=-1) num LIMIT {{ intervals.running_average }}
-) AS Month
-LEFT JOIN (
-    SELECT
-        DATE(timestamp) AS Date,
-        SUM(1) AS Web
+WHERE       event_action = 'start'
+            AND wiki != 'testwiki'
+            AND Edits.timestamp >= '{from_timestamp}'
+            AND Edits.timestamp < '{to_timestamp}'
 
-    FROM {{ tables.edits_app }} WHERE
-        event_action = 'start' AND
-        wiki != 'testwiki'
-    GROUP BY Date
-) AS Web ON Month.Date = Web.Date;
+GROUP BY    DATE( timestamp )
