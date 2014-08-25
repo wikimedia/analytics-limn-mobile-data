@@ -1,0 +1,13 @@
+{
+    "id"       : "apps",
+    "headline" : "Mobile Contributions",
+    "subhead"  : "Apps",
+    "tabs": [
+        {
+            "name": "Apps",
+            "graph_ids": [
+                "app-edits-starts"
+            ]
+        }
+    ]
+}

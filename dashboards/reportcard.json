@@ -39,6 +39,12 @@
             ]
         },
         {
+            "name": "Apps",
+            "graph_ids": [
+                "app-edits-starts"
+            ]
+        },
+        {
             "name": "Other",
             "graph_ids": [
                 "mobile-options",

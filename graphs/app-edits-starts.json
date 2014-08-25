@@ -1,5 +1,5 @@
 {
-    "graph_version": "0.0.1",
+    "graph_version": "0.6.0",
     "name": "Apps - Impressions on edit pencil (per day)",
     "notes": "",
     "slug": "app-edits-starts",
@@ -96,7 +96,7 @@
                         "disabled": false,
                         "index": 0,
                         "metric": {
-                            "source_id": "cancelled-uploads",
+                            "source_id": "app-edits-starts",
                             "type": "int",
                             "source_col": 1
                         },
@@ -114,7 +114,7 @@
                         "disabled": false,
                         "index": 1,
                         "metric": {
-                            "source_id": "cancelled-uploads",
+                            "source_id": "app-edits-starts",
                             "type": "int",
                             "source_col": 2
                         },
@@ -132,7 +132,7 @@
                         "disabled": false,
                         "index": 2,
                         "metric": {
-                            "source_id": "cancelled-uploads",
+                            "source_id": "app-edits-starts",
                             "type": "int",
                             "source_col": 3
                         },
