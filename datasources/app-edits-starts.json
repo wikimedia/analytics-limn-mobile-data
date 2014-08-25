@@ -2,8 +2,7 @@
     "name": "Apps - Impressions on edit pencil (per day)",
     "timespan": {
         "start": "2014/06/25",
-        "step": "1d",
-        "end": "2014/08/24"
+        "step": "1d"
     },
     "url": "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/app-edits-starts.csv",
     "notes": "",
