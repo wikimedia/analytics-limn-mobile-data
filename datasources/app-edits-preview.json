@@ -1,16 +1,16 @@
 {
-    "name": "Apps - Impressions on edit pencil (per day)",
+    "name": "Apps - Impressions on edit summary and preview page (per day)",
     "timespan": {
         "start": "2014/06/25",
         "step": "1d"
     },
-    "url": "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/app-edits-starts.csv",
+    "url": "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/app-edits-preview.csv",
     "notes": "data excludes test wiki",
     "format": "csv",
     "slug": null,
-    "shortName": "app-edits-starts",
+    "shortName": "app-edits-preview",
     "type": "timeseries",
-    "id": "app-edits-starts",
+    "id": "app-edits-preview",
     "columns": [
         {
             "type": "date",

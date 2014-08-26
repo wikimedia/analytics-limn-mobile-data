@@ -6,7 +6,10 @@
         {
             "name": "Apps",
             "graph_ids": [
-                "app-edits-starts"
+                "app-edits-starts",
+                "app-edits-preview",
+                "app-edits-save-attempt",
+                "app-edits-success"
             ]
         }
     ]

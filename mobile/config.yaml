@@ -60,6 +60,21 @@ graphs:
                 frequency: hourly
                 timeboxed: true
                 starts: 2014-06-25
+        app-edits-preview:
+                title: Apps - Impressions on edit summary and preview page (per day)
+                frequency: hourly
+                timeboxed: true
+                starts: 2014-06-25
+        app-edits-save-attempt:
+                title: Apps - Impressions on Save button (number of save attempts per day)
+                frequency: hourly
+                timeboxed: true
+                starts: 2014-06-25
+        app-edits-success:
+                title: Apps - Number of successfully saved edits (per day)
+                frequency: hourly
+                timeboxed: true
+                starts: 2014-06-25
         successful-logins:
                 title: Successful logins (per day)
                 frequency: hourly
