@@ -41,10 +41,10 @@
         {
             "name": "Apps",
             "graph_ids": [
-                "app-edits-starts",
-                "app-edits-preview",
-                "app-edits-save-attempt",
-                "app-edits-success"
+                "app-edit-funnel-total",
+                "app-edit-funnel-android",
+                "app-edit-funnel-ios",
+                "app-user-blocks-en"
             ]
         },
         {
