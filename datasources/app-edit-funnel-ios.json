@@ -1,0 +1,37 @@
+{
+    "name": "App Edits - iOS (per day)",
+    "timespan": {
+        "start": "2014/06/25",
+        "step": "1d"
+    },
+    "url": "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/app-edit-funnel-ios.csv",
+    "notes": "data excludes test wiki",
+    "format": "csv",
+    "slug": null,
+    "shortName": "app-edit-funnel-ios",
+    "type": "timeseries",
+    "id": "app-edit-funnel-ios",
+    "columns": [
+        {
+            "type": "date",
+            "label": "date"
+        },
+        {
+            "type": "int",
+            "label": "Starts"
+        },
+        {
+            "type": "int",
+            "label": "Previews"
+        },
+        {
+            "type": "int",
+            "label": "Save attempts"
+        },
+        {
+            "type": "int",
+            "label": "Saved"
+        }
+    ],
+    "desc": ""
+}
