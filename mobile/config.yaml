@@ -75,6 +75,11 @@ graphs:
                 frequency: hourly
                 timeboxed: true
                 starts: 2014-06-25
+        app-user-blocks-en:
+                title: Number of blocked 'app users' on enwiki (per day)
+                frequency: hourly
+                timeboxed: true
+                starts: 2014-06-25
         successful-logins:
                 title: Successful logins (per day)
                 frequency: hourly
