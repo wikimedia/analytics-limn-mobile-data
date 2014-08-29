@@ -69,7 +69,7 @@ graphs:
                 title: App Edits - iOS (per day)
                 frequency: hourly
                 timeboxed: true
-                starts: 2014-06-25
+                starts: 2014-08-01
         app-edits-starts:
                 title: Apps - Impressions on edit pencil (per day)
                 frequency: hourly

@@ -1,7 +1,7 @@
 {
     "name": "App Edits - iOS (per day)",
     "timespan": {
-        "start": "2014/06/25",
+        "start": "2014/08/01",
         "step": "1d"
     },
     "url": "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/app-edit-funnel-ios.csv",
