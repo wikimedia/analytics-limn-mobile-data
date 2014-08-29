@@ -2,8 +2,7 @@
 -- For this report:
 -- you are considered an 'app user' if you've created the account on the Android or iOS native app
 
-SELECT DATE( ipb_timestamp)  AS Date,
-       COUNT( 1 ) AS NumBlocks
+SELECT COUNT( 1 ) AS NumBlocks
 FROM
   (
     SELECT ipb_user,
