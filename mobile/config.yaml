@@ -55,6 +55,21 @@ graphs:
         error-edits:
                 title: Edits failed because of an error (per day)
                 frequency: hourly
+        app-edit-funnel-total:
+                title: App Edits - all apps (per day)
+                frequency: hourly
+                timeboxed: true
+                starts: 2014-06-25
+        app-edit-funnel-android:
+                title: App Edits - Android (per day)
+                frequency: hourly
+                timeboxed: true
+                starts: 2014-06-25
+        app-edit-funnel-ios:
+                title: App Edits - iOS (per day)
+                frequency: hourly
+                timeboxed: true
+                starts: 2014-06-25
         app-edits-starts:
                 title: Apps - Impressions on edit pencil (per day)
                 frequency: hourly
