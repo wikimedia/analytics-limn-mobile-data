@@ -8,10 +8,7 @@
             "graph_ids": [
                 "edits-monthly-active-2014",
                 "edits-monthly-unique-editors",
-                "monthly-contributions",
                 "edits-monthly-successful",
-                "edits-monthly-5plus-editors",
-                "edits-monthly-active-editors",
                 "unique-uploaders",
                 "month-uploads",
                 "deleted-uploads"

@@ -116,30 +116,17 @@ graphs:
         deleted-uploads:
                 title: Uploads deleted (per month)
                 frequency: hourly
-        edits-monthly-active-editors:
-                title: Unique editors who became active with 5+ edits
-                frequency: daily
         edits-monthly-unique-editors:
                 title: Unique editors (per month)
                 frequency: daily
         edits-monthly-successful:
                 title: Successful edits (per month)
                 frequency: daily
-        edits-monthly-5plus-editors:
-                title: Editors registered on mobile who made 5+ edits on enwiki (mobile+desktop)
-                frequency: daily
-                timeboxed: true
-                starts: 2013-05-01
-                # this graph is deprecated
-                ends: 2013-05-01
         edits-monthly-active-2014:
                 title: Editors who reached 5 mobile edits on enwiki within 30 days of registering
                 frequency: daily
                 timeboxed: true
                 starts: 2013-05-01
-        monthly-contributions:
-                title: All monthly contributions on mobile
-                frequency: daily
         thanks-daily:
                 title: Thanks
                 frequency: hourly
