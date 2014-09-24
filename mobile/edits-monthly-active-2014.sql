@@ -7,7 +7,6 @@
           WHERE Newbies.event_userAge <= 2592000
             and Newbies.timestamp >= '{from_timestamp}'
             and Newbies.timestamp < '{to_timestamp}'
-            and Newbies.wiki = 'enwiki'
           group by
                 Newbies.event_userID,
                 Newbies.event_isMobile

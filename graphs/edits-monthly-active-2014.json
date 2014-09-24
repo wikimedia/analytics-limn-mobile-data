@@ -1,6 +1,6 @@
 {
   "graph_version": "0.6.0",
-  "name": "Editors who reached 5 edits on enwiki within 30 days of registering",
+  "name": "Editors who reached 5 edits within 30 days of registering",
   "slug": "edits-monthly-active-2014",
   "root": {
     "nodeType": "canvas",
