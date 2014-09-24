@@ -9,9 +9,6 @@
                 "edits-monthly-active-2014",
                 "edits-monthly-unique-editors",
                 "edits-monthly-successful",
-                "unique-uploaders",
-                "month-uploads",
-                "deleted-uploads"
             ]
         },
         {
@@ -22,17 +19,6 @@
                 "successful-edits-other",
                 "successful-edits-unique",
                 "error-edits"
-            ]
-        },
-        {
-            "name": "Uploads daily",
-            "graph_ids": [
-                "unique-uploaders-day",
-                "successful-uploads",
-                "error-uploads",
-                "no-cats",
-                "successful-logins",
-                "share-attempts"
             ]
         },
         {
