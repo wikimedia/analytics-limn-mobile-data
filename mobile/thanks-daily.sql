@@ -5,7 +5,7 @@ select
 from (
 	select
 	  event_eventSource
-	from Echo_6081131
+	from Echo_7731316
 	where
 	  event_notificationType = 'edit-thank'
 	  and timestamp >= '{from_timestamp}'
