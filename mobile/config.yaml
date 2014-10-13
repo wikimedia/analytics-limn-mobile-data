@@ -127,6 +127,11 @@ graphs:
                 frequency: daily
                 timeboxed: true
                 starts: 2013-05-01
+        edits-monthly-new-active:
+                title: Editors who reached 5 mobile edits on enwiki within 30 days of registering
+                frequency: daily
+                timeboxed: true
+                starts: 2014-01-01
         thanks-daily:
                 title: Thanks
                 frequency: hourly
