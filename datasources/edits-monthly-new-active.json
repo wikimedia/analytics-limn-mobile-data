@@ -1,0 +1,22 @@
+{
+    "name": "Editors who reached 5 edits on enwiki within 30 days of registering",
+    "url": "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/edits-monthly-new-active.csv",
+    "format": "csv",
+    "shortName": "edits-monthly-new-active",
+    "type": "timeseries",
+    "id": "edits-monthly-new-active",
+    "columns": [
+        {
+            "type": "date",
+            "label": "Month"
+        },
+        {
+            "type": "int",
+            "label": "Mobile"
+        },
+        {
+            "type": "int",
+            "label": "Desktop"
+        }
+    ]
+}
