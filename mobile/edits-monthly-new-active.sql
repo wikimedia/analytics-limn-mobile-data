@@ -36,7 +36,7 @@ select sum(if(event_displaymobile = 1, 1, 0)) as mobile,
         ) as rolling_active_editors
             inner join
         log.ServerSideAccountCreation_5487345  on event_userId = rolling_active_editors.user_id
-                                               AND useragent NOT LIKE "%WikipediaApp%"
+                                               AND (useragent is NULL or useragent NOT LIKE "%WikipediaApp%")
                                                AND wiki = "enwiki"
                                                and timestamp between DATE_FORMAT(DATE_SUB('{to_timestamp}', INTERVAL @u+1 DAY), "%Y%m%d%H%i%S")
                                                                  AND date_format(date_add('{to_timestamp}', interval 1 day), '%Y%m%d%H%i%S')
