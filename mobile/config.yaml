@@ -122,11 +122,6 @@ graphs:
         edits-monthly-successful:
                 title: Successful edits (per month)
                 frequency: daily
-        edits-monthly-active-2014:
-                title: Editors who reached 5 mobile edits on enwiki within 30 days of registering
-                frequency: daily
-                timeboxed: true
-                starts: 2014-01-01
         edits-monthly-new-active:
                 title: Editors who reached 5 mobile edits on enwiki within 30 days of registering
                 frequency: hourly

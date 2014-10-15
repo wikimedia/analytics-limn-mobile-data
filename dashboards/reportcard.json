@@ -6,7 +6,7 @@
         {
             "name": "Monthly reports",
             "graph_ids": [
-                "edits-monthly-active-2014",
+                "edits-monthly-new-active",
                 "edits-monthly-unique-editors",
                 "edits-monthly-successful"
             ]
