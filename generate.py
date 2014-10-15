@@ -257,6 +257,8 @@ class DataGenerator(object):
                         print('{}: Error: {}, db: {}, graph key: {}, rows: {}, query: \n{}'.format(
                             datetime.datetime.now(), format_exc(e), db_name, graph_key, rows, query
                         ))
+                        # stop the loop because one exception is likely to mean total fail
+                        break
                 else:
                     print 'Skip generation of %s' % graph_date_key
 
