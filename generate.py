@@ -16,6 +16,8 @@ import datetime
 from dateutil.relativedelta import relativedelta
 import json
 
+from traceback import format_exc
+
 LOG_FILE = 'history.json'
 
 
@@ -249,7 +251,12 @@ class DataGenerator(object):
                         csv_header = headers
                         # FIXME: Support other time periods other than months?
                         csv_header.insert(0, date_type)
-                    cache[graph_date_key] = list(rows[0])
+                    try:
+                        cache[graph_date_key] = list(rows[0])
+                    except Exception, e:
+                        print('{}: Error: {}, db: {}, graph key: {}, rows: {}, query: \n{}'.format(
+                            datetime.datetime.now(), format_exc(e), db_name, graph_key, rows, query
+                        ))
                 else:
                     print 'Skip generation of %s' % graph_date_key
 
