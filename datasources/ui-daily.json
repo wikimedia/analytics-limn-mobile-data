@@ -1,1 +1,89 @@
-{"format": "csv", "url": "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/ui-daily.csv", "timespan": {"start": "2013/05/0", "step": "1d", "end": "2013/03/19"}, "type": "timeseries", "id": "ui-daily", "columns": [{"type": "date", "label": "Day"}, {"type": "int", "label": "Home"}, {"type": "int", "label": "Random"}, {"type": "int", "label": "Uploads"}, {"type": "int", "label": "Watchlist"}, {"type": "int", "label": "Nearby"}, {"type": "int", "label": "Settings"}, {"type": "int", "label": "Login"}, {"type": "int", "label": "Logout"}, {"type": "int", "label": "Profile"}, {"type": "int", "label": "Last modified history"}, {"type": "int", "label": "Last modified profile\r\n"}]}
+{
+    "format": "csv", 
+    "url": "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/ui-daily.csv", 
+    "timespan": {
+        "start": "2013/05/0", 
+        "step": "1d", 
+        "end": "2013/03/19"
+    }, 
+    "type": "timeseries", 
+    "id": "ui-daily", 
+    "columns": [
+        {
+            "type": "date", 
+            "label": "Day"
+        }, 
+        {
+            "type": "int", 
+            "label": "Home"
+        }, 
+        {
+            "type": "int", 
+            "label": "Random"
+        }, 
+        {
+            "type": "int", 
+            "label": "Uploads"
+        }, 
+        {
+            "type": "int", 
+            "label": "Watchlist"
+        }, 
+        {
+            "type": "int", 
+            "label": "Nearby"
+        }, 
+        {
+            "type": "int", 
+            "label": "Settings"
+        }, 
+        {
+            "type": "int", 
+            "label": "Login"
+        }, 
+        {
+            "type": "int", 
+            "label": "Logout"
+        }, 
+        {
+            "type": "int", 
+            "label": "Profile"
+        }, 
+        {
+            "type": "int", 
+            "label": "Last modified history"
+        }, 
+        {
+            "type": "int", 
+            "label": "Last modified profile"
+        }, 
+        {
+            "type": "int", 
+            "label": "Hamburger"
+        }, 
+        {
+            "type": "int", 
+            "label": "Languages"
+        }, 
+        {
+            "type": "int", 
+            "label": "Reference"
+        }, 
+        {
+            "type": "int", 
+            "label": "Notifications"
+        }, 
+        {
+            "type": "int", 
+            "label": "Search"
+        }, 
+        {
+            "type": "int", 
+            "label": "Page TOC toggle"
+        }, 
+        {
+            "type": "int", 
+            "label": "Page TOC link\r\n"
+        }
+    ]
+}
