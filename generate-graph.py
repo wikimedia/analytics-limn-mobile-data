@@ -37,7 +37,7 @@ def make_datasource(name):
         }
         print "Writing datasource..."
         f = open("datasources/%s.json" % name, "w")
-        dump = json.dumps(ds)
+        dump = json.dumps(ds, indent=4)
         f.writelines(dump)
         f.close()
         return True
@@ -180,7 +180,7 @@ def generate_graph(name):
     }
     print "Writing graph"
     f = open("graphs/%s.json" % name, "w")
-    dump = json.dumps(graph_json)
+    dump = json.dumps(graph_json, indent=4)
     f.writelines(dump)
     f.close()
 
