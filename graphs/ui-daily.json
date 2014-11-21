@@ -61,8 +61,9 @@
                 "disabled": false, 
                 "nodeType": "legend", 
                 "options": {
+                    "shortLabels": true,
                     "valueFormat": ",.2s", 
-                    "dateFormat": "MMM YYYY"
+                    "dateFormat": "DD MMM YYYY"
                 }, 
                 "label": "Aug 2012"
             }, 
@@ -88,327 +89,129 @@
                 }, 
                 "children": [
                     {
-                        "disabled": false, 
-                        "index": 0, 
+                        "nodeType": "line",
                         "metric": {
-                            "source_id": "ui-daily", 
-                            "type": "int", 
-                            "source_col": 1
-                        }, 
-                        "nodeType": "line", 
-                        "options": {
-                            "stroke": {
-                                "width": 2
-                            }, 
-                            "dateFormat": "MMM YYYY", 
-                            "noLegend": false, 
-                            "label": "Home"
+                            "sourceId": "ui-daily",
+                            "sourceCol": "hamburger"
                         }
-                    }, 
+                    },
                     {
-                        "disabled": false, 
-                        "index": 0, 
+                        "nodeType": "line",
                         "metric": {
-                            "source_id": "ui-daily", 
-                            "type": "int", 
-                            "source_col": 2
-                        }, 
-                        "nodeType": "line", 
-                        "options": {
-                            "stroke": {
-                                "width": 2
-                            }, 
-                            "dateFormat": "MMM YYYY", 
-                            "noLegend": false, 
-                            "label": "Random"
+                            "sourceId": "ui-daily",
+                            "sourceCol": "home"
                         }
-                    }, 
+                    },
                     {
-                        "disabled": false, 
-                        "index": 0, 
+                        "nodeType": "line",
                         "metric": {
-                            "source_id": "ui-daily", 
-                            "type": "int", 
-                            "source_col": 3
-                        }, 
-                        "nodeType": "line", 
-                        "options": {
-                            "stroke": {
-                                "width": 2
-                            }, 
-                            "dateFormat": "MMM YYYY", 
-                            "noLegend": false, 
-                            "label": "Uploads"
+                            "sourceId": "ui-daily",
+                            "sourceCol": "random"
                         }
-                    }, 
+                    },
                     {
-                        "disabled": false, 
-                        "index": 0, 
+                        "nodeType": "line",
                         "metric": {
-                            "source_id": "ui-daily", 
-                            "type": "int", 
-                            "source_col": 4
-                        }, 
-                        "nodeType": "line", 
-                        "options": {
-                            "stroke": {
-                                "width": 2
-                            }, 
-                            "dateFormat": "MMM YYYY", 
-                            "noLegend": false, 
-                            "label": "Watchlist"
+                            "sourceId": "ui-daily",
+                            "sourceCol": "uploads"
                         }
-                    }, 
+                    },
                     {
-                        "disabled": false, 
-                        "index": 0, 
+                        "nodeType": "line",
                         "metric": {
-                            "source_id": "ui-daily", 
-                            "type": "int", 
-                            "source_col": 5
-                        }, 
-                        "nodeType": "line", 
-                        "options": {
-                            "stroke": {
-                                "width": 2
-                            }, 
-                            "dateFormat": "MMM YYYY", 
-                            "noLegend": false, 
-                            "label": "Nearby"
+                            "sourceId": "ui-daily",
+                            "sourceCol": "watchlist"
                         }
-                    }, 
+                    },
                     {
-                        "disabled": false, 
-                        "index": 0, 
+                        "nodeType": "line",
                         "metric": {
-                            "source_id": "ui-daily", 
-                            "type": "int", 
-                            "source_col": 6
-                        }, 
-                        "nodeType": "line", 
-                        "options": {
-                            "stroke": {
-                                "width": 2
-                            }, 
-                            "dateFormat": "MMM YYYY", 
-                            "noLegend": false, 
-                            "label": "Settings"
+                            "sourceId": "ui-daily",
+                            "sourceCol": "nearby"
                         }
-                    }, 
+                    },
                     {
-                        "disabled": false, 
-                        "index": 0, 
+                        "nodeType": "line",
                         "metric": {
-                            "source_id": "ui-daily", 
-                            "type": "int", 
-                            "source_col": 7
-                        }, 
-                        "nodeType": "line", 
-                        "options": {
-                            "stroke": {
-                                "width": 2
-                            }, 
-                            "dateFormat": "MMM YYYY", 
-                            "noLegend": false, 
-                            "label": "Login"
+                            "sourceId": "ui-daily",
+                            "sourceCol": "settings"
                         }
-                    }, 
+                    },
                     {
-                        "disabled": false, 
-                        "index": 0, 
+                        "nodeType": "line",
                         "metric": {
-                            "source_id": "ui-daily", 
-                            "type": "int", 
-                            "source_col": 8
-                        }, 
-                        "nodeType": "line", 
-                        "options": {
-                            "stroke": {
-                                "width": 2
-                            }, 
-                            "dateFormat": "MMM YYYY", 
-                            "noLegend": false, 
-                            "label": "Logout"
+                            "sourceId": "ui-daily",
+                            "sourceCol": "login"
                         }
-                    }, 
+                    },
                     {
-                        "disabled": false, 
-                        "index": 0, 
+                        "nodeType": "line",
                         "metric": {
-                            "source_id": "ui-daily", 
-                            "type": "int", 
-                            "source_col": 9
-                        }, 
-                        "nodeType": "line", 
-                        "options": {
-                            "stroke": {
-                                "width": 2
-                            }, 
-                            "dateFormat": "MMM YYYY", 
-                            "noLegend": false, 
-                            "label": "Profile"
+                            "sourceId": "ui-daily",
+                            "sourceCol": "logout"
                         }
-                    }, 
+                    },
                     {
-                        "disabled": false, 
-                        "index": 0, 
+                        "nodeType": "line",
                         "metric": {
-                            "source_id": "ui-daily", 
-                            "type": "int", 
-                            "source_col": 10
-                        }, 
-                        "nodeType": "line", 
-                        "options": {
-                            "stroke": {
-                                "width": 2
-                            }, 
-                            "dateFormat": "MMM YYYY", 
-                            "noLegend": false, 
-                            "label": "Last modified history"
+                            "sourceId": "ui-daily",
+                            "sourceCol": "profile"
                         }
-                    }, 
+                    },
                     {
-                        "disabled": false, 
-                        "index": 0, 
+                        "nodeType": "line",
                         "metric": {
-                            "source_id": "ui-daily", 
-                            "type": "int", 
-                            "source_col": 11
-                        }, 
-                        "nodeType": "line", 
-                        "options": {
-                            "stroke": {
-                                "width": 2
-                            }, 
-                            "dateFormat": "MMM YYYY", 
-                            "noLegend": false, 
-                            "label": "Last modified profile"
+                            "sourceId": "ui-daily",
+                            "sourceCol": "search"
                         }
-                    }, 
+                    },
                     {
-                        "disabled": false, 
-                        "index": 0, 
+                        "nodeType": "line",
                         "metric": {
-                            "source_id": "ui-daily", 
-                            "type": "int", 
-                            "source_col": 12
-                        }, 
-                        "nodeType": "line", 
-                        "options": {
-                            "stroke": {
-                                "width": 2
-                            }, 
-                            "dateFormat": "MMM YYYY", 
-                            "noLegend": false, 
-                            "label": "Hamburger"
+                            "sourceId": "ui-daily",
+                            "sourceCol": "notifications"
                         }
-                    }, 
+                    },
                     {
-                        "disabled": false, 
-                        "index": 0, 
+                        "nodeType": "line",
                         "metric": {
-                            "source_id": "ui-daily", 
-                            "type": "int", 
-                            "source_col": 13
-                        }, 
-                        "nodeType": "line", 
-                        "options": {
-                            "stroke": {
-                                "width": 2
-                            }, 
-                            "dateFormat": "MMM YYYY", 
-                            "noLegend": false, 
-                            "label": "Languages"
+                            "sourceId": "ui-daily",
+                            "sourceCol": "reference"
                         }
-                    }, 
+                    },
                     {
-                        "disabled": false, 
-                        "index": 0, 
+                        "nodeType": "line",
                         "metric": {
-                            "source_id": "ui-daily", 
-                            "type": "int", 
-                            "source_col": 14
-                        }, 
-                        "nodeType": "line", 
-                        "options": {
-                            "stroke": {
-                                "width": 2
-                            }, 
-                            "dateFormat": "MMM YYYY", 
-                            "noLegend": false, 
-                            "label": "Reference"
+                            "sourceId": "ui-daily",
+                            "sourceCol": "languages"
                         }
-                    }, 
+                    },
                     {
-                        "disabled": false, 
-                        "index": 0, 
+                        "nodeType": "line",
                         "metric": {
-                            "source_id": "ui-daily", 
-                            "type": "int", 
-                            "source_col": 15
-                        }, 
-                        "nodeType": "line", 
-                        "options": {
-                            "stroke": {
-                                "width": 2
-                            }, 
-                            "dateFormat": "MMM YYYY", 
-                            "noLegend": false, 
-                            "label": "Notifications"
+                            "sourceId": "ui-daily",
+                            "sourceCol": "last modified history"
                         }
-                    }, 
+                    },
                     {
-                        "disabled": false, 
-                        "index": 0, 
+                        "nodeType": "line",
                         "metric": {
-                            "source_id": "ui-daily", 
-                            "type": "int", 
-                            "source_col": 16
-                        }, 
-                        "nodeType": "line", 
-                        "options": {
-                            "stroke": {
-                                "width": 2
-                            }, 
-                            "dateFormat": "MMM YYYY", 
-                            "noLegend": false, 
-                            "label": "Search"
+                            "sourceId": "ui-daily",
+                            "sourceCol": "last modified profile"
                         }
-                    }, 
+                    },
                     {
-                        "disabled": false, 
-                        "index": 0, 
+                        "nodeType": "line",
                         "metric": {
-                            "source_id": "ui-daily", 
-                            "type": "int", 
-                            "source_col": 17
-                        }, 
-                        "nodeType": "line", 
-                        "options": {
-                            "stroke": {
-                                "width": 2
-                            }, 
-                            "dateFormat": "MMM YYYY", 
-                            "noLegend": false, 
-                            "label": "Page TOC toggle"
+                            "sourceId": "ui-daily",
+                            "sourceCol": "page TOC toggle"
                         }
-                    }, 
+                    },
                     {
-                        "disabled": false, 
-                        "index": 0, 
+                        "nodeType": "line",
                         "metric": {
-                            "source_id": "ui-daily", 
-                            "type": "int", 
-                            "source_col": 18
-                        }, 
-                        "nodeType": "line", 
-                        "options": {
-                            "stroke": {
-                                "width": 2
-                            }, 
-                            "dateFormat": "MMM YYYY", 
-                            "noLegend": false, 
-                            "label": "Page TOC link\r\n"
+                            "sourceId": "ui-daily",
+                            "sourceCol": "page TOC link"
                         }
                     }
                 ]
