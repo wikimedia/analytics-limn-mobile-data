@@ -1,0 +1,48 @@
+{
+    "id"       : "reportcard",
+    "headline" : "Mobile Contributions",
+    "subhead"  : "Apps & Web",
+    "tabs": [
+        {
+            "name": "Monthly reports",
+            "graph_ids": [
+                "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/edits-monthly-new-active.csv",
+                "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/edits-monthly-unique-editors.csv",
+                "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/edits-monthly-successful.csv"
+            ]
+        },
+        {
+            "name": "Edits daily",
+            "graph_ids": [
+                "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/successful-edits-main.csv",
+                "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/successful-edits-newbie.csv",
+                "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/successful-edits-other.csv",
+                "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/successful-edits-unique.csv",
+                "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/error-edits.csv"
+            ]
+        },
+        {
+            "name": "Apps",
+            "graph_ids": [
+                "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/app-edit-funnel-total.csv",
+                "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/app-edit-funnel-android.csv",
+                "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/app-edit-funnel-ios.csv",
+                "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/app-edits-starts.csv",
+                "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/app-edits-preview.csv",
+                "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/app-edits-save-attempt.csv",
+                "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/app-edits-success.csv",
+                "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/app-user-blocks-en.csv"
+            ]
+        },
+        {
+            "name": "Other",
+            "graph_ids": [
+                "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/mobile-options.csv",
+                "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/thanks-daily.csv",
+                "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/ui-daily.csv",
+                "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/watchlist-activity.csv",
+                "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/diff-activity.csv"
+            ]
+        }
+    ]
+}
