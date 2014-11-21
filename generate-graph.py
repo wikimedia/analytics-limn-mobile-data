@@ -16,23 +16,21 @@ def make_datasource(name):
         ds_columns = []
         for i in range(len(columns)):
             column = {}
+            label = columns[i].strip()
+            column["id"] = label
             if i == 0:
                 column["type"] = "date"
             else:
                 column["type"] = "int"
-            column["label"] = columns[i]
+            column["label"] = label
             ds_columns.append(column)
         
         ds = {
-            "timespan": {
-                "start": "2013/05/0",
-                "step": "1d",
-                "end": "2013/03/19"
-            },
             "url": "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/%s.csv" % name,
             "format": "csv",
             "type": "timeseries",
             "id": name,
+            "name": name,
             "columns": ds_columns
         }
         print "Writing datasource..."
@@ -71,21 +69,10 @@ def generate_graph(name):
         if i > 0:
             ds_column = ds_columns[i]
             column = {
-                "disabled": False,
-                "index": 0,
-                "metric": {
-                    "source_id": name,
-                    "type": ds_column["type"],
-                    "source_col": i
-                },
                 "nodeType": "line",
-                "options": {
-                    "stroke": {
-                        "width": 2
-                    },
-                    "label": ds_column["label"],
-                    "noLegend": False,
-                    "dateFormat": "MMM YYYY"
+                "metric": {
+                    "sourceId": name,
+                    "sourceCol": ds_column["id"]
                 }
             }
             graph_columns.append(column)
@@ -94,17 +81,12 @@ def generate_graph(name):
     axis_x = copy.deepcopy(axis)
     axis_y = copy.deepcopy(axis)
     axis_x["options"] = {
-        "tickFormat": "MMM YY",
         "dimension": "x",
-        "orient": "bottom"
     }
     axis_y["options"] = {
-        "tickFormat": "MMM YY",
         "dimension": "y",
-        "orient": "left"
     }
     grid = {
-        "disabled": False,
         "nodeType": "grid",
         "options": {
             "ticks": 10,
@@ -118,7 +100,6 @@ def generate_graph(name):
     callout = {
         "nodeType": "callout",
         "target": "latest",
-        "disabled": False,
         "steps": [
             "1y",
             "1M"
@@ -131,21 +112,14 @@ def generate_graph(name):
         }
     }
     legend = {
-        "disabled": False,
         "nodeType": "legend",
         "options": {
-            "valueFormat": ",.2s",
-            "dateFormat": "MMM YYYY"
-        },
-        "label": "Aug 2012"
+            "shortLabels": True,
+            "dateFormat": "DD MMM YYYY"
+        }
     }
     zoom_brush = {
-        "disabled": False,
-        "nodeType": "zoom-brush",
-        "options": {
-            "allowY": True,
-            "allowX": True
-        }
+        "nodeType": "zoom-brush"
     }
     graph_json = {
         "graph_version": "0.6.0",
@@ -169,8 +143,7 @@ def generate_graph(name):
                         "stroke": {
                             "opacity": 1,
                             "width": 2
-                        },
-                        "dateFormat": "MMM YYYY"
+                        }
                     },
                     "children": graph_columns
                 }
