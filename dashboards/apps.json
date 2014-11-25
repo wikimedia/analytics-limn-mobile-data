@@ -6,16 +6,16 @@
         {
             "name": "Apps",
             "graph_ids": [
-                "app-edit-funnel-total",
-                "app-edit-funnel-android",
-                "app-edit-funnel-ios",
+                "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/app-edit-funnel-total.csv",
+                "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/app-edit-funnel-android.csv",
+                "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/app-edit-funnel-ios.csv",
 
-                "app-edits-starts",
-                "app-edits-preview",
-                "app-edits-save-attempt",
-                "app-edits-success",
+                "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/app-edits-starts.csv",
+                "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/app-edits-preview.csv",
+                "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/app-edits-save-attempt.csv",
+                "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/app-edits-success.csv",
 
-                "app-user-blocks-en"
+                "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/app-user-blocks-en.csv"
             ]
         }
     ]

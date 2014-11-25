@@ -1,1 +1,0 @@
-{"format": "csv", "url": "http://stat1001.wikimedia.org/limn-public-data/mobile/datafiles/edits-monthly-new-active.csv", "timespan": {"step": "1d"}, "type": "timeseries", "id": "edits-monthly-new-active", "columns": [{"type": "date", "label": "Day"}, {"type": "int", "label": "mobile"}, {"type": "int", "label": "desktop\r\n"}]}
