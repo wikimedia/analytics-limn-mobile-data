@@ -16,7 +16,9 @@ select
     sum(if(event_name = 'lastmodified-history', 1, 0)) as 'Last modified history',
     sum(if(event_name = 'lastmodified-profile', 1, 0)) as 'Last modified profile',
     sum(if(event_name = 'page-toc-toggle', 1, 0)) as 'Page TOC toggle',
-    sum(if(event_name = 'page-toc-link', 1, 0)) as 'Page TOC link'
+    sum(if(event_name = 'page-toc-link', 1, 0)) as 'Page TOC link',
+    sum(if(event_name = 'category-button', 1, 0)) as 'Category Overlay link',
+    sum(if(event_name = 'nearby-button', 1, 0)) as 'Nearby link'
 from
     MobileWebClickTracking_5929948
 where
