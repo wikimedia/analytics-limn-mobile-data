@@ -15,6 +15,7 @@ import time
 import datetime
 from dateutil.relativedelta import relativedelta
 import json
+from logger import get_logger
 
 from traceback import format_exc
 
@@ -22,7 +23,9 @@ from traceback import format_exc
 class DataGenerator(object):
     """Executes queries and generates CSV reports based on YAML configs."""
 
-    def __init__(self, folder, debug_folder=None, config_override=None, graph=None, force=None):
+    def __init__(self, folder, debug_folder=None, config_override=None,
+                 graph=None, force=None, log_file_path=None,
+                 log_logstash_endpoint=None):
         """Reads configuration 'config.yaml' in `folder_path`."""
         self.folder = folder
         self.debug_folder = debug_folder
@@ -35,6 +38,8 @@ class DataGenerator(object):
         self.load_config(config_main)
         if config_override:
             self.load_config(config_override)
+        self.logger = get_logger(
+            self.config.get('logging'), log_file_path, log_logstash_endpoint)
 
     def load_config(self, config_path):
         with io.open(config_path, encoding='utf-8') as config_file:
@@ -92,7 +97,7 @@ class DataGenerator(object):
             rows = cursor.fetchall()
             headers = [field[0] for field in cursor.description]
         except Exception, e:
-            print "Issue executing SQL for %s (%s)" % (graph_key, e)
+            self.logger.error("Issue executing SQL for %s (%s)" % (graph_key, e))
             headers = []
             rows = []
         finally:
@@ -106,7 +111,7 @@ class DataGenerator(object):
             res = module.execute(self)
             return res
         except Exception, e:
-            print "Issue executing Python script for %s (%s)" % (graph_key, e)
+            self.logger.error("Issue executing Python script for %s (%s)" % (graph_key, e), exc_info=True)
             return ([], [])
 
     def save_history(self, data):
@@ -124,7 +129,7 @@ class DataGenerator(object):
             try:
                 return json.loads(data)
             except ValueError:
-                print('invalid JSON - someone tweaked the history file!')
+                self.logger.error('invalid JSON - someone tweaked the history file!')
                 return {}
         except IOError:
             return {}
@@ -156,7 +161,7 @@ class DataGenerator(object):
             due_at = last_run_time + increment
 
             if due_at < now or self.force:
-                print('Generating {0}'.format(value['title']))
+                self.logger.info('Generating {0}'.format(value['title']))
                 if "timeboxed" in value and "starts" in value:
                     from_date = value["starts"]
 
@@ -177,7 +182,7 @@ class DataGenerator(object):
                         if history[key] == now:
                             self.save_history(history)
             else:
-                print('Skipping generation of {0}: not enough time has passed'.format(value['title']))
+                self.logger.info('Skipping generation of {0}: not enough time has passed'.format(value['title']))
 
     def generate_graph_timeboxed(self, graph_key, value, from_date, to_date=None):
         csv_filename = self.get_csv_filename(graph_key)
@@ -228,7 +233,7 @@ class DataGenerator(object):
                 to_timestamp = from_date.strftime('%Y%m%d%H%M%S')
                 # Generate a graph if not in cache or the current month
                 if graph_date_key not in cache or from_date >= this_month:
-                    print 'Generating data for timestamp %s to %s' % (from_timestamp, to_timestamp)
+                    self.logger.info('Generating data for timestamp %s to %s' % (from_timestamp, to_timestamp))
                     db_name = value.get('db', self.config['defaults']['db'])
                     query = self.get_sql_string(sql_path)
                     # apply timeboxing
@@ -239,7 +244,7 @@ class DataGenerator(object):
                     headers, rows = self.execute_sql(query, db_name, graph_key)
                     if headers and csv_header:
                         if len(headers) + 1 != len(csv_header) and not self.force:
-                            print "Data format has changed. Aborting."
+                            self.logger.info("Data format has changed. Aborting.")
                             self.clear_csv_data(graph_key)
                             self.generate_graph_timeboxed(graph_key, value, from_date, to_date)
                             return
@@ -250,13 +255,13 @@ class DataGenerator(object):
                     try:
                         cache[graph_date_key] = list(rows[0])
                     except Exception, e:
-                        print('{}: Error: {}, db: {}, graph key: {}, rows: {}, query: \n{}'.format(
+                        self.logger.error('{}: Error: {}, db: {}, graph key: {}, rows: {}, query: \n{}'.format(
                             datetime.datetime.now(), format_exc(e), db_name, graph_key, rows, query
                         ))
                         # stop the loop because one exception is likely to mean total fail
                         break
                 else:
-                    print 'Skip generation of %s' % graph_date_key
+                    self.logger.info('Skip generation of %s' % graph_date_key)
 
             rows = []
             for month, row in iter(sorted(cache.iteritems())):
@@ -265,9 +270,9 @@ class DataGenerator(object):
             if len(rows) > 0:
                 self.save_graph_as_csv(graph_key, csv_header, rows)
             else:
-                print 'No data to write.'
+                self.logger.info('No data to write.')
         else:
-            print 'Bad SQL given'
+            self.logger.error('Bad SQL given')
 
     def generate_graph_full(self, key, value):
         """
@@ -319,6 +324,12 @@ if __name__ == '__main__':
     parser.add_argument('-g', '--graph', help='the name of a single graph you want to generate for')
     parser.add_argument('-f', '--force', dest='force', action='store_true',
                         help='Force generation of graph regardless of when last generated')
+    parser.add_argument(
+        '-l', '--log-file-path', dest='log_file_path',
+        help='Path for log file.')
+    parser.add_argument(
+        '-L', '--log-logstash-endpoint', dest='log_logstash_endpoint',
+        help='Endpoint for logstash (HOST:PORT).')
     parser.set_defaults(force=False)
     args = parser.parse_args()
 
