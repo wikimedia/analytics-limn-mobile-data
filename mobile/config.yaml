@@ -132,10 +132,20 @@ graphs:
                 frequency: hourly
                 starts: 2013-11-01
                 timeboxed: true
-        ui-daily:
-                title: UI activity
+        ui-daily-historic:
+                title: Historic UI activity
                 frequency: hourly
                 starts: 2014-01-01
+                timeboxed: true
+        page-ui-daily:
+                title: Page UI activity
+                frequency: hourly
+                starts: 2014-12-08
+                timeboxed: true
+        main-menu-daily:
+                title: Main menu activity
+                frequency: hourly
+                starts: 2014-12-08
                 timeboxed: true
         watchlist-activity:
                 title: Watchlist activity
