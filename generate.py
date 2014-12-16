@@ -18,8 +18,6 @@ import json
 
 from traceback import format_exc
 
-LOG_FILE = 'history.json'
-
 
 class DataGenerator(object):
     """Executes queries and generates CSV reports based on YAML configs."""
@@ -32,6 +30,7 @@ class DataGenerator(object):
         self.config = {}
         self.connections = {}
         self.force = force
+        self.history_file = os.path.join(folder, 'history.json')
         config_main = os.path.join(folder, 'config.yaml')
         self.load_config(config_main)
         if config_override:
@@ -112,19 +111,16 @@ class DataGenerator(object):
 
     def save_history(self, data):
         dump = json.dumps(data)
-        f = open(LOG_FILE, 'w')
-        f.writelines(dump)
-        f.close()
+        with open(self.history_file, 'w') as f:
+            f.writelines(dump)
 
     def get_history(self):
         try:
-            if not os.path.exists(LOG_FILE):
-                f = open(LOG_FILE, 'w')
-                f.write('{}')
-                f.close()
-            f = open(LOG_FILE, 'r')
-            data = '\n'.join(f.readlines())
-            f.close()
+            if not os.path.exists(self.history_file):
+                with open(self.history_file, 'w') as f:
+                    f.write('{}')
+            with open(self.history_file, 'r') as f:
+                data = '\n'.join(f.readlines())
             try:
                 return json.loads(data)
             except ValueError:
