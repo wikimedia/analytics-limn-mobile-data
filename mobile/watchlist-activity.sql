@@ -17,7 +17,8 @@ FROM (
       sum(if(event_name = 'watchlist-a-z-more', 1, 0)) as a_z_more,
       sum(if(event_name = 'watchlist-feed-filter', 1, 0)) as feed_filter,
       sum(if(event_name = 'watchlist-feed-switch', 1, 0)) as feed_switch,
-      sum(if(event_name = 'watchlist-feed-view', 1, 0)) as feed_view
+      sum(if(event_name = 'watchlist-feed-view', 1, 0)) as feed_view,
+      timestamp
     FROM
       MobileWebClickTracking_5929948
   )
@@ -31,11 +32,12 @@ FROM (
       sum(if(event_name = 'watchlist-a-z-more', 1, 0)) as a_z_more,
       sum(if(event_name = 'watchlist-feed-filter', 1, 0)) as feed_filter,
       sum(if(event_name = 'watchlist-feed-switch', 1, 0)) as feed_switch,
-      sum(if(event_name = 'watchlist-feed-view', 1, 0)) as feed_view
+      sum(if(event_name = 'watchlist-feed-view', 1, 0)) as feed_view,
+      timestamp
     FROM
       MobileWebWatchlistClickTracking_10720361
   )
 ) AS MobileWebWatchlistClickTracking
 WHERE
-    timestamp >= '{from_timestamp}' and
-    timestamp <= '{to_timestamp}'
+    MobileWebWatchlistClickTracking.timestamp >= '{from_timestamp}' and
+    MobileWebWatchlistClickTracking.timestamp <= '{to_timestamp}'
