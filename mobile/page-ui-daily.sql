@@ -27,10 +27,12 @@ FROM (
       sum(if(event_name = 'nearby-button', 1, 0)) as nearby_button,
       sum(if(event_name = 'category-button', 1, 0)) as category_button,
       sum(if(event_name = 'fontchanger-menu', 1, 0)) as fontchanger_menu,
-      sum(if(event_name = 'fontchanger-font-change', 1, 0)) as fontchanger_font_change,
-      timestamp
+      sum(if(event_name = 'fontchanger-font-change', 1, 0)) as fontchanger_font_change
     FROM
       MobileWebClickTracking_5929948
+	WHERE
+		timestamp >= '{from_timestamp}' AND
+		timestamp <= '{to_timestamp}'
   )
   UNION
   (
@@ -47,12 +49,11 @@ FROM (
       sum(if(event_name = 'nearby-button', 1, 0)) as nearby_button,
       sum(if(event_name = 'category-button', 1, 0)) as category_button,
       sum(if(event_name = 'fontchanger-menu', 1, 0)) as fontchanger_menu,
-      sum(if(event_name = 'fontchanger-font-change', 1, 0)) as fontchanger_font_change,
-      timestamp
+      sum(if(event_name = 'fontchanger-font-change', 1, 0)) as fontchanger_font_change
     FROM
       MobileWebUIClickTracking_10742159
+	WHERE
+		timestamp >= '{from_timestamp}' AND
+		timestamp <= '{to_timestamp}'
   )
 ) AS MobileWebUIClickTracking
-WHERE
-    MobileWebUIClickTracking.timestamp >= '{from_timestamp}' AND
-    MobileWebUIClickTracking.timestamp <= '{to_timestamp}'

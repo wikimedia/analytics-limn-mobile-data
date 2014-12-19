@@ -19,10 +19,12 @@ FROM (
       sum(if(event_name = 'hamburger-settings', 1, 0)) as Settings,
       sum(if(event_name = 'hamburger-profile', 1, 0)) as Profile,
       sum(if(event_name = 'hamburger-logout', 1, 0)) as Logout,
-      sum(if(event_name = 'hamburger-login', 1, 0)) as Login,
-      timestamp
+      sum(if(event_name = 'hamburger-login', 1, 0)) as Login
     FROM
       MobileWebClickTracking_5929948
+	WHERE
+	  timestamp >= '{from_timestamp}' AND
+	  timestamp <= '{to_timestamp}'
   )
   UNION
   (
@@ -35,12 +37,11 @@ FROM (
       sum(if(event_name = 'settings', 1, 0)) as Settings,
       sum(if(event_name = 'profile', 1, 0)) as Profile,
       sum(if(event_name = 'logout', 1, 0)) as Logout,
-      sum(if(event_name = 'login', 1, 0)) as Login,
-      timestamp
+      sum(if(event_name = 'login', 1, 0)) as Login
     FROM
       MobileWebMainMenuClickTracking_10703095
+	WHERE
+	  timestamp >= '{from_timestamp}' AND
+	  timestamp <= '{to_timestamp}'
   )
 ) AS MobileWebMainMenuClickTracking
-WHERE
-    MobileWebMainMenuClickTracking.timestamp >= '{from_timestamp}' AND
-    MobileWebMainMenuClickTracking.timestamp <= '{to_timestamp}'

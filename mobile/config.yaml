@@ -140,12 +140,12 @@ graphs:
         page-ui-daily:
                 title: Page UI activity
                 frequency: hourly
-                starts: 2014-12-08
+                starts: 2014-12-12
                 timeboxed: true
         main-menu-daily:
                 title: Main menu activity
                 frequency: hourly
-                starts: 2014-12-08
+                starts: 2014-12-12
                 timeboxed: true
         watchlist-activity:
                 title: Watchlist activity
