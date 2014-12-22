@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 # make all data URLs local (for testing)
-for f in `find datasources -name "*.json" -print`; do
-  # don't use sed's -i option, it's not cross-platform
-  # (http://stackoverflow.com/questions/5694228/sed-in-place-flag-that-works-both-on-mac-and-linux)
-  sed 's/http:\/\/stat1001\.wikimedia\.org\/limn-public-data\/mobile\/datafiles/\/data\/datafiles\/mobile/g' "$f" > tmp.json
-  mv -f tmp.json "$f"
-done
-
+if [ ! -f dashboards/reportcard.json.tmp ]; then
+	mv dashboards/reportcard.json dashboards/reportcard.json.tmp
+	sed 's/http:\/\/datasets.wikimedia.org\/limn-public-data\/mobile\/datafiles/http:\/\/localhost:5000\/data\/datafiles\/mobile/g' dashboards/reportcard.json.tmp > dashboards/reportcard.json
+fi

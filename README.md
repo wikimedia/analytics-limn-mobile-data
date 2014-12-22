@@ -45,15 +45,11 @@ On Ubuntu the following does the trick:
 
 ## Adding your own Graphs
 
-(Specific to Mobile right now, limitation will be removed *soon*)
-
 - Write an SQL Query that returns data in the appropriate format, and place it
   in `mobile/<name>.sql`
-- Add `<name>` to appropriate position in `dashboards/reportcard.json`
+- Add `http://datasets.wikimedia.org/limn-public-data/mobile/datafiles/<name>.csv` to appropriate position in `dashboards/reportcard.json`
 - Add the graph to `mobile/config.yaml`
-- Generate data for the graph `python generate.py -c scripts/config.yaml mobile -g <graphname>`
-- Run `python generate-graph.py -g <graphname>`
-
+- Generate the datafile (csv) for the graph `python generate.py -c scripts/config.yaml mobile -g <graphname>`
 
 ## Testing using local data
 
@@ -75,7 +71,7 @@ following content:
 
 Now, you should be able to run `generate.py` with config overrides:
 
-    $ python generate.py -c scripts/config.yaml mobile
+    $ python generate.py -c scripts/config.yaml mobile -g my_graph_id
 
 When all the data is generated you still need to do one more thing to let
 Limn know that it should use the local data. The hacky solution is to replace
