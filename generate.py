@@ -17,6 +17,7 @@ from dateutil.relativedelta import relativedelta
 import json
 
 from traceback import format_exc
+from reportupdater import reportupdater
 
 
 class DataGenerator(object):
@@ -130,15 +131,32 @@ class DataGenerator(object):
             return {}
 
     def execute(self):
+        # Call reportupdater.
+        # It will be only called if 'reportupdater-reports' section
+        # can be found in the config file root level. Reportupdater
+        # will not interfere in generate.py execution and viceversa.
+        if 'reportupdater-reports' in self.config:
+            reportupdater.run(
+                config=self.config,
+                sql_folder=os.path.abspath(self.folder),
+                output_folder=os.path.abspath(self.config['output']['path'])
+            )
+        # End of reportupdater call.
         history = self.get_history()
         """Generates a CSV report by executing Python code and SQL queries."""
         if self.graph:
             name = self.graph
             graphs = {name: self.config['graphs'][name]}
         else:
-            graphs = self.config['graphs']
+            graphs = self.config['graphs'] or {}
 
+        reportupdater_reports = self.config.get('reportupdater-reports', {})
         for key, value in graphs.iteritems():
+            # Ensure that reports specified to be executed
+            # by reportupdater are not also run by generate.py.
+            if key in reportupdater_reports:
+                print '%s should have been executed by reportupdater, skipping.' % key
+                continue
             # title = value['title']
             freq = value['frequency']
             try:
