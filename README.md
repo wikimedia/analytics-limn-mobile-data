@@ -51,13 +51,6 @@ On Ubuntu the following does the trick:
 - Add the graph to `mobile/config.yaml`
 - Generate the datafile (csv) for the graph `python generate.py -c scripts/config.yaml mobile -g <graphname>`
 
-## Executing unit tests
-
-Install the test requirements and run nosetests:
-
-    $ pip install -r test-requirements.txt
-    $ nosetests
-
 ## Testing using local data
 
 By default the instance you run will show graphs using production data.
