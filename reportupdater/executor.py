@@ -121,6 +121,7 @@ class Executor(object):
             if not isinstance(sql_date, date):
                 raise ValueError('Query results do not have date values in first column.')
             # normalize to datetime
+            row = list(row)  # make row item assignable
             row[0] = datetime(sql_date.year, sql_date.month, sql_date.day, 0, 0, 0, 0)
             if is_funnel:
                 data[row[0]].append(row)
