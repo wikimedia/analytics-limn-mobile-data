@@ -7,6 +7,7 @@ from unittest import TestCase
 from mock import MagicMock
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
+from copy import deepcopy
 
 
 class SelectorTest(TestCase):
@@ -70,8 +71,8 @@ class SelectorTest(TestCase):
 
 
     def test_get_interval_reports_when_previous_results_is_empty(self):
-        # Note no previous results csv exists for default report.
-        now = datetime(2015, 1, 2)
+        # Note no previous results tsv exists for default report.
+        now = datetime(2015, 1, 3)
         reports = list(self.selector.get_interval_reports(self.report, now))
         self.assertEqual(len(reports), 2)
         self.assertEqual(reports[0].start, datetime(2015, 1, 1))
@@ -82,8 +83,8 @@ class SelectorTest(TestCase):
 
     def test_get_interval_reports_when_previous_results_has_some_dates(self):
         self.report.key = 'selector_test1'
-        # see: test/fixtures/output/selector_test1.csv
-        now = datetime(2015, 1, 2)
+        # see: test/fixtures/output/selector_test1.tsv
+        now = datetime(2015, 1, 3)
         reports = list(self.selector.get_interval_reports(self.report, now))
         self.assertEqual(len(reports), 1)
         self.assertEqual(reports[0].start, datetime(2015, 1, 2))
@@ -92,8 +93,8 @@ class SelectorTest(TestCase):
 
     def test_get_interval_reports_when_previous_results_has_all_dates(self):
         self.report.key = 'selector_test2'
-        # see: test/fixtures/output/selector_test2.csv
-        now = datetime(2015, 1, 2)
+        # see: test/fixtures/output/selector_test2.tsv
+        now = datetime(2015, 1, 3)
         reports = list(self.selector.get_interval_reports(self.report, now))
         self.assertEqual(len(reports), 1)
         self.assertEqual(reports[0].start, datetime(2015, 1, 2))
@@ -192,6 +193,29 @@ class SelectorTest(TestCase):
         self.assertEqual(result, expected)
 
 
+    def test_explode(self):
+        self.report.explode_by = {
+            'wiki': ['enwiki', 'dewiki'],
+            'editor': ['wikitext', 'visualeditor']
+        }
+        reports = list(self.selector.explode(self.report))
+        self.assertEqual(len(reports), 4)
+        expected_values = [
+            {'wiki': 'enwiki', 'editor': 'visualeditor'},
+            {'wiki': 'enwiki', 'editor': 'wikitext'},
+            {'wiki': 'dewiki', 'editor': 'visualeditor'},
+            {'wiki': 'dewiki', 'editor': 'wikitext'}
+        ]
+        for report in reports:
+            self.assertEqual(report.key, self.report.key)
+            self.assertEqual(report.first_date, self.report.first_date)
+            self.assertEqual(report.frequency, self.report.frequency)
+            self.assertEqual(report.granularity, self.report.granularity)
+            self.assertEqual(report.is_timeboxed, self.report.is_timeboxed)
+            self.assertIn(report.explode_by, expected_values)
+            expected_values.remove(report.explode_by)
+
+
     def test_run_when_last_exec_time_is_greater_than_current_exec_time(self):
         self.config['last_exec_time'] = datetime(2015, 1, 2)
         self.config['current_exec_time'] = datetime(2015, 1, 1)
@@ -230,7 +254,56 @@ class SelectorTest(TestCase):
         read = [self.report]
         self.selector.reader.run = MagicMock(return_value=read)
         self.selector.is_time_to_execute = MagicMock(return_value=True)
-        self.selector.get_interval_reports = MagicMock(return_value=['report'])
+        self.selector.get_interval_reports = MagicMock(return_value=[self.report, self.report])
         selected = list(self.selector.run())
-        self.assertEqual(len(selected), 1)
-        self.assertEqual(selected[0], 'report')
+        self.assertEqual(len(selected), 2)
+        self.assertEqual(selected[0], self.report)
+        self.assertEqual(selected[1], self.report)
+
+
+    def test_run_when_should_explode_and_is_timeboxed(self):
+        self.report.explode_by = {'wiki': ['enwiki', 'dewiki', 'all']}
+        self.report.is_timeboxed = True
+
+        def explode_by_wiki_mock(report):
+            self.assertEqual(report, self.report)
+            for wiki in ['enwiki', 'dewiki', 'all']:
+                report_copy = deepcopy(report)
+                report_copy.explode_by['wiki'] = wiki
+                yield report_copy
+
+        def get_interval_reports_mock(report, now):
+            yield report
+
+        read = [self.report]
+        self.selector.reader.run = MagicMock(return_value=read)
+        self.selector.is_time_to_execute = MagicMock(return_value=True)
+        self.selector.explode_by_wiki = MagicMock(wraps=explode_by_wiki_mock)
+        self.selector.get_interval_reports = MagicMock(wraps=get_interval_reports_mock)
+        selected = list(self.selector.run())
+        self.assertEqual(len(selected), 3)
+        self.assertEqual(selected[0].explode_by, {'wiki': 'enwiki'})
+        self.assertEqual(selected[1].explode_by, {'wiki': 'dewiki'})
+        self.assertEqual(selected[2].explode_by, {'wiki': 'all'})
+
+
+    def test_run_when_should_explode_and_is_not_timeboxed(self):
+        self.report.explode_by = {'wiki': ['enwiki', 'dewiki', 'all']}
+        self.report.is_timeboxed = False
+
+        def explode_by_wiki_mock(report):
+            self.assertEqual(report, self.report)
+            for wiki in ['enwiki', 'dewiki', 'all']:
+                report_copy = deepcopy(report)
+                report_copy.explode_by['wiki'] = wiki
+                yield report_copy
+
+        read = [self.report]
+        self.selector.reader.run = MagicMock(return_value=read)
+        self.selector.is_time_to_execute = MagicMock(return_value=True)
+        self.selector.explode_by_wiki = MagicMock(wraps=explode_by_wiki_mock)
+        selected = list(self.selector.run())
+        self.assertEqual(len(selected), 3)
+        self.assertEqual(selected[0].explode_by, {'wiki': 'enwiki'})
+        self.assertEqual(selected[1].explode_by, {'wiki': 'dewiki'})
+        self.assertEqual(selected[2].explode_by, {'wiki': 'all'})

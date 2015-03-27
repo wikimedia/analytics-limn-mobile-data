@@ -51,6 +51,7 @@ def run(**kwargs):
         config['last_exec_time'] = last_exec_time
         config['sql_folder'] = params['sql_folder']
         config['output_folder'] = params['output_folder']
+        config['wikis_path'] = params['wikis_path']
 
         reader = Reader(config)
         selector = Selector(reader, config)
@@ -70,8 +71,10 @@ def get_params(passed_params):
         'config_path': os.path.join(PROJECT_ROOT, 'config.yaml'),
         'sql_folder': os.path.join(PROJECT_ROOT, 'sql'),
         'output_folder': os.path.join(PROJECT_ROOT, 'output'),
+        'wikis_path': os.path.join(PROJECT_ROOT, 'reportupdater/wikis.txt'),
         'log_level': logging.WARNING
     }
+    passed_params = {k: v for k, v in passed_params.iteritems() if v is not None}
     default_params.update(passed_params)
     return default_params
 

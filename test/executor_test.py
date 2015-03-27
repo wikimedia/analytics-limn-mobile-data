@@ -63,6 +63,14 @@ class ExecutorTest(TestCase):
         self.assertEqual(sql_query, self.report.sql_template)
 
 
+    def test_instantiate_sql_when_by_wiki_is_true(self):
+        self.report.is_timeboxed = False
+        self.report.explode_by = {'wiki': 'wiki'}
+        self.report.sql_template = 'SOME sql WITH "{wiki}";'
+        sql_query = self.executor.instantiate_sql(self.report)
+        self.assertEqual(sql_query, 'SOME sql WITH "wiki";')
+
+
     def test_create_connection_when_db_key_is_not_in_db_config(self):
         del self.config['databases'][self.db_key]
         with self.assertRaises(KeyError):

@@ -47,16 +47,15 @@ class Executor(object):
 
 
     def instantiate_sql(self, report):
+        values = {}
         if report.is_timeboxed:
-            try:
-                return report.sql_template.format(
-                    from_timestamp=report.start.strftime(TIMESTAMP_FORMAT),
-                    to_timestamp=report.end.strftime(TIMESTAMP_FORMAT),
-                )
-            except KeyError:
-                raise ValueError('SQL template contains unknown placeholders.')
-        else:
-            return report.sql_template
+            values['from_timestamp'] = report.start.strftime(TIMESTAMP_FORMAT)
+            values['to_timestamp'] = report.end.strftime(TIMESTAMP_FORMAT)
+        values.update(report.explode_by)
+        try:
+            return report.sql_template.format(**values)
+        except KeyError:
+            raise ValueError('SQL template contains unknown placeholders.')
 
 
     def create_connection(self, db_key):

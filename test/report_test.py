@@ -21,6 +21,8 @@ class ReportTest(TestCase):
         self.report.sql_template = ('SELECT date, value FROM table '
                                     'WHERE date >= {from_timestamp} '
                                     'AND date < {to_timestamp}')
+        self.by_wiki = True
+        self.wiki = 'enwiki'
         self.report.results = {
             'header': ['date', 'value'],
             'data': {

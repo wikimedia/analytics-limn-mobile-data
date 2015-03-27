@@ -16,7 +16,8 @@ class ReaderTest(TestCase):
         self.report_config = {
             'starts': '2015-01-01',
             'timeboxed': True,
-            'frequency': 'hourly'
+            'frequency': 'hours',
+            'granularity': 'days'
         }
         self.config = {
             'sql_folder': 'test/fixtures/sql',
@@ -31,27 +32,34 @@ class ReaderTest(TestCase):
         self.reader = Reader(self.config)
 
 
-    def test_get_frequency_and_granularity_when_report_frequency_is_not_in_config(self):
+    def test_get_frequency_and_granularity_when_value_is_not_in_config(self):
         report_config = {}
         with self.assertRaises(KeyError):
-            self.reader.get_frequency_and_granularity(report_config)
+            self.reader.get_frequency(report_config)
+        with self.assertRaises(KeyError):
+            self.reader.get_granularity(report_config)
 
 
-    def test_get_frequency_and_granularity_when_report_frequency_is_not_hourly_or_daily(self):
-        report_config = {'frequency': 'wrongly'}
-        with self.assertRaises(ValueError):
-            self.reader.get_frequency_and_granularity(report_config)
-
-
-    def test_get_frequency(self):
-        corresponding = {
-            'hourly': ('hours', 'days'),
-            'daily': ('days', 'months')
+    def test_get_frequency_and_granularity_when_value_is_not_valid(self):
+        report_config = {
+            'frequency': 'wrong',
+            'granularity': 'wrong'
         }
-        for frequency, expected in corresponding.iteritems():
+        with self.assertRaises(ValueError):
+            self.reader.get_frequency(report_config)
+        with self.assertRaises(ValueError):
+            self.reader.get_granularity(report_config)
+
+
+    def test_get_frequency_and_granularity(self):
+        for frequency in ['hours', 'days']:
             report_config = {'frequency': frequency}
-            result = self.reader.get_frequency_and_granularity(report_config)
-            self.assertEqual(result, expected)
+            result = self.reader.get_frequency(report_config)
+            self.assertEqual(result, frequency)
+        for granularity in ['days', 'months']:
+            report_config = {'granularity': granularity}
+            result = self.reader.get_granularity(report_config)
+            self.assertEqual(result, granularity)
 
 
     def test_get_is_timeboxed_when_report_timeboxed_is_not_in_config(self):
@@ -194,6 +202,34 @@ class ReaderTest(TestCase):
         self.assertEqual(result, expected)
 
 
+    def test_get_explode_by_wiki(self):
+        self.config['wikis_path'] = 'test/fixtures/wikis.txt'
+        result = self.reader.get_explode_by({})
+        self.assertNotIn('wiki', result)
+        result = self.reader.get_explode_by({'by_wiki': ('not', 'a', 'bool')})
+        self.assertNotIn('wiki', result)
+        result = self.reader.get_explode_by({'by_wiki': False})
+        self.assertNotIn('wiki', result)
+        result = self.reader.get_explode_by({'by_wiki': True})
+        self.assertIn('wiki', result)
+        self.assertEqual(result['wiki'], ['wiki1', 'wiki2', 'wiki3', 'all'])
+
+
+    def test_get_explode_by(self):
+        report_config = {
+            'explode_by': {
+                'editor': 'visualeditor, wikitext',
+                'language': 'en, de, fr'
+            }
+        }
+        result = self.reader.get_explode_by(report_config)
+        expected = {
+            'editor': ['visualeditor', 'wikitext'],
+            'language': ['en', 'de', 'fr']
+        }
+        self.assertEqual(result, expected)
+
+
     def test_create_report_when_report_key_is_not_a_string(self):
         report_key = ('not', 'a', 'string')
         with self.assertRaises(TypeError):
@@ -214,12 +250,13 @@ class ReaderTest(TestCase):
 
     def test_create_report(self):
         self.reader.get_first_date = MagicMock(return_value='first_date')
-        self.reader.get_frequency_and_granularity = MagicMock(
-            return_value=('frequency', 'granularity'))
+        self.reader.get_frequency = MagicMock(return_value='frequency')
+        self.reader.get_granularity = MagicMock(return_value='granularity')
         self.reader.get_is_timeboxed = MagicMock(return_value='is_timeboxed')
         self.reader.get_is_funnel = MagicMock(return_value='is_funnel')
         self.reader.get_db_key = MagicMock(return_value='db_key')
         self.reader.get_sql_template = MagicMock(return_value='sql_template')
+        self.reader.get_by_wiki = MagicMock(return_value=False)
         report = self.reader.create_report(self.report_key, self.report_config)
         self.assertEqual(report.key, self.report_key)
         self.assertEqual(report.first_date, 'first_date')
@@ -229,6 +266,7 @@ class ReaderTest(TestCase):
         self.assertEqual(report.is_funnel, 'is_funnel')
         self.assertEqual(report.db_key, 'db_key')
         self.assertEqual(report.sql_template, 'sql_template')
+        self.assertEqual(report.explode_by, {})
         self.assertEqual(report.results, {'header': [], 'data': {}})
         self.assertEqual(report.start, None)
         self.assertEqual(report.end, None)

@@ -45,11 +45,12 @@ class Selector(object):
             logging.debug('Triaging "{report}"...'.format(report=str(report)))
             try:
                 if self.is_time_to_execute(last_exec_time, now, report.frequency):
-                    if report.is_timeboxed:
-                        for report in self.get_interval_reports(report, now):
-                            yield report
-                    else:
-                        yield report
+                    for exploded_report in self.explode(report):
+                        if report.is_timeboxed:
+                            for interval_report in self.get_interval_reports(exploded_report, now):
+                                yield interval_report
+                        else:
+                            yield exploded_report
             except Exception, e:
                 message = ('Report "{report_key}" could not be triaged for execution '
                            'because of error: {error}')
@@ -73,16 +74,17 @@ class Selector(object):
             raise ValueError('Output folder is not a string.')
 
         first_date = self.truncate_date(report.first_date, report.granularity)
-        current_date = self.truncate_date(now, report.granularity)
-        increment = self.get_increment(report.granularity)
+        frequency_increment = self.get_increment(report.frequency)
+        granularity_increment = self.get_increment(report.granularity)
+        last_date = self.truncate_date(now - frequency_increment, report.granularity)
         previous_results = get_previous_results(report, output_folder)
         already_done_dates = previous_results['data'].keys()
 
-        for start in self.get_all_start_dates(first_date, current_date, increment):
-            if start == current_date or start not in already_done_dates:
+        for start in self.get_all_start_dates(first_date, last_date, granularity_increment):
+            if start == last_date or start not in already_done_dates:
                 report_copy = deepcopy(report)
                 report_copy.start = start
-                report_copy.end = start + increment
+                report_copy.end = start + granularity_increment
                 yield report_copy
 
 
@@ -98,7 +100,9 @@ class Selector(object):
 
 
     def get_increment(self, period):
-        if period == 'days':
+        if period == 'hours':
+            return relativedelta(hours=1)
+        elif period == 'days':
             return relativedelta(days=1)
         elif period == 'months':
             return relativedelta(months=1)
@@ -115,3 +119,23 @@ class Selector(object):
         while current_start <= current_date:
             yield current_start
             current_start += increment
+
+
+    def explode(self, report, visited=set([])):
+        placeholders = set(report.explode_by.keys())
+        remaining_placeholders = placeholders.difference(visited)
+
+        if len(remaining_placeholders) > 0:  # recursive case
+            placeholder = remaining_placeholders.pop()
+            values = report.explode_by[placeholder]
+            visited.add(placeholder)
+            exploded_reports = []
+            for value in values:
+                report_copy = deepcopy(report)
+                report_copy.explode_by[placeholder] = value
+                exploded_reports.extend(self.explode(report_copy, visited))
+            visited.remove(placeholder)
+            return exploded_reports
+
+        else:  # simple case
+            return [report]

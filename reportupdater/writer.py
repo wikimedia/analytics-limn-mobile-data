@@ -12,7 +12,8 @@ import io
 import csv
 import logging
 from executor import Executor
-from utils import raise_critical, get_previous_results, DATE_FORMAT
+from utils import (raise_critical, get_previous_results,
+                   DATE_FORMAT, get_exploded_report_output_path)
 
 
 class Writer(object):
@@ -59,7 +60,11 @@ class Writer(object):
         rows = [data[date] for date in dates]
         if report.is_funnel:
             rows = [row for sublist in rows for row in sublist]  # flatten
-        output_path = os.path.join(self.config['output_folder'], report.key + '.csv')
+        if len(report.explode_by) > 0:
+            output_path = get_exploded_report_output_path(
+                self.config['output_folder'], report.explode_by, report.key)
+        else:
+            output_path = os.path.join(self.config['output_folder'], report.key + '.tsv')
         temp_output_path = output_path + '.tmp'
 
         try:
@@ -67,11 +72,11 @@ class Writer(object):
             temp_output_file = io.open(temp_output_path, 'wb')
         except Exception, e:
             raise RuntimeError('Could not open the temporary output file (' + str(e) + ').')
-        csv_writer = csv.writer(temp_output_file)
-        csv_writer.writerow(header)
+        tsv_writer = csv.writer(temp_output_file, delimiter='\t')
+        tsv_writer.writerow(header)
         for row in rows:
             row[0] = row[0].strftime(DATE_FORMAT)
-            csv_writer.writerow(row)
+            tsv_writer.writerow(row)
         temp_output_file.close()
         try:
             os.rename(temp_output_path, output_path)

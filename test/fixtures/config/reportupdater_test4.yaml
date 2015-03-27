@@ -7,8 +7,10 @@ databases:
 defaults:
     db: reportupdater_db
 reportupdater-reports:
-    reportupdater_test1:
+    reportupdater_test4:
         frequency: hours
         granularity: days
-        timeboxed: true
         starts: 2015-01-01
+        by_wiki: true
+        explode_by:
+            editor: "visualeditor, wikitext"

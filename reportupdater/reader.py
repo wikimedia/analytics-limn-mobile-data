@@ -14,7 +14,7 @@ import io
 import logging
 from datetime import datetime, date
 from report import Report
-from utils import DATE_FORMAT, raise_critical
+from utils import DATE_FORMAT, raise_critical, get_wikis
 
 
 class Reader(object):
@@ -50,24 +50,33 @@ class Reader(object):
             raise TypeError('Report config is not a dict.')
         report = Report()
         report.key = report_key
-        report.frequency, report.granularity = self.get_frequency_and_granularity(report_config)
+        report.frequency = self.get_frequency(report_config)
+        report.granularity = self.get_granularity(report_config)
         report.is_timeboxed = self.get_is_timeboxed(report_config)
         report.is_funnel = self.get_is_funnel(report_config)
         report.first_date = self.get_first_date(report_config, report.is_timeboxed)
         report.db_key = self.get_db_key()
         report.sql_template = self.get_sql_template(report_key)
+        report.explode_by = self.get_explode_by(report_config)
         return report
 
 
-    def get_frequency_and_granularity(self, report_config):
+    def get_frequency(self, report_config):
         if 'frequency' not in report_config:
             raise KeyError('Report frequency is not specified.')
-        if report_config['frequency'] == 'hourly':
-            return 'hours', 'days'
-        elif report_config['frequency'] == 'daily':
-            return 'days', 'months'
-        else:
+        frequency = report_config['frequency']
+        if frequency not in ['hours', 'days']:
             raise ValueError('Report frequency is not valid.')
+        return frequency
+
+
+    def get_granularity(self, report_config):
+        if 'granularity' not in report_config:
+            raise KeyError('Report granularity is not specified.')
+        granularity = report_config['granularity']
+        if granularity not in ['days', 'months']:
+            raise ValueError('Report granularity is not valid.')
+        return granularity
 
 
     def get_is_timeboxed(self, report_config):
@@ -120,3 +129,14 @@ class Reader(object):
                 return sql_template_file.read()
         except IOError, e:
             raise IOError('Could not read the SQL template (' + str(e) + ').')
+
+
+    def get_explode_by(self, report_config):
+        explode_by = {}
+        if 'by_wiki' in report_config and report_config['by_wiki'] is True:
+            explode_by['wiki'] = get_wikis(self.config) + ['all']
+        if 'explode_by' in report_config:
+            for placeholder, values_str in report_config['explode_by'].iteritems():
+                values = [value.strip() for value in values_str.split(',')]
+                explode_by[placeholder] = values
+        return explode_by

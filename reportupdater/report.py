@@ -25,6 +25,7 @@ class Report(object):
         self.end = None
         self.db_key = None
         self.sql_template = None
+        self.explode_by = {}
         self.results = {'header': [], 'data': {}}
 
 
@@ -41,6 +42,7 @@ class Report(object):
             ' end=' + self.format_date(self.end) +
             ' db_key=' + str(self.db_key) +
             ' sql_template=' + self.format_sql(self.sql_template) +
+            ' explode_by=' + str(self.explode_by) +
             ' results=' + self.format_results(self.results) +
             '>'
         )

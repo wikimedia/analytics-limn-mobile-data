@@ -2,6 +2,7 @@
 import os
 import io
 import time
+import shutil
 import MySQLdb
 from reportupdater import reportupdater
 from reportupdater.utils import DATE_AND_TIME_FORMAT, DATE_FORMAT
@@ -33,7 +34,10 @@ class ReportUpdaterTest(TestCase):
             try:
                 os.remove(path)
             except:
-                pass
+                try:
+                    shutil.rmtree(path)
+                except:
+                    pass
 
 
     def test_when_current_exec_time_and_last_exec_time_are_within_the_same_hour(self):
@@ -48,7 +52,7 @@ class ReportUpdaterTest(TestCase):
         )
         # The report should not be computed because it has already been computed
         # within this hour. So the output file should not exist.
-        output_path = os.path.join(self.output_folder, 'reportupdater_test1.csv')
+        output_path = os.path.join(self.output_folder, 'reportupdater_test1.tsv')
         self.assertFalse(os.path.exists(output_path))
 
 
@@ -64,7 +68,7 @@ class ReportUpdaterTest(TestCase):
         )
         # The report should not be computed because it has already been computed
         # within this day. So the output file should not exist.
-        output_path = os.path.join(self.output_folder, 'reportupdater_test2.csv')
+        output_path = os.path.join(self.output_folder, 'reportupdater_test2.tsv')
         self.assertFalse(os.path.exists(output_path))
 
 
@@ -84,7 +88,7 @@ class ReportUpdaterTest(TestCase):
 
         # The first thread should execute normally and output the results.
         history_path1 = 'test/fixtures/reportupdater_test1.history'
-        output_path1 = os.path.join(self.output_folder, 'reportupdater_test1.csv')
+        output_path1 = os.path.join(self.output_folder, 'reportupdater_test1.tsv')
         self.paths_to_clean.extend([history_path1, output_path1])
         args1 = {
             'config_path': os.path.join(self.config_folder, 'reportupdater_test1.yaml'),
@@ -102,7 +106,7 @@ class ReportUpdaterTest(TestCase):
         # the frequency control does not discard this thread.
         time.sleep(0.1)
         history_path2 = 'test/fixtures/reportupdater_test2.history'
-        output_path2 = os.path.join(self.output_folder, 'reportupdater_test2.csv')
+        output_path2 = os.path.join(self.output_folder, 'reportupdater_test2.tsv')
         self.paths_to_clean.extend([history_path2, output_path2])
         args2 = {
             'config_path': os.path.join(self.config_folder, 'reportupdater_test2.yaml'),
@@ -115,10 +119,10 @@ class ReportUpdaterTest(TestCase):
 
         # wait for the threads to finish and assert results
         thread1.join()
-        output_path1 = os.path.join(self.output_folder, 'reportupdater_test1.csv')
+        output_path1 = os.path.join(self.output_folder, 'reportupdater_test1.tsv')
         self.assertTrue(os.path.exists(output_path1))
         thread2.join()
-        output_path2 = os.path.join(self.output_folder, 'reportupdater_test2.csv')
+        output_path2 = os.path.join(self.output_folder, 'reportupdater_test2.tsv')
         self.assertFalse(os.path.exists(output_path2))
 
 
@@ -139,7 +143,7 @@ class ReportUpdaterTest(TestCase):
         MySQLdb.connect = MagicMock(return_value=connection_mock)
 
         config_path = os.path.join(self.config_folder, 'reportupdater_test1.yaml')
-        output_path = os.path.join(self.output_folder, 'reportupdater_test1.csv')
+        output_path = os.path.join(self.output_folder, 'reportupdater_test1.tsv')
         history_path = 'test/fixtures/reportupdater_test1.history'
         self.paths_to_clean.extend([output_path, history_path])
         reportupdater.run(
@@ -153,12 +157,12 @@ class ReportUpdaterTest(TestCase):
             output_lines = output_file.readlines()
         self.assertTrue(len(output_lines) > 1)
         header = output_lines.pop(0).strip()
-        self.assertEqual(header, 'date,value')
+        self.assertEqual(header, 'date\tvalue')
         # Assert that all lines hold subsequent values.
         expected_date = datetime(2015, 1, 1)
         expected_value = 1
         for line in output_lines:
-            expected_line = expected_date.strftime(DATE_FORMAT) + ',' + str(expected_value)
+            expected_line = expected_date.strftime(DATE_FORMAT) + '\t' + str(expected_value)
             self.assertEqual(line.strip(), expected_line)
             expected_date += relativedelta(days=+1)
             expected_value += 1
@@ -182,7 +186,7 @@ class ReportUpdaterTest(TestCase):
         MySQLdb.connect = MagicMock(return_value=connection_mock)
 
         config_path = os.path.join(self.config_folder, 'reportupdater_test3.yaml')
-        output_path = os.path.join(self.output_folder, 'reportupdater_test3.csv')
+        output_path = os.path.join(self.output_folder, 'reportupdater_test3.tsv')
         history_path = 'test/fixtures/reportupdater_test3.history'
         self.paths_to_clean.extend([output_path, history_path])
         reportupdater.run(
@@ -196,12 +200,12 @@ class ReportUpdaterTest(TestCase):
             output_lines = output_file.readlines()
         self.assertTrue(len(output_lines) > 1)
         header = output_lines.pop(0).strip()
-        self.assertEqual(header, 'date,value')
+        self.assertEqual(header, 'date\tvalue')
         # Assert that all lines hold subsequent values.
         expected_date = datetime(2015, 1, 1)
         expected_value = 1
         for line in output_lines:
-            expected_line = expected_date.strftime(DATE_FORMAT) + ',' + str(expected_value)
+            expected_line = expected_date.strftime(DATE_FORMAT) + '\t' + str(expected_value)
             self.assertEqual(line.strip(), expected_line)
             if expected_value < 3:
                 expected_value += 1
@@ -214,24 +218,24 @@ class ReportUpdaterTest(TestCase):
         def fetchall_callback():
             # This method will return a subsequent row with each call.
             try:
-                date = self.last_date + relativedelta(months=+1)
+                sql_date = self.last_date + relativedelta(months=+1)
                 value = self.last_value + 1
             except AttributeError:
                 # Starts at Mar, Jan and Feb are in previous results
-                date = datetime(2015, 3, 1)
+                sql_date = datetime(2015, 3, 1)
                 value = 3
-            self.last_date = date
+            self.last_date = sql_date
             self.last_value = value
-            return [[date.strftime(DATE_FORMAT), str(value)]]
+            return [[sql_date, str(value)]]
         header = ['date', 'value']
         connection_mock = ConnectionMock(None, fetchall_callback, header)
         MySQLdb.connect = MagicMock(return_value=connection_mock)
 
         config_path = os.path.join(self.config_folder, 'reportupdater_test2.yaml')
-        output_path = os.path.join(self.output_folder, 'reportupdater_test2.csv')
+        output_path = os.path.join(self.output_folder, 'reportupdater_test2.tsv')
         history_path = 'test/fixtures/reportupdater_test2.history'
         with io.open(output_path, 'w') as output_file:
-            output_file.write(unicode('date,value\n2015-01-01,1\n2015-02-01,2\n'))
+            output_file.write(unicode('date\tvalue\n2015-01-01\t1\n2015-02-01\t2\n'))
         self.paths_to_clean.extend([output_path, history_path])
         reportupdater.run(
             config_path=config_path,
@@ -244,15 +248,56 @@ class ReportUpdaterTest(TestCase):
             output_lines = output_file.readlines()
         self.assertTrue(len(output_lines) > 1)
         header = output_lines.pop(0).strip()
-        self.assertEqual(header, 'date,value')
+        self.assertEqual(header, 'date\tvalue')
         # Assert that all lines hold subsequent values.
         expected_date = datetime(2015, 1, 1)
         expected_value = 1
         for line in output_lines:
-            expected_line = expected_date.strftime(DATE_FORMAT) + ',' + str(expected_value)
+            expected_line = expected_date.strftime(DATE_FORMAT) + '\t' + str(expected_value)
             self.assertEqual(line.strip(), expected_line)
             expected_date += relativedelta(months=+1)
             expected_value += 1
+
+
+    def test_daily_not_timeboxed_report_without_previous_results_with_explode_by(self):
+        def fetchall_callback():
+            return [[datetime(2015, 1, 1), str(1)]]
+        header = ['date', 'value']
+        connection_mock = ConnectionMock(None, fetchall_callback, header)
+        MySQLdb.connect = MagicMock(return_value=connection_mock)
+
+        config_path = os.path.join(self.config_folder, 'reportupdater_test4.yaml')
+        history_path = 'test/fixtures/reportupdater_test4.history'
+        wikis_path = 'test/fixtures/wikis.txt'
+        reportupdater.run(
+            config_path=config_path,
+            sql_folder=self.sql_folder,
+            output_folder=self.output_folder,
+            history_path=history_path,
+            wikis_path=wikis_path
+        )
+
+        output_folder = os.path.join(self.output_folder, 'reportupdater_test4')
+        self.paths_to_clean.extend([output_folder, history_path])
+
+        output_filenames = [
+            'visualeditor/wiki1.tsv',
+            'visualeditor/wiki2.tsv',
+            'visualeditor/wiki3.tsv',
+            'visualeditor/all.tsv',
+            'wikitext/wiki1.tsv',
+            'wikitext/wiki2.tsv',
+            'wikitext/wiki3.tsv',
+            'wikitext/all.tsv'
+        ]
+        for output_filename in output_filenames:
+            output_path = os.path.join(output_folder, output_filename)
+            self.assertTrue(os.path.exists(output_path))
+            with io.open(output_path, 'r', encoding='utf-8') as output_file:
+                output_lines = output_file.readlines()
+            self.assertEqual(len(output_lines), 2)
+            self.assertEqual(output_lines[0], 'date\tvalue\n')
+            self.assertEqual(output_lines[1], '2015-01-01\t1\n')
 
 
     def write_time_to_history(self, last_exec_time):

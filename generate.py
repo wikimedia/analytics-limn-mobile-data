@@ -139,7 +139,8 @@ class DataGenerator(object):
             reportupdater.run(
                 config=self.config,
                 sql_folder=os.path.abspath(self.folder),
-                output_folder=os.path.abspath(self.config['output']['path'])
+                output_folder=os.path.abspath(self.config['output']['path']),
+                wikis_path=os.path.abspath('reportupdater/wikis.txt')
             )
         # End of reportupdater call.
         history = self.get_history()
