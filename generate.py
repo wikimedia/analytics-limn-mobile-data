@@ -136,11 +136,12 @@ class DataGenerator(object):
         # can be found in the config file root level. Reportupdater
         # will not interfere in generate.py execution and viceversa.
         if 'reportupdater-reports' in self.config:
+            project_path = os.path.dirname(os.path.realpath(__file__))
             reportupdater.run(
                 config=self.config,
                 sql_folder=os.path.abspath(self.folder),
                 output_folder=os.path.abspath(self.config['output']['path']),
-                wikis_path=os.path.abspath('reportupdater/wikis.txt')
+                wikis_path=os.path.join(project_path, 'reportupdater/wikis.txt')
             )
         # End of reportupdater call.
         history = self.get_history()
