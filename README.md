@@ -2,6 +2,8 @@
 be refactored out of here to be a generic thing that everyone doing EL -> Limn
 can use
 
+Also see https://wikitech.wikimedia.org/wiki/Mobile_Reportcard
+
 ## Installing dependencies
 
 You will need [Limn](https://github.com/wikimedia/limn) itself.
