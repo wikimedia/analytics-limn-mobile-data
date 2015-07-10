@@ -20,11 +20,12 @@ class ReportUpdaterTest(TestCase):
     def setUp(self):
         self.mysqldb_connect_stash = MySQLdb.connect
         self.utcnow_stash = reportupdater.utcnow
-        self.paths_to_clean = [reportupdater.PID_FILE_PATH]
         self.config_folder = 'test/fixtures/config'
         self.sql_folder = 'test/fixtures/sql'
         self.output_folder = 'test/fixtures/output'
+        self.pid_file_path = 'test/fixtures/sql/.reportupdater.pid'
         self.history_path = 'test/fixtures/reportupdater_test.history'
+        self.paths_to_clean = [self.pid_file_path]
 
 
     def tearDown(self):

@@ -13,3 +13,6 @@ databases:
 output:
     path: datafiles
     url: /data/datafiles/mobile
+
+# for running reportupdater through generate.py
+reportupdater-output: "datafiles"

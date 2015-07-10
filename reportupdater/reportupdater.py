@@ -28,17 +28,13 @@ from writer import Writer
 from utils import DATE_AND_TIME_FORMAT
 
 
-PROJECT_ROOT = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..')
-PID_FILE_PATH = os.path.join(PROJECT_ROOT, '.reportupdater.pid')
-
-
 def run(**kwargs):
     params = get_params(kwargs)
     configure_logging(params)
 
-    if only_instance_running():
+    if only_instance_running(params):
         logging.info('Starting execution.')
-        write_pid_file()  # create lock to avoid concurrent executions
+        write_pid_file(params)  # create lock to avoid concurrent executions
 
         current_exec_time = utcnow()
         last_exec_time = replace_exec_time(current_exec_time, params['history_path'])
@@ -59,24 +55,27 @@ def run(**kwargs):
         writer = Writer(executor, config)
         writer.run()
 
-        delete_pid_file()  # free lock for other instances to execute
+        delete_pid_file(params)  # free lock for other instances to execute
         logging.info('Execution complete.')
     else:
         logging.warning('Another instance is already running. Exiting.')
 
 
 def get_params(passed_params):
-    default_params = {
-        'history_path': os.path.join(PROJECT_ROOT, '.reportupdater.history'),
-        'config_path': os.path.join(PROJECT_ROOT, 'config.yaml'),
-        'sql_folder': os.path.join(PROJECT_ROOT, 'sql'),
-        'output_folder': os.path.join(PROJECT_ROOT, 'output'),
-        'wikis_path': os.path.join(PROJECT_ROOT, 'reportupdater/wikis.txt'),
+    project_root = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..')
+    sql_folder = passed_params.pop('sql_folder', os.path.join(project_root, 'sql'))
+    process_params = {
+        'pid_file_path': os.path.join(sql_folder, '.reportupdater.pid'),
+        'history_path': os.path.join(sql_folder, '.reportupdater.history'),
+        'config_path': os.path.join(sql_folder, 'config.yaml'),
+        'output_folder': os.path.join(project_root, 'output'),
+        'wikis_path': os.path.join(project_root, 'reportupdater/wikis.txt'),
         'log_level': logging.WARNING
     }
     passed_params = {k: v for k, v in passed_params.iteritems() if v is not None}
-    default_params.update(passed_params)
-    return default_params
+    process_params.update(passed_params)
+    process_params['sql_folder'] = sql_folder
+    return process_params
 
 
 def configure_logging(params):
@@ -91,10 +90,10 @@ def configure_logging(params):
     logger.setLevel(params['log_level'])
 
 
-def only_instance_running():
-    if os.path.isfile(PID_FILE_PATH):
+def only_instance_running(params):
+    if os.path.isfile(params['pid_file_path']):
         try:
-            with io.open(PID_FILE_PATH, 'r') as pid_file:
+            with io.open(params['pid_file_path'], 'r') as pid_file:
                 pid = int(pid_file.read().strip())
         except IOError:
             # Permission error.
@@ -130,17 +129,17 @@ def pid_exists(pid):
         return True
 
 
-def write_pid_file():
+def write_pid_file(params):
     logging.info('Writing the pid file.')
     pid = os.getpid()
-    with io.open(PID_FILE_PATH, 'w') as pid_file:
+    with io.open(params['pid_file_path'], 'w') as pid_file:
         pid_file.write(unicode(pid))
 
 
-def delete_pid_file():
+def delete_pid_file(params):
     logging.info('Deleting the pid file.')
     try:
-        os.remove(PID_FILE_PATH)
+        os.remove(params['pid_file_path'])
     except OSError, e:
         logging.error('Unable to delete the pid file (' + str(e) + ').')
 
