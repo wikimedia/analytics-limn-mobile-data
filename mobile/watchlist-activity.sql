@@ -1,4 +1,5 @@
 SELECT
+      date('{from_timestamp}') as Day,
       sum(a_z_switch) as 'Switched to feed',
       sum(a_z_view) as 'View page (A-Z)',
       sum(a_z_unwatch) as 'Unwatch page',

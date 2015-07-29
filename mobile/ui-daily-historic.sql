@@ -1,4 +1,5 @@
 select
+    date('{from_timestamp}') as Day,
     sum(if(event_name = 'hamburger', 1, 0)) as Hamburger,
     sum(if(event_name = 'hamburger-home', 1, 0)) as Home,
     sum(if(event_name = 'hamburger-random', 1, 0)) as Random,

@@ -4,46 +4,15 @@
     "subhead"  : "Apps & Web",
     "tabs": [
         {
-            "name": "Monthly reports",
+            "name": "Main",
             "graph_ids": [
-                "http://datasets.wikimedia.org/limn-public-data/mobile/datafiles/edits-monthly-new-active.csv",
-                "http://datasets.wikimedia.org/limn-public-data/mobile/datafiles/edits-monthly-unique-editors.csv",
-                "http://datasets.wikimedia.org/limn-public-data/mobile/datafiles/edits-monthly-successful.csv"
-            ]
-        },
-        {
-            "name": "Edits daily",
-            "graph_ids": [
-                "http://datasets.wikimedia.org/limn-public-data/mobile/datafiles/successful-edits-main.csv",
-                "http://datasets.wikimedia.org/limn-public-data/mobile/datafiles/successful-edits-newbie.csv",
-                "http://datasets.wikimedia.org/limn-public-data/mobile/datafiles/successful-edits-other.csv",
-                "http://datasets.wikimedia.org/limn-public-data/mobile/datafiles/successful-edits-unique.csv",
-                "http://datasets.wikimedia.org/limn-public-data/mobile/datafiles/error-edits.csv"
-            ]
-        },
-        {
-            "name": "Apps",
-            "graph_ids": [
-                "http://datasets.wikimedia.org/limn-public-data/mobile/datafiles/app-edit-funnel-total.csv",
-                "http://datasets.wikimedia.org/limn-public-data/mobile/datafiles/app-edit-funnel-android.csv",
-                "http://datasets.wikimedia.org/limn-public-data/mobile/datafiles/app-edit-funnel-ios.csv",
-                "http://datasets.wikimedia.org/limn-public-data/mobile/datafiles/app-edits-starts.csv",
-                "http://datasets.wikimedia.org/limn-public-data/mobile/datafiles/app-edits-preview.csv",
-                "http://datasets.wikimedia.org/limn-public-data/mobile/datafiles/app-edits-save-attempt.csv",
-                "http://datasets.wikimedia.org/limn-public-data/mobile/datafiles/app-edits-success.csv",
-                "http://datasets.wikimedia.org/limn-public-data/mobile/datafiles/app-user-blocks-en.csv"
-            ]
-        },
-        {
-            "name": "Other",
-            "graph_ids": [
-                "http://datasets.wikimedia.org/limn-public-data/mobile/datafiles/mobile-options.csv",
-                "http://datasets.wikimedia.org/limn-public-data/mobile/datafiles/thanks-daily.csv",
+                "http://datasets.wikimedia.org/limn-public-data/mobile/datafiles/mobile-options.tsv",
+                "http://datasets.wikimedia.org/limn-public-data/mobile/datafiles/mobile-options-last-3-months.tsv",
                 "http://datasets.wikimedia.org/limn-public-data/mobile/datafiles/ui-daily-historic.csv",
-                "http://datasets.wikimedia.org/limn-public-data/mobile/datafiles/main-menu-daily.csv",
-                "http://datasets.wikimedia.org/limn-public-data/mobile/datafiles/page-ui-daily.csv",
-                "http://datasets.wikimedia.org/limn-public-data/mobile/datafiles/watchlist-activity.csv",
-                "http://datasets.wikimedia.org/limn-public-data/mobile/datafiles/diff-activity.csv"
+                "http://datasets.wikimedia.org/limn-public-data/mobile/datafiles/main-menu-daily.tsv",
+                "http://datasets.wikimedia.org/limn-public-data/mobile/datafiles/page-ui-daily.tsv",
+                "http://datasets.wikimedia.org/limn-public-data/mobile/datafiles/watchlist-activity.tsv",
+                "http://datasets.wikimedia.org/limn-public-data/mobile/datafiles/diff-activity.tsv"
             ]
         }
     ]

@@ -1,4 +1,5 @@
 SELECT
+  date('{from_timestamp}') as Day,
   sum(view) as 'View page link',
   sum(user) as 'User page link',
   sum(prev_or_next) as 'Clicks previous or next (beta only)',

@@ -1,4 +1,5 @@
 SELECT
+  date('{from_timestamp}') as Day,
   sum(Home) as Home,
   sum(Random) as Random,
   sum(Nearby) as Nearby,

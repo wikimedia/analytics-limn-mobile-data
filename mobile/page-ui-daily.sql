@@ -1,4 +1,5 @@
 SELECT
+  date('{from_timestamp}') as Day,
   sum(Hamburger) as Hamburger,
   sum(Search) as Search,
   sum(Notifications) as Notifications,
