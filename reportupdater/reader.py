@@ -65,7 +65,7 @@ class Reader(object):
         if 'frequency' not in report_config:
             raise KeyError('Report frequency is not specified.')
         frequency = report_config['frequency']
-        if frequency not in ['hours', 'days']:
+        if frequency not in ['hours', 'days', 'weeks']:
             raise ValueError('Report frequency is not valid.')
         return frequency
 
@@ -74,7 +74,7 @@ class Reader(object):
         if 'granularity' not in report_config:
             raise KeyError('Report granularity is not specified.')
         granularity = report_config['granularity']
-        if granularity not in ['days', 'months']:
+        if granularity not in ['days', 'weeks', 'months']:
             raise ValueError('Report granularity is not valid.')
         return granularity
 

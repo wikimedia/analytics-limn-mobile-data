@@ -52,11 +52,11 @@ class ReaderTest(TestCase):
 
 
     def test_get_frequency_and_granularity(self):
-        for frequency in ['hours', 'days']:
+        for frequency in ['hours', 'days', 'weeks']:
             report_config = {'frequency': frequency}
             result = self.reader.get_frequency(report_config)
             self.assertEqual(result, frequency)
-        for granularity in ['days', 'months']:
+        for granularity in ['days', 'weeks', 'months']:
             report_config = {'granularity': granularity}
             result = self.reader.get_granularity(report_config)
             self.assertEqual(result, granularity)

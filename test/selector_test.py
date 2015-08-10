@@ -70,6 +70,22 @@ class SelectorTest(TestCase):
         self.assertTrue(is_time)
 
 
+    def test_is_time_to_execute_when_both_dates_are_in_the_same_week(self):
+        last_exec_time = datetime(2015, 1, 1, 3, 30, 0)
+        now = datetime(2015, 1, 3, 10, 40, 0)
+        frequency = 'weeks'
+        is_time = self.selector.is_time_to_execute(last_exec_time, now, frequency)
+        self.assertFalse(is_time)
+
+
+    def test_is_time_to_execute_when_both_dates_are_in_different_weeks(self):
+        last_exec_time = datetime(2015, 1, 1, 3, 30, 0)
+        now = datetime(2015, 1, 5, 4, 20, 0)
+        frequency = 'days'
+        is_time = self.selector.is_time_to_execute(last_exec_time, now, frequency)
+        self.assertTrue(is_time)
+
+
     def test_get_interval_reports_when_previous_results_is_empty(self):
         # Note no previous results tsv exists for default report.
         now = datetime(2015, 1, 3)
@@ -115,6 +131,13 @@ class SelectorTest(TestCase):
         self.assertEqual(result, expected)
 
 
+    def test_truncate_date_when_period_is_weeks(self):
+        date = datetime(2015, 1, 1, 10, 20, 30)
+        result = self.selector.truncate_date(date, 'weeks')
+        expected = datetime(2014, 12, 28, 0, 0, 0)
+        self.assertEqual(result, expected)
+
+
     def test_truncate_date_when_period_is_months(self):
         date = datetime(2015, 1, 5, 10, 20, 30)
         result = self.selector.truncate_date(date, 'months')
@@ -131,6 +154,11 @@ class SelectorTest(TestCase):
     def test_get_increment_when_period_is_days(self):
         increment = self.selector.get_increment('days')
         self.assertEqual(increment, relativedelta(days=1))
+
+
+    def test_get_increment_when_period_is_weeks(self):
+        increment = self.selector.get_increment('weeks')
+        self.assertEqual(increment, relativedelta(days=7))
 
 
     def test_get_increment_when_period_is_months(self):

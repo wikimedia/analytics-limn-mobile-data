@@ -91,8 +91,13 @@ class Selector(object):
     def truncate_date(self, date, period):
         if period == 'hours':
             return date.replace(minute=0, second=0, microsecond=0)
-        if period == 'days':
+        elif period == 'days':
             return date.replace(hour=0, minute=0, second=0, microsecond=0)
+        elif period == 'weeks':
+            # The week is considered to start on Sunday for convenience,
+            # so that the weekly results are already available on Monday.
+            passed_weekdays = relativedelta(days=date.isoweekday() % 7)
+            return self.truncate_date(date, 'days') - passed_weekdays
         elif period == 'months':
             return date.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
         else:
@@ -104,6 +109,8 @@ class Selector(object):
             return relativedelta(hours=1)
         elif period == 'days':
             return relativedelta(days=1)
+        elif period == 'weeks':
+            return relativedelta(days=7)
         elif period == 'months':
             return relativedelta(months=1)
         else:
