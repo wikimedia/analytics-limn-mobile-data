@@ -55,7 +55,7 @@ class Reader(object):
         report.is_timeboxed = self.get_is_timeboxed(report_config)
         report.is_funnel = self.get_is_funnel(report_config)
         report.first_date = self.get_first_date(report_config, report.is_timeboxed)
-        report.db_key = self.get_db_key()
+        report.db_key = self.get_db_key(report_config)
         report.sql_template = self.get_sql_template(report_key)
         report.explode_by = self.get_explode_by(report_config)
         return report
@@ -106,15 +106,18 @@ class Reader(object):
             return None
 
 
-    def get_db_key(self):
-        if 'defaults' not in self.config:
+    def get_db_key(self, report_config):
+        if 'db' in report_config:
+            db_key = report_config['db']
+        elif 'defaults' not in self.config:
             raise KeyError('Defaults is not in config.')
-        if 'db' not in self.config['defaults']:
+        elif 'db' not in self.config['defaults']:
             raise KeyError('DB default is not in defaults config.')
-        db_key = self.config['defaults']['db']
+        else:
+            db_key = self.config['defaults']['db']
         if not isinstance(db_key, str):
-            raise ValueError('DB default is not a string.')
-        return self.config['defaults']['db']
+            raise ValueError('DB key is not a string.')
+        return db_key
 
 
     def get_sql_template(self, report_key):

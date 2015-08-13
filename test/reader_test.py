@@ -137,17 +137,35 @@ class ReaderTest(TestCase):
         self.assertEqual(result, expected)
 
 
+    def test_get_db_key_when_in_report_config(self):
+        db_key = 'some-db-key'
+        report_config = {'db': db_key}
+        reader = Reader({})
+        result = reader.get_db_key(report_config)
+        self.assertEqual(result, db_key)
+
+
+    def test_get_db_key_when_report_config_db_is_not_a_string(self):
+        db_key = ('not', 'a', 'string')
+        report_config = {'db': db_key}
+        reader = Reader({})
+        with self.assertRaises(ValueError):
+            reader.get_db_key(report_config)
+
+
     def test_get_db_key_when_defaults_is_not_in_config(self):
+        report_config = {}
         reader = Reader({})
         with self.assertRaises(KeyError):
-            reader.get_db_key()
+            reader.get_db_key(report_config)
 
 
     def test_get_db_key_when_defaults_db_is_not_in_config(self):
         config = {'defaults': {}}
+        report_config = {}
         reader = Reader(config)
         with self.assertRaises(KeyError):
-            reader.get_db_key()
+            reader.get_db_key(report_config)
 
 
     def test_get_db_key_when_defaults_db_is_not_a_string(self):
@@ -156,13 +174,15 @@ class ReaderTest(TestCase):
                 'db': None
             }
         }
+        report_config = {}
         reader = Reader(config)
         with self.assertRaises(ValueError):
-            reader.get_db_key()
+            reader.get_db_key(report_config)
 
 
-    def test_get_db_key(self):
-        result = self.reader.get_db_key()
+    def test_get_db_key_when_in_defaults(self):
+        report_config = {}
+        result = self.reader.get_db_key(report_config)
         expected = self.config['defaults']['db']
         self.assertEqual(result, expected)
 
