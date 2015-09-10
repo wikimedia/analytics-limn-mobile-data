@@ -21,9 +21,9 @@ class ReportUpdaterTest(TestCase):
         self.mysqldb_connect_stash = MySQLdb.connect
         self.utcnow_stash = reportupdater.utcnow
         self.config_folder = 'test/fixtures/config'
-        self.sql_folder = 'test/fixtures/sql'
+        self.query_folder = 'test/fixtures/queries'
         self.output_folder = 'test/fixtures/output'
-        self.pid_file_path = 'test/fixtures/sql/.reportupdater.pid'
+        self.pid_file_path = 'test/fixtures/queries/.reportupdater.pid'
         self.history_path = 'test/fixtures/reportupdater_test.history'
         self.paths_to_clean = [self.pid_file_path]
 
@@ -47,7 +47,7 @@ class ReportUpdaterTest(TestCase):
         reportupdater.utcnow = MagicMock(return_value=datetime(2015, 1, 2, 3, 40, 50))
         reportupdater.run(
             config_path=os.path.join(self.config_folder, 'reportupdater_test1.yaml'),
-            sql_folder=self.sql_folder,
+            query_folder=self.query_folder,
             output_folder=self.output_folder,
             history_path=self.history_path
         )
@@ -63,7 +63,7 @@ class ReportUpdaterTest(TestCase):
         reportupdater.utcnow = MagicMock(return_value=datetime(2015, 1, 2, 13, 14, 15))
         reportupdater.run(
             config_path=os.path.join(self.config_folder, 'reportupdater_test2.yaml'),
-            sql_folder=self.sql_folder,
+            query_folder=self.query_folder,
             output_folder=self.output_folder,
             history_path=self.history_path
         )
@@ -93,7 +93,7 @@ class ReportUpdaterTest(TestCase):
         self.paths_to_clean.extend([history_path1, output_path1])
         args1 = {
             'config_path': os.path.join(self.config_folder, 'reportupdater_test1.yaml'),
-            'sql_folder': self.sql_folder,
+            'query_folder': self.query_folder,
             'output_folder': self.output_folder,
             'history_path': history_path1
         }
@@ -111,7 +111,7 @@ class ReportUpdaterTest(TestCase):
         self.paths_to_clean.extend([history_path2, output_path2])
         args2 = {
             'config_path': os.path.join(self.config_folder, 'reportupdater_test2.yaml'),
-            'sql_folder': self.sql_folder,
+            'query_folder': self.query_folder,
             'output_folder': self.output_folder,
             'history_path': history_path2
         }
@@ -149,7 +149,7 @@ class ReportUpdaterTest(TestCase):
         self.paths_to_clean.extend([output_path, history_path])
         reportupdater.run(
             config_path=config_path,
-            sql_folder=self.sql_folder,
+            query_folder=self.query_folder,
             output_folder=self.output_folder,
             history_path=history_path
         )
@@ -192,7 +192,7 @@ class ReportUpdaterTest(TestCase):
         self.paths_to_clean.extend([output_path, history_path])
         reportupdater.run(
             config_path=config_path,
-            sql_folder=self.sql_folder,
+            query_folder=self.query_folder,
             output_folder=self.output_folder,
             history_path=history_path
         )
@@ -240,7 +240,7 @@ class ReportUpdaterTest(TestCase):
         self.paths_to_clean.extend([output_path, history_path])
         reportupdater.run(
             config_path=config_path,
-            sql_folder=self.sql_folder,
+            query_folder=self.query_folder,
             output_folder=self.output_folder,
             history_path=history_path
         )
@@ -272,7 +272,7 @@ class ReportUpdaterTest(TestCase):
         wikis_path = 'test/fixtures/wikis.txt'
         reportupdater.run(
             config_path=config_path,
-            sql_folder=self.sql_folder,
+            query_folder=self.query_folder,
             output_folder=self.output_folder,
             history_path=history_path,
             wikis_path=wikis_path
@@ -299,6 +299,34 @@ class ReportUpdaterTest(TestCase):
             self.assertEqual(len(output_lines), 2)
             self.assertEqual(output_lines[0], 'date\tvalue\n')
             self.assertEqual(output_lines[1], '2015-01-01\t1\n')
+
+
+    def test_daily_timeboxed_script_report_without_previous_results(self):
+        config_path = os.path.join(self.config_folder, 'reportupdater_test5.yaml')
+        history_path = 'test/fixtures/reportupdater_test5.history'
+        reportupdater.run(
+            config_path=config_path,
+            query_folder=self.query_folder,
+            output_folder=self.output_folder,
+            history_path=history_path
+        )
+        output_path = os.path.join(self.output_folder, 'reportupdater_test5.tsv')
+        self.paths_to_clean.extend([output_path, history_path])
+
+        self.assertTrue(os.path.exists(output_path))
+        with io.open(output_path, 'r', encoding='utf-8') as output_file:
+            output_lines = output_file.readlines()
+        self.assertTrue(len(output_lines) > 1)
+        header = output_lines.pop(0).strip()
+        self.assertEqual(header, 'date\tvalue')
+        # Assert that all lines hold subsequent dates.
+        expected_date = datetime(2015, 1, 1)
+        for line in output_lines:
+            date_str, value = line.strip().split('\t')
+            expected_date_str = expected_date.strftime(DATE_FORMAT)
+            self.assertEqual(date_str, expected_date_str)
+            self.assertEqual(type(value), unicode)
+            expected_date += relativedelta(days=+1)
 
 
     def write_time_to_history(self, last_exec_time):

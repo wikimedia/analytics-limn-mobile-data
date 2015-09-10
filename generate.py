@@ -140,7 +140,7 @@ class DataGenerator(object):
             project_path = os.path.dirname(os.path.realpath(__file__))
             reportupdater.run(
                 config=self.config,
-                sql_folder=os.path.abspath(self.folder),
+                query_folder=os.path.abspath(self.folder),
                 output_folder=os.path.abspath(output_folder or self.config['output']['path']),
                 wikis_path=os.path.join(project_path, 'reportupdater/wikis.txt')
             )

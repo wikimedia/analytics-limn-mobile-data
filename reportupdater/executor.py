@@ -7,10 +7,12 @@
 
 import MySQLdb
 import logging
+import subprocess
+import csv
 from datetime import datetime, date
 from selector import Selector
 from collections import defaultdict
-from utils import TIMESTAMP_FORMAT, raise_critical
+from utils import TIMESTAMP_FORMAT, DATE_FORMAT, raise_critical
 
 
 class Executor(object):
@@ -23,27 +25,37 @@ class Executor(object):
             raise_critical(ValueError, 'Config is not a dict.')
         self.selector = selector
         self.config = config
+        self.connections = {}
 
 
     def run(self):
+        for report in self.selector.run():
+            logging.debug('Executing "{report}"...'.format(report=str(report)))
+            if report.type == 'sql':
+                if self.execute_sql_report(report):
+                    yield report
+            elif report.type == 'script':
+                if self.execute_script_report(report):
+                    yield report
+
+
+    def execute_sql_report(self, report):
         if 'databases' not in self.config:
             raise_critical(KeyError, 'Databases is not in config.')
         if not isinstance(self.config['databases'], dict):
             raise_critical(ValueError, 'Databases is not a dict.')
-        connections = {}
-        for report in self.selector.run():
-            logging.debug('Executing "{report}"...'.format(report=str(report)))
-            try:
-                sql_query = self.instantiate_sql(report)
-                if report.db_key not in connections:
-                    connections[report.db_key] = self.create_connection(report.db_key)
-                connection = connections[report.db_key]
-                report.results = self.execute_sql(sql_query, connection, report.is_funnel)
-                yield report
-            except Exception, e:
-                message = ('Report "{report_key}" could not be executed '
-                           'because of error: {error}')
-                logging.error(message.format(report_key=report.key, error=str(e)))
+        try:
+            sql_query = self.instantiate_sql(report)
+            if report.db_key not in self.connections:
+                self.connections[report.db_key] = self.create_connection(report.db_key)
+            connection = self.connections[report.db_key]
+            report.results = self.execute_sql(sql_query, connection, report.is_funnel)
+            return True
+        except Exception, e:
+            message = ('Report "{report_key}" could not be executed '
+                       'because of error: {error}')
+            logging.error(message.format(report_key=report.key, error=str(e)))
+            return False
 
 
     def instantiate_sql(self, report):
@@ -127,3 +139,45 @@ class Executor(object):
             else:
                 data[row[0]] = row
         return {'header': header, 'data': data}
+
+
+    def execute_script_report(self, report):
+        # prepare parameters for the call
+        parameters = [
+            report.script,
+            report.start.strftime(DATE_FORMAT),
+            report.end.strftime(DATE_FORMAT)
+        ]
+        for dimension in sorted(report.explode_by.keys()):
+            value = report.explode_by[dimension]
+            parameters.append(value)
+        # execute the script, store its output in a pipe
+        try:
+            process = subprocess.Popen(parameters, stdout=subprocess.PIPE)
+        except OSError, e:
+            message = ('Report "{report_key}" could not be executed '
+                       'because of error: {error}')
+            logging.error(message.format(report_key=report.key, error=str(e)))
+            return False
+        # parse the results into the report object
+        header = None
+        if report.is_funnel:
+            data = defaultdict(list)
+        else:
+            data = {}
+        tsv_reader = csv.reader(process.stdout, delimiter='\t')
+        for row in tsv_reader:
+            if header is None:  # first row
+                header = row
+            else:  # other rows
+                try:
+                    row[0] = datetime.strptime(row[0], DATE_FORMAT)
+                except ValueError:
+                    logging.error('Query results do not have date values in first column.')
+                    return False
+                if report.is_funnel:
+                    data[row[0]].append(row)
+                else:
+                    data[row[0]] = row
+        report.results = {'header': header, 'data': data}
+        return True

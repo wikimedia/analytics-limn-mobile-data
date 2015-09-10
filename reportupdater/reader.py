@@ -48,17 +48,33 @@ class Reader(object):
             raise TypeError('Report key is not a string.')
         if not isinstance(report_config, dict):
             raise TypeError('Report config is not a dict.')
+        if 'query_folder' not in self.config:
+            raise KeyError('Query folder is not in config.')
+        query_folder = self.config['query_folder']
+        if not isinstance(query_folder, str):
+            raise ValueError('Query folder is not a string.')
         report = Report()
         report.key = report_key
+        report.type = self.get_type(report_config)
         report.frequency = self.get_frequency(report_config)
         report.granularity = self.get_granularity(report_config)
         report.is_timeboxed = self.get_is_timeboxed(report_config)
         report.is_funnel = self.get_is_funnel(report_config)
         report.first_date = self.get_first_date(report_config, report.is_timeboxed)
-        report.db_key = self.get_db_key(report_config)
-        report.sql_template = self.get_sql_template(report_key)
         report.explode_by = self.get_explode_by(report_config)
+        if report.type == 'sql':
+            report.db_key = self.get_db_key(report_config)
+            report.sql_template = self.get_sql_template(report_key, query_folder)
+        elif report.type == 'script':
+            report.script = self.get_script(report_key, query_folder)
         return report
+
+
+    def get_type(self, report_config):
+        report_type = report_config.get('type', 'sql')
+        if report_type not in ['sql', 'script']:
+            raise ValueError('Report type is not valid.')
+        return report_type
 
 
     def get_frequency(self, report_config):
@@ -120,18 +136,17 @@ class Reader(object):
         return db_key
 
 
-    def get_sql_template(self, report_key):
-        if 'sql_folder' not in self.config:
-            raise KeyError('SQL folder is not in config.')
-        sql_folder = self.config['sql_folder']
-        if not isinstance(sql_folder, str):
-            raise ValueError('SQL folder is not a string.')
-        sql_template_path = os.path.join(sql_folder, report_key + '.sql')
+    def get_sql_template(self, report_key, query_folder):
+        sql_template_path = os.path.join(query_folder, report_key + '.sql')
         try:
             with io.open(sql_template_path, encoding='utf-8') as sql_template_file:
                 return sql_template_file.read()
         except IOError, e:
             raise IOError('Could not read the SQL template (' + str(e) + ').')
+
+
+    def get_script(self, report_key, query_folder):
+        return os.path.join(query_folder, report_key)
 
 
     def get_explode_by(self, report_config):

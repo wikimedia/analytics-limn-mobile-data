@@ -20,7 +20,7 @@ class ReaderTest(TestCase):
             'granularity': 'days'
         }
         self.config = {
-            'sql_folder': 'test/fixtures/sql',
+            'query_folder': 'test/fixtures/queries',
             'output_folder': 'test/fixtures/output',
             'reportupdater-reports': {
                 self.report_key: self.report_config
@@ -30,6 +30,25 @@ class ReaderTest(TestCase):
             }
         }
         self.reader = Reader(self.config)
+
+
+    def test_get_type_when_type_not_in_config(self):
+        report_config = {}
+        result = self.reader.get_type(report_config)
+        self.assertEqual(result, 'sql')
+
+
+    def test_get_type_when_type_is_not_valid(self):
+        report_config = {'type': 'not valid'}
+        with self.assertRaises(ValueError):
+            self.reader.get_type(report_config)
+
+
+    def test_get_type_when_type_is_in_config(self):
+        result = self.reader.get_type({'type': 'sql'})
+        self.assertEqual(result, 'sql')
+        result = self.reader.get_type({'type': 'script'})
+        self.assertEqual(result, 'script')
 
 
     def test_get_frequency_and_granularity_when_value_is_not_in_config(self):
@@ -187,36 +206,34 @@ class ReaderTest(TestCase):
         self.assertEqual(result, expected)
 
 
-    def test_get_sql_template_when_sql_folder_is_not_in_config(self):
+    def test_create_report_when_query_folder_is_not_in_config(self):
         reader = Reader({})
         with self.assertRaises(KeyError):
-            reader.get_sql_template('reader_test')
+            reader.create_report('reader_test', {})
 
 
-    def test_get_sql_template_when_sql_folder_is_not_a_string(self):
-        config = {'sql_folder': ('not', 'a', 'string')}
-        reader = Reader(config)
+    def test_create_report_when_query_folder_is_not_a_string(self):
+        reader = Reader({'query_folder': ('not', 'a', 'string')})
         with self.assertRaises(ValueError):
-            reader.get_sql_template('reader_test')
+            reader.create_report('reader_test', {})
 
 
-    def test_get_sql_template_when_sql_folder_does_not_exist(self):
-        config = {'sql_folder': 'nonexistent'}
-        reader = Reader(config)
+    def test_get_sql_template_when_query_folder_does_not_exist(self):
         with self.assertRaises(IOError):
-            reader.get_sql_template('reader_test')
+            self.reader.get_sql_template('reader_test', 'nonexistent')
 
 
     def test_get_sql_template_when_sql_file_does_not_exist(self):
+        query_folder = self.config['query_folder']
         with self.assertRaises(IOError):
-            self.reader.get_sql_template('wrong_report_key')
+            self.reader.get_sql_template('wrong_report_key', query_folder)
 
 
     def test_get_sql_template(self):
-        result = self.reader.get_sql_template('reader_test')
-        sql_folder = self.config['sql_folder']
         report_key = 'reader_test'
-        sql_template_path = os.path.join(sql_folder, report_key + '.sql')
+        query_folder = self.config['query_folder']
+        result = self.reader.get_sql_template(report_key, query_folder)
+        sql_template_path = os.path.join(query_folder, report_key + '.sql')
         with io.open(sql_template_path, encoding='utf-8') as sql_template_file:
             expected = sql_template_file.read()
         self.assertEqual(result, expected)
@@ -268,7 +285,8 @@ class ReaderTest(TestCase):
             self.reader.create_report(self.report_key, self.report_config)
 
 
-    def test_create_report(self):
+    def test_create_sql_report(self):
+        self.reader.get_type = MagicMock(return_value='sql')
         self.reader.get_first_date = MagicMock(return_value='first_date')
         self.reader.get_frequency = MagicMock(return_value='frequency')
         self.reader.get_granularity = MagicMock(return_value='granularity')
@@ -279,6 +297,7 @@ class ReaderTest(TestCase):
         self.reader.get_by_wiki = MagicMock(return_value=False)
         report = self.reader.create_report(self.report_key, self.report_config)
         self.assertEqual(report.key, self.report_key)
+        self.assertEqual(report.type, 'sql')
         self.assertEqual(report.first_date, 'first_date')
         self.assertEqual(report.frequency, 'frequency')
         self.assertEqual(report.granularity, 'granularity')
@@ -286,6 +305,34 @@ class ReaderTest(TestCase):
         self.assertEqual(report.is_funnel, 'is_funnel')
         self.assertEqual(report.db_key, 'db_key')
         self.assertEqual(report.sql_template, 'sql_template')
+        self.assertEqual(report.script, None)
+        self.assertEqual(report.explode_by, {})
+        self.assertEqual(report.results, {'header': [], 'data': {}})
+        self.assertEqual(report.start, None)
+        self.assertEqual(report.end, None)
+
+
+    def test_create_script_report(self):
+        self.reader.get_type = MagicMock(return_value='script')
+        self.reader.get_first_date = MagicMock(return_value='first_date')
+        self.reader.get_frequency = MagicMock(return_value='frequency')
+        self.reader.get_granularity = MagicMock(return_value='granularity')
+        self.reader.get_is_timeboxed = MagicMock(return_value='is_timeboxed')
+        self.reader.get_is_funnel = MagicMock(return_value='is_funnel')
+        self.reader.get_db_key = MagicMock(return_value='db_key')
+        self.reader.get_sql_template = MagicMock(return_value='sql_template')
+        self.reader.get_by_wiki = MagicMock(return_value=False)
+        report = self.reader.create_report(self.report_key, self.report_config)
+        self.assertEqual(report.key, self.report_key)
+        self.assertEqual(report.type, 'script')
+        self.assertEqual(report.first_date, 'first_date')
+        self.assertEqual(report.frequency, 'frequency')
+        self.assertEqual(report.granularity, 'granularity')
+        self.assertEqual(report.is_timeboxed, 'is_timeboxed')
+        self.assertEqual(report.is_funnel, 'is_funnel')
+        self.assertEqual(report.db_key, None)
+        self.assertEqual(report.sql_template, None)
+        self.assertEqual(report.script, 'test/fixtures/queries/reader_test')
         self.assertEqual(report.explode_by, {})
         self.assertEqual(report.results, {'header': [], 'data': {}})
         self.assertEqual(report.start, None)

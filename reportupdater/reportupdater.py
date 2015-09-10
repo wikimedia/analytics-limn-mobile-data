@@ -45,7 +45,7 @@ def run(**kwargs):
             config = load_config(params['config_path'])
         config['current_exec_time'] = current_exec_time
         config['last_exec_time'] = last_exec_time
-        config['sql_folder'] = params['sql_folder']
+        config['query_folder'] = params['query_folder']
         config['output_folder'] = params['output_folder']
         config['wikis_path'] = params['wikis_path']
 
@@ -63,18 +63,18 @@ def run(**kwargs):
 
 def get_params(passed_params):
     project_root = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..')
-    sql_folder = passed_params.pop('sql_folder', os.path.join(project_root, 'sql'))
+    query_folder = passed_params.pop('query_folder', os.path.join(project_root, 'queries'))
     process_params = {
-        'pid_file_path': os.path.join(sql_folder, '.reportupdater.pid'),
-        'history_path': os.path.join(sql_folder, '.reportupdater.history'),
-        'config_path': os.path.join(sql_folder, 'config.yaml'),
+        'pid_file_path': os.path.join(query_folder, '.reportupdater.pid'),
+        'history_path': os.path.join(query_folder, '.reportupdater.history'),
+        'config_path': os.path.join(query_folder, 'config.yaml'),
         'output_folder': os.path.join(project_root, 'output'),
         'wikis_path': os.path.join(project_root, 'reportupdater/wikis.txt'),
         'log_level': logging.WARNING
     }
     passed_params = {k: v for k, v in passed_params.iteritems() if v is not None}
     process_params.update(passed_params)
-    process_params['sql_folder'] = sql_folder
+    process_params['query_folder'] = query_folder
     return process_params
 
 

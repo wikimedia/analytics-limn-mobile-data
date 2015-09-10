@@ -10,6 +10,7 @@ class ReportTest(TestCase):
     def setUp(self):
         self.report = Report()
         self.report.key = 'report_test'
+        self.report.type = 'sql'
         self.report.frequency = 'hours'
         self.report.granularity = 'days'
         self.report.is_timeboxed = True
@@ -21,6 +22,7 @@ class ReportTest(TestCase):
         self.report.sql_template = ('SELECT date, value FROM table '
                                     'WHERE date >= {from_timestamp} '
                                     'AND date < {to_timestamp}')
+        self.report.script = '/path/to/script'
         self.by_wiki = True
         self.wiki = 'enwiki'
         self.report.results = {

@@ -16,6 +16,7 @@ class Report(object):
 
     def __init__(self):
         self.key = None
+        self.type = None
         self.frequency = None
         self.granularity = None
         self.is_timeboxed = False
@@ -25,6 +26,7 @@ class Report(object):
         self.end = None
         self.db_key = None
         self.sql_template = None
+        self.script = None
         self.explode_by = {}
         self.results = {'header': [], 'data': {}}
 
@@ -33,6 +35,7 @@ class Report(object):
         return (
             '<Report' +
             ' key=' + str(self.key) +
+            ' type=' + str(self.type) +
             ' frequency=' + str(self.frequency) +
             ' granularity=' + str(self.granularity) +
             ' is_timeboxed=' + str(self.is_timeboxed) +
@@ -42,6 +45,7 @@ class Report(object):
             ' end=' + self.format_date(self.end) +
             ' db_key=' + str(self.db_key) +
             ' sql_template=' + self.format_sql(self.sql_template) +
+            ' script=' + str(self.script) +
             ' explode_by=' + str(self.explode_by) +
             ' results=' + self.format_results(self.results) +
             '>'

@@ -5,10 +5,13 @@ from reportupdater.reader import Reader
 from reportupdater.report import Report
 from reportupdater.utils import TIMESTAMP_FORMAT
 from test_utils import ConnectionMock
+from reportupdater.utils import DATE_FORMAT
 from unittest import TestCase
 from mock import MagicMock
 from datetime import datetime, date
 import MySQLdb
+import subprocess
+import os
 
 
 class ExecutorTest(TestCase):
@@ -25,13 +28,15 @@ class ExecutorTest(TestCase):
         self.config = {
             'databases': {
                 self.db_key: self.db_config
-            }
+            },
+            'query_folder': 'test/fixtures/queries'
         }
         reader = Reader(self.config)
         selector = Selector(reader, self.config)
         self.executor = Executor(selector, self.config)
 
         self.report = Report()
+        self.report.type = 'sql'
         self.report.is_timeboxed = True
         self.report.start = datetime(2015, 1, 1)
         self.report.end = datetime(2015, 1, 2)
@@ -218,10 +223,10 @@ class ExecutorTest(TestCase):
             list(self.executor.run())
 
 
-    def test_run_when_config_databases_is_not_a_dict(self):
+    def test_execut_sql_report_when_config_databases_is_not_a_dict(self):
         self.config['databases'] = 'not a dict'
         with self.assertRaises(ValueError):
-            list(self.executor.run())
+            list(self.executor.execute_sql_report(self.report))
 
 
     def test_run_when_helper_method_raises_error(self):
@@ -230,6 +235,79 @@ class ExecutorTest(TestCase):
         self.executor.instantiate_sql = MagicMock(side_effect=Exception())
         executed = list(self.executor.run())
         self.assertEqual(len(executed), 0)
+
+
+    def test_execute_script_report_simple_params(self):
+        self.report.explode_by = {}
+
+        class PopenReturnMock():
+            def __init__(self):
+                self.stdout = []
+
+        def subprocess_popen_mock(parameters, **kwargs):
+            self.assertEqual(parameters[1], self.report.start.strftime(DATE_FORMAT))
+            self.assertEqual(parameters[2], self.report.end.strftime(DATE_FORMAT))
+            return PopenReturnMock()
+        subprocess_popen_stash = subprocess.Popen
+        subprocess.Popen = MagicMock(wraps=subprocess_popen_mock)
+        self.executor.execute_script_report(self.report)
+        subprocess.Popen = subprocess_popen_stash
+
+
+    def test_execute_script_report_extra_params(self):
+        self.report.explode_by = {'param1': 'value1', 'param2': 'value2'}
+
+        class PopenReturnMock():
+            def __init__(self):
+                self.stdout = []
+
+        def subprocess_popen_mock(parameters, **kwargs):
+            self.assertEqual(parameters[3], 'value1')
+            self.assertEqual(parameters[4], 'value2')
+            return PopenReturnMock()
+        subprocess_popen_stash = subprocess.Popen
+        subprocess.Popen = MagicMock(wraps=subprocess_popen_mock)
+        self.executor.execute_script_report(self.report)
+        subprocess.Popen = subprocess_popen_stash
+
+
+    def test_execute_script_when_script_raises_error(self):
+        subprocess_popen_stash = subprocess.Popen
+        subprocess.Popen = MagicMock(side_effect=OSError())
+        success = self.executor.execute_script_report(self.report)
+        subprocess.Popen = subprocess_popen_stash
+        self.assertEqual(success, False)
+
+
+    def test_execute_script_when_script_output_is_invalid(self):
+        class PopenReturnMock():
+            def __init__(self):
+                self.stdout = ['date\tvalue', 'invalid_date\t1']
+
+        def subprocess_popen_mock(parameters, **kwargs):
+            return PopenReturnMock()
+        subprocess_popen_stash = subprocess.Popen
+        subprocess.Popen = MagicMock(wraps=subprocess_popen_mock)
+        success = self.executor.execute_script_report(self.report)
+        subprocess.Popen = subprocess_popen_stash
+        self.assertEqual(success, False)
+
+
+    def test_execute_script(self):
+        class PopenReturnMock():
+            def __init__(self):
+                self.stdout = ['date\tvalue', '2015-01-01\t1']
+
+        def subprocess_popen_mock(parameters, **kwargs):
+            return PopenReturnMock()
+        subprocess_popen_stash = subprocess.Popen
+        subprocess.Popen = MagicMock(wraps=subprocess_popen_mock)
+        success = self.executor.execute_script_report(self.report)
+        subprocess.Popen = subprocess_popen_stash
+        self.assertEqual(success, True)
+        self.assertEqual(self.report.results['header'], ['date', 'value'])
+        expected_data = {datetime(2015, 1, 1): [datetime(2015, 1, 1), '1']}
+        self.assertEqual(self.report.results['data'], expected_data)
 
 
     def test_run(self):
