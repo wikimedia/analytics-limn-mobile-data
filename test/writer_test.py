@@ -39,10 +39,14 @@ class WriterTest(TestCase):
         self.os_rename_stash = os.rename
         self.paths_to_clean = []
 
+        with open('test/fixtures/output/writer_test_header_change.tsv', 'w') as second_test:
+            second_test.write('date\tval1\tval2\tval3\n2015-01-01\t1\t2\t3')
+
 
     def tearDown(self):
         try:
             os.remove('test/fixtures/output/writer_test.tsv')
+            os.remove('test/fixtures/output/writer_test_header_change.tsv')
         except:
             pass
         io.open = self.io_open_stash
@@ -173,20 +177,88 @@ class WriterTest(TestCase):
         )
 
 
-    def test_run_when_previous_results_header_and_results_header_are_different(self):
-        self.report.key = 'writer_test1'
-        # previous header will be: ['date', 'val1', 'val2', 'val3']
-        # see: test/fixtures/output/writer_test1.tsv
+    def test_update_results_when_header_has_new_columns(self):
+        # see setUp for the fake data written to this report output
+        self.report.key = 'writer_test_header_change'
+
+        new_header = ['date', 'val1', 'insert middle', 'val2', 'val3', 'insert after']
+        old_date = datetime(2015, 1, 1)
+        new_date = datetime(2015, 1, 2)
+        new_row = [datetime(2015, 1, 2), 1, 8, 2, 3, 9]
         self.report.results = {
-            'header': ['date', 'val4', 'val5'],
-            'data': {
-                datetime(2015, 1, 1): [datetime(2015, 1, 1), 4, 5]
-            }
+            'header': new_header,
+            'data': {new_date : new_row}
         }
-        executed = [self.report]
-        self.writer.executor.run = MagicMock(return_value=executed)
+        header, updated_data = self.writer.update_results(self.report)
+        self.assertEqual(header, new_header)
+        self.assertEqual(updated_data[new_date], new_row)
+        self.assertEqual(updated_data[old_date], [old_date, '1', None, '2', '3', None])
+
+
+    def test_update_results_when_header_has_moved_columns(self):
+        # see setUp for the fake data written to this report output
+        self.report.key = 'writer_test_header_change'
+
+        new_header = ['date', 'val2', 'val1', 'val3']
+        old_date = datetime(2015, 1, 1)
+        new_date = datetime(2015, 1, 2)
+        new_row = [datetime(2015, 1, 2), 1, 2, 3]
+        self.report.results = {
+            'header': new_header,
+            'data': {new_date : new_row}
+        }
+        header, updated_data = self.writer.update_results(self.report)
+        self.assertEqual(header, new_header)
+        self.assertEqual(updated_data[new_date], new_row)
+        self.assertEqual(updated_data[old_date], [old_date, '2', '1', '3'])
+
+
+    def test_update_results_when_header_has_removed_columns(self):
+        # see setUp for the fake data written to this report output
+        self.report.key = 'writer_test_header_change'
+
+        new_header = ['date', 'val1', 'val3']
+        new_date = datetime(2015, 1, 2)
+        new_row = [datetime(2015, 1, 2), 1, 3]
+        self.report.results = {
+            'header': new_header,
+            'data': {new_date : new_row}
+        }
         with self.assertRaises(ValueError):
-            self.writer.run()
+            self.writer.update_results(self.report)
+
+
+    def test_update_results_when_header_has_different_number_of_columns(self):
+        # see setUp for the fake data written to this report output
+        self.report.key = 'writer_test_header_change'
+
+        new_header = ['date', 'val1', 'val2', 'val3']
+        new_date = datetime(2015, 1, 2)
+        new_row = [datetime(2015, 1, 2), 1, 2, 3, 'Additional']
+        self.report.results = {
+            'header': new_header,
+            'data': {new_date : new_row}
+        }
+        with self.assertRaises(ValueError):
+            self.writer.update_results(self.report)
+
+
+    def test_update_results_when_header_has_new_and_moved_columns(self):
+        # see setUp for the fake data written to this report output
+        self.report.key = 'writer_test_header_change'
+
+        new_header = ['date', 'val2', 'insert middle', 'val1', 'val3', 'insert after']
+        old_date = datetime(2015, 1, 1)
+        new_date = datetime(2015, 1, 2)
+        new_row = [datetime(2015, 1, 2), 2, 8, 1, 3, 9]
+        self.report.results = {
+            'header': new_header,
+            'data': {new_date : new_row}
+        }
+        header, updated_data = self.writer.update_results(self.report)
+        self.assertEqual(header, new_header)
+        self.assertEqual(updated_data[new_date], new_row)
+        self.assertEqual(updated_data[old_date], [old_date, '2', None, '1', '3', None])
 
 
     def test_run_when_helper_method_raises_error(self):
