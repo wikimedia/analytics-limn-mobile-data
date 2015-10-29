@@ -75,8 +75,10 @@ class Selector(object):
 
         first_date = self.truncate_date(report.first_date, report.granularity)
         frequency_increment = self.get_increment(report.frequency)
+        lag_increment = relativedelta(seconds=report.lag)
         granularity_increment = self.get_increment(report.granularity)
-        last_date = self.truncate_date(now - frequency_increment, report.granularity)
+        relative_now = now - frequency_increment - lag_increment
+        last_date = self.truncate_date(relative_now, report.granularity)
         previous_results = get_previous_results(report, output_folder)
         already_done_dates = previous_results['data'].keys()
 

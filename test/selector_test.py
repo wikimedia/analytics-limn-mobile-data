@@ -117,6 +117,17 @@ class SelectorTest(TestCase):
         self.assertEqual(reports[0].end, datetime(2015, 1, 3))
 
 
+    def test_get_interval_reports_when_lag_is_set(self):
+        # Note no previous results tsv exists for default report.
+        now = datetime(2015, 1, 3)
+        self.report.frequency = 'days'
+        self.report.lag = 100  # 1 minute and 40 seconds
+        reports = list(self.selector.get_interval_reports(self.report, now))
+        self.assertEqual(len(reports), 1)
+        self.assertEqual(reports[0].start, datetime(2015, 1, 1))
+        self.assertEqual(reports[0].end, datetime(2015, 1, 2))
+
+
     def test_truncate_date_when_period_is_hours(self):
         date = datetime(2015, 1, 5, 10, 20, 30)
         result = self.selector.truncate_date(date, 'hours')

@@ -58,6 +58,7 @@ class Reader(object):
         report.type = self.get_type(report_config)
         report.frequency = self.get_frequency(report_config)
         report.granularity = self.get_granularity(report_config)
+        report.lag = self.get_lag(report_config)
         report.is_timeboxed = self.get_is_timeboxed(report_config)
         report.is_funnel = self.get_is_funnel(report_config)
         report.first_date = self.get_first_date(report_config, report.is_timeboxed)
@@ -81,7 +82,7 @@ class Reader(object):
         if 'frequency' not in report_config:
             raise KeyError('Report frequency is not specified.')
         frequency = report_config['frequency']
-        if frequency not in ['hours', 'days', 'weeks']:
+        if frequency not in ['hours', 'days', 'weeks', 'months']:
             raise ValueError('Report frequency is not valid.')
         return frequency
 
@@ -93,6 +94,15 @@ class Reader(object):
         if granularity not in ['days', 'weeks', 'months']:
             raise ValueError('Report granularity is not valid.')
         return granularity
+
+
+    def get_lag(self, report_config):
+        if 'lag' not in report_config:
+            return 0
+        lag = report_config['lag']
+        if type(lag) != int or lag < 0:
+            raise ValueError('Report lag is not valid.')
+        return lag
 
 
     def get_is_timeboxed(self, report_config):

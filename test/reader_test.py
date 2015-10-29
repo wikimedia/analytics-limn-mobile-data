@@ -71,7 +71,7 @@ class ReaderTest(TestCase):
 
 
     def test_get_frequency_and_granularity(self):
-        for frequency in ['hours', 'days', 'weeks']:
+        for frequency in ['hours', 'days', 'weeks', 'months']:
             report_config = {'frequency': frequency}
             result = self.reader.get_frequency(report_config)
             self.assertEqual(result, frequency)
@@ -79,6 +79,27 @@ class ReaderTest(TestCase):
             report_config = {'granularity': granularity}
             result = self.reader.get_granularity(report_config)
             self.assertEqual(result, granularity)
+
+
+    def test_get_lag_when_value_is_not_in_config(self):
+        report_config = {}
+        result = self.reader.get_lag(report_config)
+        self.assertEqual(result, 0)
+
+
+    def test_get_lag_when_value_is_not_valid(self):
+        report_config = {'lag': 'not an int'}
+        with self.assertRaises(ValueError):
+            self.reader.get_lag(report_config)
+        report_config = {'lag': -1}
+        with self.assertRaises(ValueError):
+            self.reader.get_lag(report_config)
+
+
+    def test_get_lag(self):
+        report_config = {'lag': 10}
+        result = self.reader.get_lag(report_config)
+        self.assertEqual(result, 10)
 
 
     def test_get_is_timeboxed_when_report_timeboxed_is_not_in_config(self):

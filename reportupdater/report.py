@@ -19,6 +19,7 @@ class Report(object):
         self.type = None
         self.frequency = None
         self.granularity = None
+        self.lag = 0
         self.is_timeboxed = False
         self.is_funnel = False
         self.first_date = None
@@ -38,6 +39,7 @@ class Report(object):
             ' type=' + str(self.type) +
             ' frequency=' + str(self.frequency) +
             ' granularity=' + str(self.granularity) +
+            ' lag=' + str(self.lag) +
             ' is_timeboxed=' + str(self.is_timeboxed) +
             ' is_funnel=' + str(self.is_funnel) +
             ' first_date=' + self.format_date(self.first_date) +

@@ -13,6 +13,7 @@ class ReportTest(TestCase):
         self.report.type = 'sql'
         self.report.frequency = 'hours'
         self.report.granularity = 'days'
+        self.report.lag = 0
         self.report.is_timeboxed = True
         self.report.is_funnel = True
         self.report.first_date = datetime(2015, 1, 1)
