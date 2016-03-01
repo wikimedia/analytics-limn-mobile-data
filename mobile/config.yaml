@@ -6,11 +6,8 @@ databases:
         db: log
 defaults:
     db: el
-graphs:
 
-reportupdater-output: /a/limn-public-data/mobile/datafiles
-
-reportupdater-reports:
+reports:
     page-ui-daily:
         frequency: hours
         granularity: days
