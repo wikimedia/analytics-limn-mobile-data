@@ -9,30 +9,22 @@ defaults:
 
 reports:
     page-ui-daily:
-        frequency: hours
         granularity: days
-        timeboxed: true
         starts: 2014-12-12
     watchlist-activity:
-        frequency: hours
         granularity: days
         starts: 2014-01-02
-        timeboxed: true
     diff-activity:
-        frequency: hours
         granularity: days
         starts: 2014-01-01
-        timeboxed: true
     main-menu-daily:
-        frequency: hours
         granularity: days
         starts: 2014-12-12
-        timeboxed: true
     mobile-options:
-        frequency: hours
         granularity: days
         starts: 2014-04-16
-        timeboxed: true
     mobile-options-last-3-months:
-        frequency: hours
+        execute: mobile-options
         granularity: days
+        max_data_points: 90
+        starts: 2016-01-01
